@@ -7,6 +7,8 @@
 volatile unsigned char spin_switch = 0;
 volatile unsigned int spin_index = 0;
 
+//hello world from wouter (^3^)
+
 unsigned int spin_mode = 0;
 
 const char left_slot[8] = {'a','e','b','f','d','c','h','g'};
