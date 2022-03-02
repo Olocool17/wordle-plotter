@@ -36,20 +36,11 @@ int main(void)
   PORTE |= _BV(PE4) | _BV(PE5) | _BV(PE6) | _BV(PE7); //make all the button pins activate their pullup-resistors
 
   SREG |= _BV(SREG_I); //Enable global interrupts
-  EIMSK |= _BV(INT4); // Enable interrupts for pin 4
 
-  EICRB |= _BV(ISC41); // Generate interrupt on falling edge
-  EICRB &= ~_BV(ISC40);
-
-  TIMSK1 |= _BV(OCIE1A); //Enable clock interrupts with CTC
-  TCCR1A &= ~_BV(WGM11);
-  TCCR1A &= ~_BV(WGM10);
-  TCCR1B &= ~_BV(WGM13);
-  TCCR1B |= _BV(WGM12);
-
-  TCCR1B |= _BV(CS12); //Enable prescaling factor of 1/1024
-  TCCR1B &= ~_BV(CS11);
-  TCCR1B |= _BV(CS10);
+  TCCR1A &= ~_BV(WGM11); //Enable PWM (phase / frequency correct) clock interrupts
+  TCCR1A |= _BV(WGM10);
+  TCCR1B |= _BV(WGM13);
+  TCCR1B &= ~_BV(WGM12);
 
   OCR1A = 0x1453; //5203 : the amount of 1024 clock cycles during 0.333 seconds at a clock speed of 16MHz
   
