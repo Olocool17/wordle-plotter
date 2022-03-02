@@ -40,6 +40,7 @@ int main(void)
   backlightOn();
 
   while(1){
+    printStringToLCD("DEBUG", 0, 0);
     if (!(PINE & _BV(PE4)))
     {
       //Rotate servo 1 left
@@ -60,7 +61,7 @@ int main(void)
     {
       //Rotate servo 2 right
     }
-    _delay_ms(100)
+    _delay_ms(300);
   }
   return 0;
 }
