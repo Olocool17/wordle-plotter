@@ -60,6 +60,7 @@ int main(void)
     {
       //Rotate servo 2 right
     }
+    _delay_ms(100)
   }
   return 0;
 }
