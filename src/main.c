@@ -43,7 +43,7 @@ int main(void)
     if (!(PINE & _BV(PE4)))
     {
       //Rotate servo 1 left
-      printStringToLCD("Servo 1, left", 0, 0)
+      printStringToLCD("Servo 1, left", 0, 0);
       OCR1A = 0x640;
     }
     if (!(PINE & _BV(PE5)))
@@ -53,7 +53,7 @@ int main(void)
     if (!(PINE & _BV(PE6)))
     {
       //Rotate servo 1 right
-      printStringToLCD("Servo 1, right", 0, 0)
+      printStringToLCD("Servo 1, right", 0, 0);
       OCR1A = 0x320;
     }    
     if (!(PINE & _BV(PE7)))
