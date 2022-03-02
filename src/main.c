@@ -32,6 +32,9 @@ ISR(TIMER1_COMPA_vect) {
 int main(void)
 {
 
+  DDRE = 0x00; //Make all PEn pins input pins
+  PORTE |= _BV(PE4) | _BV(PE5) | _BV(PE6) | _BV(PE7); //make all the button pins activate their pullup-resistors
+
   SREG |= _BV(SREG_I); //Enable global interrupts
   EIMSK |= _BV(INT4); // Enable interrupts for pin 4
 
@@ -56,60 +59,23 @@ int main(void)
 
   backlightOn();
 
-
-  char current_slots[3] = {left_slot[0], middle_slot[0], right_slot[0]};
-  char next_slots[3] = {left_slot[1], middle_slot[1], right_slot[1]};
-
   while(1){
-
-    if (spin_switch)
+    if (!(PINE & _BV(PE4)))
     {
-      _delay_ms(30);
-      spin_switch = 0;
-
-      if (spin_mode == 0)
-      {
-        spent_money++;
-      }
-      spin_mode++;
+      //Rotate servo 1 left
     }
-
-    switch (spin_mode)
+    if (!(PINE & _BV(PE5)))
     {
-      case 1:
-        current_slots[0] = left_slot[spin_index % 8];
-        current_slots[1] = middle_slot[spin_index % 8];
-        current_slots[2] = right_slot[spin_index % 8];
-        next_slots[0] = left_slot[(spin_index + 1)% 8];
-        next_slots[1] = middle_slot[(spin_index + 1) % 8];
-        next_slots[2] = right_slot[(spin_index + 1) % 8];
-        break;
-      case 2:
-        current_slots[1] = middle_slot[spin_index % 8];
-        current_slots[2] = right_slot[spin_index % 8];
-        next_slots[1] = middle_slot[(spin_index + 1) % 8];
-        next_slots[2] = right_slot[(spin_index + 1) % 8];
-        break;
-      case 3:
-        current_slots[2] = right_slot[spin_index % 8];
-        next_slots[2] = left_slot[(spin_index + 1)% 8];
-        break;
-      case 4:
-        if (current_slots[0] == current_slots[1] && current_slots[1] == current_slots[2])
-        {
-          earned_money += 7;
-        }
-        spin_mode = 0;
-        spin_index = 0;
-        break;
-    }
-
-    printStringToLCD(current_slots, 0, 0);
-    printIntToLCD(spent_money, 0, 13);
-    printStringToLCD(next_slots, 1, 0);
-    printIntToLCD(earned_money, 1, 13);
-    _delay_ms(333);
-    
+      //Rotate servo 2 left
+    }    
+    if (!(PINE & _BV(PE6)))
+    {
+      //Rotate servo 1 right
+    }    
+    if (!(PINE & _BV(PE7)))
+    {
+      //Rotate servo 2 right
+    }        
   }
   return 0;
 }
