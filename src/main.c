@@ -38,11 +38,11 @@ int main(void)
   SREG |= _BV(SREG_I); //Enable global interrupts
 
   TCCR1A &= ~_BV(WGM11); //Enable PWM (phase / frequency correct) clock interrupts
-  TCCR1A |= _BV(WGM10);
+  TCCR1A &= ~_BV(WGM10);
   TCCR1B |= _BV(WGM13);
   TCCR1B &= ~_BV(WGM12);
 
-  OCR1A = 0x1453; //5203 : the amount of 1024 clock cycles during 0.333 seconds at a clock speed of 16MHz
+  ICR1 = 0xA0; //160 : the value of TOP so we get 0.05 ms of resolution
   
   initBoard();
   initLCD();
