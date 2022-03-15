@@ -48,6 +48,9 @@ void initialise_ui(char* version)
 
 void display_menu(menu* dmenu)
 {   
+    if(dmenu == NULL){
+        dmenu = error_menu("Menu is NULL");
+    }
     menu* next_menu_item;
     bool middle_button_pressed = false;  
     bool west_button_pressed = false;
@@ -56,6 +59,25 @@ void display_menu(menu* dmenu)
     bool north_button_pressed = false;
     while(1)
     { 
+        clearLCD();
+        if (dmenu->selected == -1) 
+        {
+            printStringToLCD(dmenu->items[0 + dmenu->scroll*2].name, 0, 0);
+            if (1 + dmenu->scroll*2 < dmenu->item_count)
+            {
+                printStringToLCD(dmenu->items[1 + dmenu->scroll*2].name, 1, 0);
+            }
+        }
+        else //Display with cursor
+        {
+            printStringToLCD(dmenu->items[0 + dmenu->scroll*2].name, 0, 1);
+            if (1 + dmenu->scroll*2 < dmenu->item_count)
+            {
+                printStringToLCD(dmenu->items[1 + dmenu->scroll*2].name, 1, 1);
+            }
+            printCharToLCD('+', dmenu->selected % 2,0);
+        }
+
         if (middle_button_pressed && !(PORTC & _BV(PC7)))
         {
             if (dmenu->selected == -1)
@@ -95,24 +117,6 @@ void display_menu(menu* dmenu)
         if (!(PORTE & _BV(PE5))) east_button_pressed = true;
         if (!(PORTE & _BV(PE4))) north_button_pressed = true;
 
-        clearLCD();
-        if (dmenu->selected == -1) 
-        {
-            printStringToLCD(dmenu->items[0 + dmenu->scroll*2].name, 0, 0);
-            if (1 + dmenu->scroll*2 < dmenu->item_count)
-            {
-                printStringToLCD(dmenu->items[1 + dmenu->scroll*2].name, 1, 0);
-            }
-        }
-        else //Display with cursor
-        {
-            printStringToLCD(dmenu->items[0 + dmenu->scroll*2].name, 0, 1);
-            if (1 + dmenu->scroll*2 < dmenu->item_count)
-            {
-                printStringToLCD(dmenu->items[1 + dmenu->scroll*2].name, 1, 1);
-            }
-            printCharToLCD('+', dmenu->selected % 2,0);
-        }
         _delay_ms(100);
     }
     display_menu(next_menu_item);
@@ -125,7 +129,27 @@ menu* menu_handler(int id)
     case 0:
         return main_menu();
         break;
-    
+    case 10:
+        return wordle_menu();
+        break;
+    case 20:
+        return primitives_menu();
+    case 21:
+        //draw grid
+        return main_menu();
+        break;
+     case 22:
+        //draw circle
+        return main_menu();
+        break;
+    case 23:
+        //draw square
+        return main_menu();
+        break;
+    case 24:
+        //draw letter
+        return main_menu();   
+        break;
     default:
         return error_menu("Invalid menu ID");
         break;
@@ -138,14 +162,50 @@ menu* main_menu()
     menu* mainmenu = malloc(sizeof(menu));
     mainmenu->selected = 0;
     mainmenu->scroll = 0;
-    mainmenu->item_count = 3;
+    mainmenu->item_count = 4;
     mainmenu->items[0].name = "wordle";
-    mainmenu->items[0].id = 1;
+    mainmenu->items[0].id = 10;
     mainmenu->items[1].name = "primitives";
-    mainmenu->items[1].id = 2;
-    mainmenu->items[2].name = "about";
-    mainmenu->items[2].id = 3;
+    mainmenu->items[1].id = 20;
+    mainmenu->items[2].name = "manual move";
+    mainmenu->items[2].id = 30;
+    mainmenu->items[3].name = "about";
+    mainmenu->items[3].id = 40;
     return mainmenu;
+}
+
+menu* wordle_menu()
+{
+    menu* wordlemenu = malloc(sizeof(menu));
+    wordlemenu->selected = 0;
+    wordlemenu->scroll = 0;
+    wordlemenu->item_count = 3;
+    wordlemenu->items[0].name = "manual word";
+    wordlemenu->items[0].id = 11;
+    wordlemenu->items[1].name = "random word";
+    wordlemenu->items[1].id = 12;
+    wordlemenu->items[2].name = "back";
+    wordlemenu->items[2].id = 0;
+    return wordlemenu;
+}
+
+menu* primitives_menu()
+{
+    menu* primitivesmenu = malloc(sizeof(menu));
+    primitivesmenu->selected = 0;
+    primitivesmenu->scroll = 0;
+    primitivesmenu->item_count = 5;
+    primitivesmenu->items[0].name = "grid";
+    primitivesmenu->items[0].id = 21;
+    primitivesmenu->items[1].name = "circle";
+    primitivesmenu->items[1].id = 22;
+    primitivesmenu->items[2].name = "square";
+    primitivesmenu->items[2].id = 23;
+    primitivesmenu->items[3].name = "letter";
+    primitivesmenu->items[3].id = 24;
+    primitivesmenu->items[4].name = "back";
+    primitivesmenu->items[4].id = 0;
+    return primitivesmenu;
 }
 
 menu* welcome_menu(char* version)

@@ -90,7 +90,7 @@ int main(void)
 
   clock_setup();
   servos_enable();
-  initialise_ui();
+  //initialise_ui();
 
   while(1){
     if (!(PINE & _BV(PE4)))
