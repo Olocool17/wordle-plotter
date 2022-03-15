@@ -2,8 +2,11 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <stdbool.h>
+
 #include "dwenguinoBoard.h"
 #include "dwenguinoLCD.h"
+
+#include <ui.h>
 
 //hello world from wouter (^3^)s
 
@@ -87,11 +90,7 @@ int main(void)
 
   clock_setup();
   servos_enable();
-
-  initBoard();
-  initLCD();
-  clearLCD();
-  backlightOn();
+  initialise_ui();
 
   while(1){
     if (!(PINE & _BV(PE4)))
