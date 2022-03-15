@@ -1,17 +1,17 @@
 #ifndef UI_LOADED
 #define UI_LOADED
 
+typedef struct menu_item{
+    char* name;
+    int id;
+} menu_item;
+
 typedef struct menu{
     int selected; 
     int scroll;
     int item_count;
     menu_item items[];
 } menu;
-
-typedef struct menu_item{
-    char* name;
-    int id;
-} menu_item;
 
 //Initialises the buttons
 void initialise_buttons();

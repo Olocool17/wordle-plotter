@@ -54,8 +54,8 @@ void display_menu(menu* dmenu)
     bool south_button_pressed = false;
     bool east_button_pressed = false;
     bool north_button_pressed = false;
-    while(1);
-    {
+    while(1)
+    { 
         if (middle_button_pressed && !(PORTC & _BV(PC7)))
         {
             if (dmenu->selected == -1)
@@ -70,7 +70,7 @@ void display_menu(menu* dmenu)
         }
         if (south_button_pressed && !(PORTE & _BV(PE6)))
         {
-            if (dmenu->selected + 1 < dmenu->item_count)
+            if (dmenu->selected + 1 < dmenu->item_count && dmenu->selected != -1)
             {
                 dmenu->selected += 1;
             }
@@ -111,7 +111,7 @@ void display_menu(menu* dmenu)
             {
                 printStringToLCD(dmenu->items[1 + dmenu->scroll*2].name, 1, 1);
             }
-            printCharToLCD("+", dmenu->selected % 2,0);
+            printCharToLCD('+', dmenu->selected % 2,0);
         }
         _delay_ms(100);
     }
@@ -123,7 +123,7 @@ menu* menu_handler(int id)
     switch (id)
     {
     case 0:
-        //return main_menu()
+        return main_menu();
         break;
     
     default:
