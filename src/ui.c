@@ -54,6 +54,27 @@ void initialise_buttons()
     south_button_pressed = false;
     east_button_pressed = false;
     north_button_pressed = false;
+
+    west_button = false;
+    south_button = false;
+    east_button = false;
+    north_button = false;
+}
+
+void button_logic()
+{
+    west_button = false;
+    south_button = false;
+    east_button = false;
+    north_button = false;
+    if (west_button_pressed) west_button = true;
+    if (south_button_pressed) south_button = true;
+    if (east_button_pressed) east_button = true;
+    if (north_button_pressed) north_button = true;
+    west_button_pressed = false;
+    south_button_pressed = false;
+    east_button_pressed = false;
+    north_button_pressed = false;
 }
 
 void initialise_ui(char* version)
@@ -69,35 +90,16 @@ void display_menu(menu* dmenu)
     if(dmenu == NULL){
         dmenu = error_menu("Menu is NULL");
     }
-    bool west_button = false;
-    bool south_button = false;
-    bool east_button = false;
-    bool north_button = false;
+
+    bool back = false;
     while(1)
     { 
+        button_logic();
         _delay_ms(100);
-        clearLCD();
-        if (dmenu->selected == -1) 
-        {
-            printStringToLCD(dmenu->items[0 + dmenu->scroll*2].name, 0, 0);
-            if (1 + dmenu->scroll*2 < dmenu->item_count)
-            {
-                printStringToLCD(dmenu->items[1 + dmenu->scroll*2].name, 1, 0);
-            }
-        }
-        else //Display with cursor
-        {
-            printStringToLCD(dmenu->items[0 + dmenu->scroll*2].name, 0, 1);
-            if (1 + dmenu->scroll*2 < dmenu->item_count)
-            {
-                printStringToLCD(dmenu->items[1 + dmenu->scroll*2].name, 1, 1);
-            }
-            printCharToLCD('+', dmenu->selected % 2,0);
-        }
 
         if (west_button && !(PINE & _BV(PE4)))
         {
-            dmenu->selected = -1;
+            back = true;
             break;
         }
         if (east_button && !(PINE & _BV(PE6)))
@@ -120,21 +122,27 @@ void display_menu(menu* dmenu)
             }
             dmenu->scroll = dmenu->selected / 2;
         }
-        west_button = false;
-        south_button = false;
-        east_button = false;
-        north_button = false;
-        if (west_button_pressed) west_button = true;
-        if (south_button_pressed) south_button = true;
-        if (east_button_pressed) east_button = true;
-        if (north_button_pressed) north_button = true;
-        west_button_pressed = false;
-        south_button_pressed = false;
-        east_button_pressed = false;
-        north_button_pressed = false;
+        clearLCD();
+        if (dmenu->selected == -1) 
+        {
+            printStringToLCD(dmenu->items[0 + dmenu->scroll*2].name, 0, 0);
+            if (1 + dmenu->scroll*2 < dmenu->item_count)
+            {
+                printStringToLCD(dmenu->items[1 + dmenu->scroll*2].name, 1, 0);
+            }
+        }
+        else //Display with cursor
+        {
+            printStringToLCD(dmenu->items[0 + dmenu->scroll*2].name, 0, 1);
+            if (1 + dmenu->scroll*2 < dmenu->item_count)
+            {
+                printStringToLCD(dmenu->items[1 + dmenu->scroll*2].name, 1, 1);
+            }
+            printCharToLCD('+', dmenu->selected % 2,0);
+        }
     }
-    _delay_ms(200);
-    if (dmenu->selected == -1)
+    _delay_ms(100);
+    if (dmenu->selected == -1 | back)
     {
         display_menu(menu_handler(0));
     }
@@ -154,6 +162,10 @@ menu* menu_handler(int id)
     case 10:
         return wordle_menu();
         break;
+    case 11:
+        word_select();
+        return main_menu();
+        break;
     case 20:
         return primitives_menu();
     case 21:
@@ -169,7 +181,7 @@ menu* menu_handler(int id)
         return main_menu();
         break;
     case 24:
-        //draw letter
+        letter_select();
         return main_menu();   
         break;
     case 30:
@@ -205,13 +217,11 @@ menu* wordle_menu()
     menu* wordlemenu = malloc(sizeof(menu));
     wordlemenu->selected = 0;
     wordlemenu->scroll = 0;
-    wordlemenu->item_count = 3;
+    wordlemenu->item_count = 2;
     wordlemenu->items[0].name = "manual word";
     wordlemenu->items[0].id = 11;
     wordlemenu->items[1].name = "random word";
     wordlemenu->items[1].id = 12;
-    wordlemenu->items[2].name = "back";
-    wordlemenu->items[2].id = 0;
     return wordlemenu;
 }
 
@@ -220,7 +230,7 @@ menu* primitives_menu()
     menu* primitivesmenu = malloc(sizeof(menu));
     primitivesmenu->selected = 0;
     primitivesmenu->scroll = 0;
-    primitivesmenu->item_count = 5;
+    primitivesmenu->item_count = 4;
     primitivesmenu->items[0].name = "grid";
     primitivesmenu->items[0].id = 21;
     primitivesmenu->items[1].name = "circle";
@@ -229,8 +239,6 @@ menu* primitives_menu()
     primitivesmenu->items[2].id = 23;
     primitivesmenu->items[3].name = "letter";
     primitivesmenu->items[3].id = 24;
-    primitivesmenu->items[4].name = "back";
-    primitivesmenu->items[4].id = 0;
     return primitivesmenu;
 }
 
@@ -260,9 +268,117 @@ menu* error_menu(char* reason)
     return error;
 }
 
-void manual_move()
+void letter_select()
 {
-    bool middle_button_pressed = false;  
+    char letter = 'A';
+    bool back = false;
+    while(1)
+    {
+        button_logic();
+        _delay_ms(100);
+        if (west_button && !(PINE & _BV(PE4)))
+        {
+            back = true;
+            break;
+        }
+        if (east_button && !(PINE & _BV(PE6)))
+        {
+            break;
+        }
+        if (south_button && !(PINE & _BV(PE5)))
+        {
+            if ((int) letter >  65)
+            {
+                letter -= 1;
+            }
+            else
+            {
+                letter = 'Z';
+            }
+        }
+        if (north_button && !(PINE & _BV(PE7)))
+        {
+            if ((int)letter < 90)
+            {
+                letter += 1;
+            }
+            else
+            {
+                letter = 'A';
+            }
+        }
+        clearLCD();
+        printCharToLCD(letter,0,8);
+    }
+    if (!back) //draw letter;
+    return;
+}
+
+void word_select()
+{
+    char word[5] = "AAAAA";
+    int selection = 0;
+    bool back = false;
+    while(1)
+    {
+        button_logic();
+        _delay_ms(100);
+        if (west_button && !(PINE & _BV(PE4)))
+        {
+            if (selection == 0)
+            {
+                back = true;
+                break;
+            }
+            else
+            {
+                selection -= 1;
+            }
+        }
+        if (east_button && !(PINE & _BV(PE6)))
+        {
+            if (selection == 4)
+            {
+                break;
+            }
+            else
+            {
+                selection += 1;
+            }
+        }
+        if (south_button && !(PINE & _BV(PE5)))
+        {
+            if ((int) word[selection] >  65)
+            {
+                word[selection] -= 1;
+            }
+            else
+            {
+                word[selection] = 'Z';
+            }
+        }
+        if (north_button && !(PINE & _BV(PE7)))
+        {
+            if ((int)word[selection] < 90)
+            {
+                word[selection] += 1;
+            }
+            else
+            {
+                word[selection] = 'A';
+            }
+        }
+        clearLCD();
+        printStringToLCD(word,0,5);
+        printStringToLCD("      ",0,10); //Moves the cursor along
+        printCharToLCD('+',1,5 + selection);
+    }
+    if (!back) //play wordle game
+    return;
+}
+
+void manual_move()
+{ 
     clock_setup();
     servos_enable();
     while(1){
@@ -303,4 +419,5 @@ void manual_move()
             servo2_dutymicros += 10;
         }
     }
+
 }

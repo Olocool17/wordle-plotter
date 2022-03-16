@@ -18,8 +18,16 @@ volatile bool south_button_pressed;
 volatile bool east_button_pressed;
 volatile bool north_button_pressed;
 
+bool west_button;
+bool south_button;
+bool east_button;
+bool north_button ;
+
 //Initialises the buttons
 void initialise_buttons();
+
+//Calls the button logic: this should be put before the delay in your UI while loop
+void button_logic();
 
 //Initialises the UI, LCD and buttons/interrupts
 void initialise_ui(char* version);
@@ -44,6 +52,10 @@ menu* primitives_menu();
 
 //Returns the error menu with the appropriate reason
 menu* error_menu(char* reason);
+
+void letter_select();
+
+void word_select();
 
 void manual_move();
 #endif
