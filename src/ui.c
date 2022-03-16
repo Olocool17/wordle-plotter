@@ -1,8 +1,23 @@
 #include <stdbool.h>
+#include <avr/interrupt.h>
 
 #include "dwenguinoLCD.h"
 
 #include <ui.h>
+#include <servo.h>
+
+ISR(INT4_vect){
+    west_button_pressed = true;
+}
+ISR(INT5_vect){
+    south_button_pressed = true;
+}
+ISR(INT6_vect){
+    east_button_pressed = true;
+}
+ISR(INT7_vect){
+    north_button_pressed = true;
+}
 
 void initialise_buttons()
 {
@@ -18,7 +33,6 @@ void initialise_buttons()
     PORTE |= _BV(PE6);
     PORTE |= _BV(PE5);
     PORTE |= _BV(PE4);
-    /*
     //Enable global interrupts
     SREG |= _BV(SREG_I); 
     //Enable external interrupts
@@ -35,7 +49,11 @@ void initialise_buttons()
     EICRB &= ~_BV(ISC50);
     EICRB |= _BV(ISC41); 
     EICRB &= ~_BV(ISC40);
-    */
+ 
+    west_button_pressed = false;
+    south_button_pressed = false;
+    east_button_pressed = false;
+    north_button_pressed = false;
 }
 
 void initialise_ui(char* version)
@@ -51,14 +69,13 @@ void display_menu(menu* dmenu)
     if(dmenu == NULL){
         dmenu = error_menu("Menu is NULL");
     }
-    menu* next_menu_item;
-    bool middle_button_pressed = false;  
-    bool west_button_pressed = false;
-    bool south_button_pressed = false;
-    bool east_button_pressed = false;
-    bool north_button_pressed = false;
+    bool west_button = false;
+    bool south_button = false;
+    bool east_button = false;
+    bool north_button = false;
     while(1)
     { 
+        _delay_ms(100);
         clearLCD();
         if (dmenu->selected == -1) 
         {
@@ -78,19 +95,16 @@ void display_menu(menu* dmenu)
             printCharToLCD('+', dmenu->selected % 2,0);
         }
 
-        if (middle_button_pressed && !(PORTC & _BV(PC7)))
+        if (west_button && !(PINE & _BV(PE4)))
         {
-            if (dmenu->selected == -1)
-            {
-                menu* next_menu_item = menu_handler(0);
-            }
-            else
-            {
-                menu* next_menu_item = menu_handler(dmenu->items[dmenu->selected].id);
-            }
+            dmenu->selected = -1;
             break;
         }
-        if (south_button_pressed && !(PORTE & _BV(PE6)))
+        if (east_button && !(PINE & _BV(PE6)))
+        {
+            break;
+        }
+        if (south_button && !(PINE & _BV(PE5)))
         {
             if (dmenu->selected + 1 < dmenu->item_count && dmenu->selected != -1)
             {
@@ -98,7 +112,7 @@ void display_menu(menu* dmenu)
             }
             dmenu->scroll = dmenu->selected / 2;
         }
-        if (north_button_pressed && !(PORTE & _BV(PE4)))
+        if (north_button && !(PINE & _BV(PE7)))
         {
             if (dmenu->selected - 1 >= 0)
             {
@@ -106,20 +120,28 @@ void display_menu(menu* dmenu)
             }
             dmenu->scroll = dmenu->selected / 2;
         }
-        middle_button_pressed = false;
+        west_button = false;
+        south_button = false;
+        east_button = false;
+        north_button = false;
+        if (west_button_pressed) west_button = true;
+        if (south_button_pressed) south_button = true;
+        if (east_button_pressed) east_button = true;
+        if (north_button_pressed) north_button = true;
         west_button_pressed = false;
         south_button_pressed = false;
         east_button_pressed = false;
         north_button_pressed = false;
-        if (!(PORTC & _BV(PC7))) middle_button_pressed = true;
-        if (!(PORTE & _BV(PE7))) west_button_pressed = true;
-        if (!(PORTE & _BV(PE6))) south_button_pressed = true;
-        if (!(PORTE & _BV(PE5))) east_button_pressed = true;
-        if (!(PORTE & _BV(PE4))) north_button_pressed = true;
-
-        _delay_ms(100);
     }
-    display_menu(next_menu_item);
+    _delay_ms(200);
+    if (dmenu->selected == -1)
+    {
+        display_menu(menu_handler(0));
+    }
+    else
+    {
+        display_menu(menu_handler(dmenu->items[dmenu->selected].id));
+    }
 }
 
 menu* menu_handler(int id)
@@ -149,6 +171,10 @@ menu* menu_handler(int id)
     case 24:
         //draw letter
         return main_menu();   
+        break;
+    case 30:
+        manual_move();
+        return main_menu();
         break;
     default:
         return error_menu("Invalid menu ID");
@@ -232,4 +258,49 @@ menu* error_menu(char* reason)
     error->items[1].name = reason;
     error->items[1].id = 0;
     return error;
+}
+
+void manual_move()
+{
+    bool middle_button_pressed = false;  
+    clock_setup();
+    servos_enable();
+    while(1){
+        _delay_ms(100);
+        clearLCD();
+        printStringToLCD("MANUAL CONTROL",0,0);
+        if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
+        {
+            servos_disable();
+            return;
+        }
+        if (!(PINE & _BV(PE4)))
+        {
+            //Rotate servo 1 left
+            printStringToLCD("Servo 1, left ", 0, 0);
+            printIntToLCD(servo1_dutymicros, 1, 0);
+            servo1_dutymicros -= 10;
+        }
+        if (!(PINE & _BV(PE5)))
+        {
+        //Rotate servo 2 left
+            printStringToLCD("Servo 2, left ", 0, 0);
+            printIntToLCD(servo2_dutymicros , 1, 0);
+            servo2_dutymicros -= 10;
+        }    
+        if (!(PINE & _BV(PE6)))
+        {
+            //Rotate servo 1 right
+            printStringToLCD("Servo 1, right", 0, 0);
+            printIntToLCD(servo1_dutymicros, 1, 0);
+            servo1_dutymicros += 10;
+        }    
+        if (!(PINE & _BV(PE7)))
+        {
+            //Rotate servo 2 right
+            printStringToLCD("Servo 2, right", 0, 0);
+            printIntToLCD(servo2_dutymicros, 1, 0);
+            servo2_dutymicros += 10;
+        }
+    }
 }
