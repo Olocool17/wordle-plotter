@@ -22,7 +22,7 @@ void lin_bez(double start_x_coor, double start_y_coor, double end_x_coor, double
         double y_next = start_y_coor + t*(end_y_coor - start_y_coor)/50;
         find_angles(x_next, y_next); //transfer next coordinates to the angle finding function
     }
-    return (0);
+    return;
 }
 
 void cub_bez(double start_x_coor, double start_y_coor, double cp1_x_coor, double cp1_y_coor, double cp2_x_coor, double cp2_y_coor, double end_x_coor, double end_y_coor) {
@@ -35,7 +35,7 @@ void cub_bez(double start_x_coor, double start_y_coor, double cp1_x_coor, double
         double y_next = (1-scale)*(1-scale)*(1-scale)*start_y_coor + 3*(1-scale)*(1-scale)*scale*cp1_y_coor+3*(1-scale)*scale*scale*cp2_y_coor+scale*scale*scale*end_y_coor;
         find_angles(x_next, y_next); //transfer next coordinates to the angle finding function
     }
-    return (0);
+    return;
 }
 
 //x = 0.8 + 2.8*x_offset + 2*x_value/250
