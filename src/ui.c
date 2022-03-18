@@ -142,7 +142,7 @@ void display_menu(menu* dmenu)
         }
     }
     _delay_ms(100);
-    if (dmenu->selected == -1 | back)
+    if ((dmenu->selected == -1) | back)
     {
         display_menu(menu_handler(0));
     }
@@ -369,9 +369,10 @@ void word_select()
             }
         }
         clearLCD();
-        printStringToLCD(word,0,5);
-        printStringToLCD("      ",0,10); //Moves the cursor along
-        printCharToLCD('+',1,5 + selection);
+        printStringToLCD("back",0,0);
+        printStringToLCD(word,0,6);
+        printStringToLCD("   go",0,11);
+        printCharToLCD('+',1,6 + selection);
     }
     if (!back) //play wordle game
     return;
