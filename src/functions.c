@@ -1,5 +1,19 @@
 #include <stdbool.h>
 #include <math.h>
+#include <assert.h>
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//functions.c:
+//Calculations done assuming L1 (= length of the first servo) = L2 (= length of second servo) = 13.8cm, with the coordinate system also in cm.
+//No out of bounds check is needed for find_angles since boundaries were already checked during the bezier call, requiring only 2 or 4 checks instead of 100.
+//The boundaries are those of an A5-sheet, being 15x21cm (rounded up)
+//For the individual letters, the following formulas apply:
+//value of x-position = (0.8 + 2*x_value/250) + 2.8*x
+//value of y-position = (15 + 2*y_value/250) - 2.8*y
+//the variables x and y are the discrete coordinates of the tiles on the 5x6 wordle grid, with (0,0) being the tile in the TOP left corner!
+//the variables x_value and y_value are the x and y-values within an individual gridspace, both on a scale of 250 (each gridspace is 2cmx2cm in size)
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 //Macro's for x² and x³
 #define SQUARE(x) (x)*(x)
 #define CUBE(x) (x)*(x)*(x)
@@ -8,15 +22,13 @@
 void draw_F(double x, double y);
 void draw_O(double x, double y);
 
-//Assuming L1 (= length of the first servo) = L2 (= length of second servo) = 13.8cm, where the coordinate system is also in cm.
-//Implement a special function to move pen to the starting point after lifting the pen
-
-//Function for moving the servo's given the angles (assuming that this will always be necessary)
+//Function for moving the servo's given the angles (assuming that this will always be necessary), maybe write this function in the servo.c file?
+//Implement a special function to move pen to the starting point after lifting the pen.
 void move(double theta_1, double theta_2) { 
     return;
 }
 
-//Function for finding the servo-angles corresponding to X- and Y-coordinates.
+//Inverse kinematics to find servo-angles.
 void find_angles(double x_coor, double y_coor) { 
     double theta_2 = acos((SQUARE(x_coor) + SQUARE(y_coor) - 2 * SQUARE(13.8))/(2 * SQUARE(13.8)) );
     double theta_1 = atan(y_coor/x_coor) + atan(13.8*sin(theta_2)/(13.8 + 13.8*cos(theta_2)));
@@ -24,8 +36,14 @@ void find_angles(double x_coor, double y_coor) {
 }
 
 //Function for Linear bezier curve
-void lin_bez(double start_x, double start_y, double end_x, double end_y) {
 //search for possibility of calling the waypoints with 1 variable each?
+void lin_bez(double start_x, double start_y, double end_x, double end_y) {
+    if (!(start_x >= 0 && start_x <= 15) || !(start_y >= 0 && start_y <= 21)) {
+        assert(0); //OoB check for start
+    }
+    if (!(end_x >= 0 && end_x <= 15) || !(end_y >= 0 && end_y <= 21)) {
+        assert(0); //OoB check for end
+    }
     int t = 0;
     while (t<50) {
         t += 1;
@@ -37,6 +55,18 @@ void lin_bez(double start_x, double start_y, double end_x, double end_y) {
 
 // Function for Cubic bezier curve
 void cub_bez(double start_x, double start_y, double cp1_x, double cp1_y, double cp2_x, double cp2_y, double end_x, double end_y) {
+    if (!(start_x >= 0 && start_x <= 15) || !(start_y >= 0 && start_y <= 21)) {
+        assert(0); //OoB check for start
+    }
+    if (!(cp1_x >= 0 && cp1_x <= 15) || !(cp1_y >= 0 && cp1_y <= 21)) {
+        assert(0); //OoB check for first control point
+    }
+    if (!(cp2_x >= 0 && cp2_x <= 15) || !(cp2_y >= 0 && cp2_y <= 21)) {
+        assert(0); //OoB check for second control point
+    }
+    if (!(end_x >= 0 && end_x <= 15) || !(end_y >= 0 && end_y <= 21)) {
+        assert(0); //OoB check for end
+    }
     int t = 0;
     while (t<50) {
         t += 1;
@@ -46,10 +76,6 @@ void cub_bez(double start_x, double start_y, double cp1_x, double cp1_y, double 
         find_angles(x_next, y_next); //transfer next coordinates to the angle finding function
     }
 }
-
-//value of x-position = (0.8 + 2*x_value/250) + 2.8*x
-//value of y-position = (15 + 2*y_value/250) - 2.8*y
-//the arguments x and y are the discrete coordinates of the tiles on the 5x6 wordle grid, with (0,0) being the tile in the TOP left corner!
 
 //IMPORTANT: test all letters before demonstration for errors, and test them all on the second guess or after and as the second letter or after so that x_offset or y_offset are not equal to 0.
 void draw_A(double x, double y) {
