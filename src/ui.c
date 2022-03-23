@@ -144,16 +144,17 @@ void display_menu(menu* dmenu)
     _delay_ms(100);
     if ((dmenu->selected == -1) | back)
     {
-        display_menu(menu_handler(0));
+        display_menu(menu_handler(dmenu, 0));
     }
     else
     {
-        display_menu(menu_handler(dmenu->items[dmenu->selected].id));
+        display_menu(menu_handler(dmenu, dmenu->items[dmenu->selected].id));
     }
 }
 
-menu* menu_handler(int id)
+menu* menu_handler(menu* dmenu, int id)
 {
+    if (dmenu != NULL) free(dmenu);
     switch (id)
     {
     case 0:
@@ -372,7 +373,7 @@ void word_select()
         printStringToLCD("back",0,0);
         printStringToLCD(word,0,6);
         printStringToLCD("   go",0,11);
-        printCharToLCD('+',1,6 + selection);
+        printCharToLCD('^',1,6 + selection);
     }
     if (!back) //play wordle game
     return;
