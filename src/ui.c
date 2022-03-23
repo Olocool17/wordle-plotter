@@ -93,9 +93,7 @@ void display_menu(menu* dmenu)
     if(dmenu == NULL){
         dmenu = error_menu("Menu is NULL");
     }
-
     servos_disable();
-
     bool back = false;
     while(1)
     { 
@@ -174,11 +172,11 @@ menu* menu_handler(menu* dmenu, int id)
         return wordle_menu();
         break;
     case 11:
-        wordle(false);
+        //wordle(false);
         return main_menu();
         break;
     case 12:
-        wordle(true);
+        //wordle(true);
         return main_menu();
         break;
     case 20:
@@ -276,6 +274,19 @@ menu* error_menu(char* reason)
 {
     menu* error = malloc(sizeof(menu));
     error->selected = -1;
+    error->scroll = 0;
+    error->item_count = 2;
+    error->items[0].name = "ERROR";
+    error->items[0].id = 0;
+    error->items[1].name = reason;
+    error->items[1].id = 0;
+    return error;
+}
+
+menu* game_error_menu(char* reason) 
+{
+    menu* error = malloc(sizeof(menu));
+    error->selected = -2;
     error->scroll = 0;
     error->item_count = 2;
     error->items[0].name = "ERROR";
