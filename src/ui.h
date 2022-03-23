@@ -35,9 +35,8 @@ void initialise_ui(char* version);
 //Enters the display loop of a menu, also handles buttons
 void display_menu(menu* menu);
 
-//Returns the menu that corresponds to the ID
-menu* menu_handler(int id);
-
+//Returns the menu that corresponds to the ID and frees the previous menu from memory
+menu* menu_handler(menu* dmenu, int id);
 //Returns the main menu
 menu* main_menu();
 
