@@ -2301,6 +2301,9 @@ wring
 wrist
 write
 wrong
+wrist
+write
+wrong
 wrote
 wrung
 wryly
