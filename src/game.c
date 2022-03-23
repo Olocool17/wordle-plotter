@@ -13,19 +13,16 @@ const int wordlist_count = sizeof(wordle_list) / sizeof(wordle_list[0]);
 void worlde(bool random)
 {
     srand(time(NULL));
-    char* wordbuffer = malloc(sizeof(char)*6);
+    char* wordle_word = malloc(sizeof(char)*6);
     if (random)
     {
         int rand_i = rand_range(wordlist_count);
-        wordbuffer = wordle_list[rand_i];
+        wordle_word = wordle_list[rand_i];
     }
     else
     {
-        wordbuffer = manual_word_select();
+        wordle_word = manual_word_select();
     }
-    char* wordle_word = malloc(sizeof(char)*6);
-    strcpy(wordle_word, wordbuffer);
-    free(wordbuffer);
 }
 
 char* manual_word_select()
