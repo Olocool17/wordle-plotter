@@ -1,7 +1,8 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <util/delay.h>
 #include <stdbool.h>
+#include <util/delay.h>
+#include <avr/delay.h>
 
 #include "dwenguinoBoard.h"
 #include "dwenguinoLCD.h"

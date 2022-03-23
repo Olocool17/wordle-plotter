@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <util/delay.h>
 #include <math.h>
 #include <assert.h>
 #include <functions.h>
@@ -31,14 +32,14 @@ void move(double theta_1, double theta_2) {
 }
 
 void move_with_lift(double theta_1, double theta_2) {
-    delay(0.15);
+    _delay_ms(150);
     //"lift pen"
-    delay(0.15);
+    _delay_ms(150);
     servo1_dutymicros = ((M_PI/2)+theta_1)/M_PI*1600 + 700;
     servo2_dutymicros = theta_2/M_PI*1600 + 700;
-    delay(0.15);
+    _delay_ms(150);
     //"lower pen"
-    delay(0.15);
+    _delay_ms(150);
 }
 
 void find_angles(double x_coor, double y_coor) { 
@@ -54,7 +55,7 @@ void find_angles_with_lift(double x_coor, double y_coor) {
 }
 
 void lin_bez(double start_x, double start_y, double end_x, double end_y) {
-    delay(0.25);
+    _delay_ms(250);
     if (!(start_x >= 0 && start_x <= 15 && start_y >= 0 && start_y <= 21)) {
         assert(0); //OoB check for start
     }
@@ -66,13 +67,13 @@ void lin_bez(double start_x, double start_y, double end_x, double end_y) {
         t += 1;
         double x_next = start_x + t*(end_x - start_x)/50;
         double y_next = start_y + t*(end_y - start_y)/50;
-        delay(0.015);
+        _delay_ms(15);
         find_angles(x_next, y_next); //transfer next coordinates to the angle finding function
     }
 }
 
 void cub_bez(double start_x, double start_y, double cp1_x, double cp1_y, double cp2_x, double cp2_y, double end_x, double end_y) {
-    delay(0.25);
+    _delay_ms(25);
     if (!(start_x >= 0 && start_x <= 15 && start_y >= 0 && start_y <= 21)) {
         assert(0); //OoB check for start
     }
@@ -91,7 +92,7 @@ void cub_bez(double start_x, double start_y, double cp1_x, double cp1_y, double 
         double scale = t/50;
         double x_next = CUBE(1-scale)*start_x + 3*SQUARE(1-scale)*scale*cp1_x+3*(1-scale)*SQUARE(scale)*cp2_x+CUBE(scale)*end_x;
         double y_next = CUBE(1-scale)*start_y + 3*SQUARE(1-scale)*scale*cp1_y+3*(1-scale)*SQUARE(scale)*cp2_y+CUBE(scale)*end_y;
-        delay(0.015);
+        _delay_ms(15);
         find_angles(x_next, y_next); //transfer next coordinates to the angle finding function
     }
 }
