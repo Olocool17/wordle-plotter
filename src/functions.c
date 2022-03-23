@@ -18,6 +18,7 @@
 //TODO:
 //1) Test every letter in a position that checks all variables.
 //2) Add pen-lifting function with corresponding dutycycle.
+//3) Add draw functions for indicators of correctness of guess (decide on symbols + add functions).
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //Macro's for x² and x³
@@ -247,4 +248,14 @@ void draw_Z(float x, float y) {
     lin_bez(1.2 + 2.8*x, 16.76 - 2.8*y, 2.4 + 2.8*x, 16.76 - 2.8*y);
     lin_bez(2.4 + 2.8*x, 16.76 - 2.8*y, 1.2 + 2.8*x, 15.4 - 2.8*y);
     lin_bez(1.2 + 2.8*x, 15.4 - 2.8*y, 2.4 + 2.8*x, 15.4 - 2.8*y);
+}
+
+void draw_black(float x, float y) {
+
+}
+void draw_yellow(float x, float y) {
+
+}
+void draw_green(float x, float y) {
+    
 }
