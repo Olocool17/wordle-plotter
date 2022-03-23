@@ -138,7 +138,7 @@ void display_menu(menu* dmenu)
             {
                 printStringToLCD(dmenu->items[1 + dmenu->scroll*2].name, 1, 1);
             }
-            printCharToLCD('+', dmenu->selected % 2,0);
+            printCharToLCD('|', dmenu->selected % 2,0);
         }
     }
     _delay_ms(100);
