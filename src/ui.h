@@ -52,9 +52,13 @@ menu* primitives_menu();
 //Returns the error menu with the appropriate reason
 menu* error_menu(char* reason);
 
+menu* game_info_menu(char* message);
+
 void letter_select();
 
-void word_select();
+char* word_select();
 
 void manual_move();
+
+void drawing();
 #endif

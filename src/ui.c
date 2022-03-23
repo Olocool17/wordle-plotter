@@ -5,6 +5,8 @@
 
 #include <ui.h>
 #include <servo.h>
+#include <functions.h>
+#include <game.h>
 
 ISR(INT4_vect){
     west_button_pressed = true;
@@ -79,6 +81,7 @@ void button_logic()
 
 void initialise_ui(char* version)
 {
+    clock_setup();
     initLCD();
     clearLCD();
     backlightOn();
@@ -90,6 +93,8 @@ void display_menu(menu* dmenu)
     if(dmenu == NULL){
         dmenu = error_menu("Menu is NULL");
     }
+
+    servos_disable();
 
     bool back = false;
     while(1)
@@ -142,7 +147,12 @@ void display_menu(menu* dmenu)
         }
     }
     _delay_ms(100);
-    if ((dmenu->selected == -1) | back)
+    if (dmenu->selected == -2)
+    {
+        free(dmenu);
+        return;
+    }
+    else if ((dmenu->selected == -1) | back)
     {
         display_menu(menu_handler(dmenu, 0));
     }
@@ -164,7 +174,11 @@ menu* menu_handler(menu* dmenu, int id)
         return wordle_menu();
         break;
     case 11:
-        word_select();
+        wordle(false);
+        return main_menu();
+        break;
+    case 12:
+        wordle(true);
         return main_menu();
         break;
     case 20:
@@ -175,6 +189,8 @@ menu* menu_handler(menu* dmenu, int id)
         break;
      case 22:
         //draw circle
+        drawing();
+        draw_O(3,3);
         return main_menu();
         break;
     case 23:
@@ -269,6 +285,17 @@ menu* error_menu(char* reason)
     return error;
 }
 
+menu* game_info_menu(char* message)
+{
+    menu* info = malloc(sizeof(menu));
+    info->selected = -2;
+    info-> scroll = 0;
+    info->item_count = 1;
+    info->items[0].name = message;
+    info->items[0].id = 0;
+    return info;
+}
+
 void letter_select()
 {
     char letter = 'A';
@@ -315,11 +342,11 @@ void letter_select()
     return;
 }
 
-void word_select()
+char* word_select()
 {
     char word[5] = "AAAAA";
     int selection = 0;
-    bool back = false;
+    bool exit = false;
     while(1)
     {
         button_logic();
@@ -328,7 +355,7 @@ void word_select()
         {
             if (selection == 0)
             {
-                back = true;
+                exit = true;
                 break;
             }
             else
@@ -370,13 +397,13 @@ void word_select()
             }
         }
         clearLCD();
-        printStringToLCD("back",0,0);
+        printStringToLCD("exit",0,0);
         printStringToLCD(word,0,6);
         printStringToLCD("   go",0,11);
         printCharToLCD('^',1,6 + selection);
     }
-    if (!back) //play wordle game
-    return;
+    if (exit) return "00000";
+    return word;
 }
 
 void manual_move()
@@ -421,5 +448,10 @@ void manual_move()
             servo2_dutymicros += 10;
         }
     }
-
+}
+void drawing()
+{
+        servos_enable();
+        clearLCD();
+        printStringToLCD("drawing...",0,4);
 }
