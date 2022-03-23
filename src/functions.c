@@ -87,47 +87,47 @@ void cub_bez(double start_x, double start_y, double cp1_x, double cp1_y, double 
     }
 }
 
-void draw_A(double x, double y) {
+void draw_A(float x, float y) {
     find_angles_with_lift(1.16 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(1.16 + 2.8*x, 15.16 - 2.8*y, 1.864 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(1.864 + 2.8*x, 16.6 - 2.8*y, 2.568 + 2.8*x, 15.16 - 2.8*y);
     find_angles_with_lift(1.512 + 2.8*x, 15.88 - 2.8*y);
     lin_bez(1.512 + 2.8*x, 15.88 - 2.8*y, 2.216 + 2.8*x, 15.88 - 2.8*y);
 }
-void draw_B(double x, double y) {
+void draw_B(float x, float y) {
     find_angles_with_lift(1.36 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(1.36 + 2.8*x, 15.16 - 2.8*y, 1.36 + 2.8*x, 16.6 - 2.8*y);
     cub_bez(1.36 + 2.8*x, 16.6 - 2.8*y, 2.2 + 2.8*x, 16.6 - 2.8*y, 2.2 + 2.8*x, 15.88 - 2.8*y, 1.36 + 2.8*x, 15.88 - 2.8*y);
     cub_bez(1.36 + 2.8*x, 15.88 - 2.8*y, 2.2 + 2.8*x, 15.88 - 2.8*y, 2.2 + 2.8*x, 15.16 - 2.8*y, 1.36 + 2.8*x, 15.16 - 2.8*y);
 }
-void draw_C(double x, double y) {
+void draw_C(float x, float y) {
     find_angles_with_lift(2.4 + 2.8*x, 16.6 - 2.8*y);
     cub_bez(2.4 + 2.8*x, 16.6 - 2.8*y, 0.96 + 2.8*x, 16.6 - 2.8*y, 0.96 + 2.8*x, 15.16 - 2.8*y, 2.4 + 2.8*x, 15.16 - 2.8*y);
 }
-void draw_D(double x, double y) {
+void draw_D(float x, float y) {
     find_angles_with_lift(0.96 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(0.96 + 2.8*x, 15.16 - 2.8*y, 0.96 + 2.8*x, 16.6 - 2.8*y);
     cub_bez(0.96 + 2.8*x, 16.6 - 2.8*y, 2.4 + 2.8*x, 16.6 - 2.8*y, 2.4 + 2.8*x, 15.16 - 2.8*y, 0.96 + 2.8*x, 15.16 - 2.8*y);
 }
-void draw_E(double x, double y) {
+void draw_E(float x, float y) {
     find_angles_with_lift(1.68 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(1.68 + 2.8*x, 15.16 - 2.8*y, 0.96 + 2.8*x, 15.16 - 2.8*y);
     draw_F(x,y);
 }
-void draw_F(double x, double y) {
+void draw_F(float x, float y) {
     find_angles_with_lift(0.96 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(0.96 + 2.8*x, 15.16 - 2.8*y, 0.96 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(0.96 + 2.8*x, 16.6 - 2.8*y, 1.68 + 2.8*x, 16.6 - 2.8*y);
     find_angles_with_lift(0.96 + 2.8*x, 15.88 - 2.8*y);
     lin_bez(0.96 + 2.8*x, 15.88 - 2.8*y, 1.68 + 2.8*x, 15.88 - 2.8*y);
 }
-void draw_G(double x, double y) {
+void draw_G(float x, float y) {
     find_angles_with_lift(2.128 + 2.8*x, 16.088 - 2.8*y);
     lin_bez(2.128 + 2.8*x, 16.088 - 2.8*y, 1.888 + 2.8*x, 16.088 - 2.8*y);
     find_angles_with_lift(1.888 + 2.8*x, 16.64 - 2.8*y);
     cub_bez(1.888 + 2.8*x, 16.64 - 2.8*y, 0.8 + 2.8*x, 16.472 - 2.8*y, 1.728 + 2.8*x, 15 - 2.8*y, 2.128 + 2.8*x, 16.088 - 2.8*y);
 }
-void draw_H(double x, double y) {
+void draw_H(float x, float y) {
     find_angles_with_lift(0.96 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(0.96 + 2.8*x, 15.16 - 2.8*y, 0.96 + 2.8*x, 16.6 - 2.8*y);
     find_angles_with_lift(0.96 + 2.8*x, 15.88 - 2.8*y);
@@ -135,7 +135,7 @@ void draw_H(double x, double y) {
     find_angles_with_lift(1.68 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(1.68 + 2.8*x, 15.16 - 2.8*y, 1.68 + 2.8*x, 16.6 - 2.8*y);
 }
-void draw_I(double x, double y) {
+void draw_I(float x, float y) {
     find_angles_with_lift(1.44 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(1.44 + 2.8*x, 16.6 - 2.8*y, 2.16 + 2.8*x, 16.6 - 2.8*y);
     find_angles_with_lift(1.44 + 2.8*x, 15.16 - 2.8*y);
@@ -143,98 +143,98 @@ void draw_I(double x, double y) {
     find_angles_with_lift(1.8 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(1.8 + 2.8*x, 15.16 - 2.8*y, 1.8 + 2.8*x, 16.6 - 2.8*y);
 }
-void draw_J(double x, double y) {
+void draw_J(float x, float y) {
     find_angles_with_lift(1.44 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(1.44 + 2.8*x, 16.6 - 2.8*y, 2.16 + 2.8*x, 16.6 - 2.8*y);
     find_angles_with_lift(1.8 + 2.8*x, 16.6 - 2.8*y);
     cub_bez(1.8 + 2.8*x, 16.6 - 2.8*y, 1.864 + 2.8*x, 16.168 - 2.8*y, 2.152 + 2.8*x, 15.384 - 2.8*y, 1.44 + 2.8*x, 15.384 - 2.8*y);
 }
-void draw_K(double x, double y) {
+void draw_K(float x, float y) {
     find_angles_with_lift(0.96 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(0.96 + 2.8*x, 15.16 - 2.8*y, 0.96 + 2.8*x, 16.6 - 2.8*y);
     find_angles_with_lift(1.44 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(1.44 + 2.8*x, 16.6 - 2.8*y, 0.96 + 2.8*x, 15.88 - 2.8*y);
     lin_bez(0.96 + 2.8*x, 15.88 - 2.8*y, 1.44 + 2.8*x, 15.16 - 2.8*y);
 }
-void draw_L(double x, double y) {
+void draw_L(float x, float y) {
     find_angles_with_lift(0.96 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(0.96 + 2.8*x, 16.6 - 2.8*y, 0.96 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(0.96 + 2.8*x, 15.16 - 2.8*y, 1.92 + 2.8*x, 15.16 - 2.8*y);
 }
-void draw_M(double x, double y) {
+void draw_M(float x, float y) {
     find_angles_with_lift(0.96 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(0.96 + 2.8*x, 15.16 - 2.8*y, 0.96 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(0.96 + 2.8*x, 16.6 - 2.8*y, 1.52 + 2.8*x, 15.88 - 2.8*y);
     lin_bez(1.52 + 2.8*x, 15.88 - 2.8*y, 2.08 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(2.08 + 2.8*x, 16.6 - 2.8*y, 2.08 + 2.8*x, 15.16 - 2.8*y);
 }
-void draw_N(double x, double y) {
+void draw_N(float x, float y) {
     find_angles_with_lift(0.96 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(0.96 + 2.8*x, 15.16 - 2.8*y, 0.96 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(0.96 + 2.8*x, 16.6 - 2.8*y, 1.92 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(1.92 + 2.8*x, 15.16 - 2.8*y, 1.92 + 2.8*x, 16.6 - 2.8*y);
 }
-void draw_O(double x, double y) {
+void draw_O(float x, float y) {
     find_angles_with_lift(1.2 + 2.8*x, 16 - 2.8*y);
     cub_bez(1.2 + 2.8*x, 16 - 2.8*y, 1.2 + 2.8*x, 15.04 - 2.8*y, 2.48 + 2.8*x, 15.04 - 2.8*y, 2.48 + 2.8*x, 16 - 2.8*y);
     cub_bez(2.48 + 2.8*x, 16 - 2.8*y, 2.48 + 2.8*x, 16.96 - 2.8*y, 1.2 + 2.8*x, 16.96 - 2.8*y, 1.2 + 2.8*x, 16 - 2.8*y);
 }
-void draw_P(double x, double y) {
+void draw_P(float x, float y) {
     find_angles_with_lift(1.36 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(1.36 + 2.8*x, 15.16 - 2.8*y, 1.36 + 2.8*x, 16.6 - 2.8*y);
     cub_bez(1.36 + 2.8*x, 16.6 - 2.8*y, 2.2 + 2.8*x, 16.6 - 2.8*y, 2.2 + 2.8*x, 15.88 - 2.8*y, 1.36 + 2.8*x, 15.88 - 2.8*y);
 }
-void draw_Q(double x, double y) {
+void draw_Q(float x, float y) {
     find_angles_with_lift(1.88 + 2.8*x, 15.96 - 2.8*y);
     lin_bez(1.88 + 2.8*x, 15.96 - 2.8*y, 2.464 + 2.8*x, 15.24 - 2.8*y);
     find_angles_with_lift(1.2 + 2.8*x, 16 - 2.8*y);
     draw_O(x, y);
 }
-void draw_R(double x, double y) {
+void draw_R(float x, float y) {
     find_angles_with_lift(1.36 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(1.36 + 2.8*x, 15.16 - 2.8*y, 1.36 + 2.8*x, 16.6 - 2.8*y);
     cub_bez(1.36 + 2.8*x, 16.6 - 2.8*y, 2.2 + 2.8*x, 16.6 - 2.8*y, 2.2 + 2.8*x, 15.88 - 2.8*y, 1.36 + 2.8*x, 15.88 - 2.8*y);
     lin_bez(1.36 + 2.8*x, 15.88 - 2.8*y, 1.92 + 2.8*x, 15.16 - 2.8*y);
 }
-void draw_S(double x, double y) {
+void draw_S(float x, float y) {
     find_angles_with_lift(2 + 2.8*x, 16.44 - 2.8*y);
     cub_bez(2 + 2.8*x, 16.44 - 2.8*y, 1.04 + 2.8*x, 16.44 - 2.8*y, 2.6 + 2.8*x, 15.456 - 2.8*y, 1.64 + 2.8*x, 15.456 - 2.8*y);
 }
-void draw_T(double x, double y) {
+void draw_T(float x, float y) {
     find_angles_with_lift(1.12 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(1.12 + 2.8*x, 16.6 - 2.8*y, 2.56 + 2.8*x, 16.6 - 2.8*y);
     find_angles_with_lift(1.84 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(1.84 + 2.8*x, 16.6 - 2.8*y, 1.84 + 2.8*x, 15.48 - 2.8*y);
 }
-void draw_U(double x, double y) {
+void draw_U(float x, float y) {
     find_angles_with_lift(1.4 + 2.8*x, 16.76 - 2.8*y);
     cub_bez(1.4 + 2.8*x, 16.76 - 2.8*y, 1.4 + 2.8*x, 15 - 2.8*y, 2.6 + 2.8*x, 15 - 2.8*y, 2.6 + 2.8*x, 16.76 - 2.8*y);
 }
-void draw_V(double x, double y) {
+void draw_V(float x, float y) {
     find_angles_with_lift(1.2 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(1.2 + 2.8*x, 16.6 - 2.8*y, 1.8 + 2.8*x, 15.48 - 2.8*y);
     lin_bez(1.8 + 2.8*x, 15.48 - 2.8*y, 2.4 + 2.8*x, 16.6 - 2.8*y);
 }
-void draw_W(double x, double y) {
+void draw_W(float x, float y) {
     find_angles_with_lift(1.04 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(1.04 + 2.8*x, 16.6 - 2.8*y, 1.4 + 2.8*x, 15.32 - 2.8*y);
     lin_bez(1.4 + 2.8*x, 15.32 - 2.8*y, 1.76 + 2.8*x, 15.96 - 2.8*y);
     lin_bez(1.76 + 2.8*x, 15.96 - 2.8*y, 2.12 + 2.8*x, 15.32 - 2.8*y);
     lin_bez(2.12 + 2.8*x, 15.32 - 2.8*y, 2.48 + 2.8*x, 16.6 - 2.8*y);
 }
-void draw_X(double x, double y) {
+void draw_X(float x, float y) {
     find_angles_with_lift(1.2 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(1.2 + 2.8*x, 16.6 - 2.8*y, 2.48 + 2.8*x, 15.32 - 2.8*y);
     find_angles_with_lift(1.2 + 2.8*x, 15.32 - 2.8*y);
     lin_bez(1.2 + 2.8*x, 15.32 - 2.8*y, 2.48 + 2.8*x, 16.6 - 2.8*y);
 }
-void draw_Y(double x, double y) {
+void draw_Y(float x, float y) {
     find_angles_with_lift(1.2 + 2.8*x, 16.6 - 2.8*y);
     lin_bez(1.2 + 2.8*x, 16.6 - 2.8*y, 1.6 + 2.8*x, 16 - 2.8*y);
     find_angles_with_lift(1.2 + 2.8*x, 15.4 - 2.8*y);
     lin_bez(1.2 + 2.8*x, 15.4 - 2.8*y, 2 + 2.8*x, 16.6 - 2.8*y);
 }
-void draw_Z(double x, double y) {
+void draw_Z(float x, float y) {
     find_angles_with_lift(1.2 + 2.8*x, 16.76 - 2.8*y);
     lin_bez(1.2 + 2.8*x, 16.76 - 2.8*y, 2.4 + 2.8*x, 16.76 - 2.8*y);
     lin_bez(2.4 + 2.8*x, 16.76 - 2.8*y, 1.2 + 2.8*x, 15.4 - 2.8*y);
