@@ -97,7 +97,7 @@ void cub_bez(double start_x, double start_y, double cp1_x, double cp1_y, double 
         move_xy(x_next, y_next); //transfer next coordinates to the angle finding function
     }
 }
-
+//INCREASE ALL Y VALUES BY 3
 void draw_A(float x, float y) {
     move_xy_with_lift(1.16 + 2.8*x, 15.16 - 2.8*y);
     lin_bez(1.16 + 2.8*x, 15.16 - 2.8*y, 1.864 + 2.8*x, 16.6 - 2.8*y);
@@ -253,11 +253,13 @@ void draw_Z(float x, float y) {
 }
 
 void draw_black(float x, float y) {
-
+    lin_bez(1.68 + 2.8*x, 17.48 - 2.8*y, 2.0 + 2.8*x, 17.16 - 2.8*y);
+    lin_bez(1.68 + 2.8*x, 17.16 - 2.8*y, 2.0 + 2.8*x, 17.48 - 2.8*y);
 }
 void draw_yellow(float x, float y) {
-
+    cub_bez(1.504 + 2.8*x, 17.28 - 2.8*y, 1.776 + 2.8*x, 17.64 - 2.8*y, 1.776 + 2.8*x, 16.92 - 2.8*y, 2.088 + 2.8*x, 17.376 - 2.8*y);
 }
 void draw_green(float x, float y) {
-    
+    lin_bez(1.68 + 2.8*x, 17.48 - 2.8*y, 1.84 + 2.8*x, 17.16 - 2.8*y);
+    lin_bez(1.84 + 2.8*x, 17.16 - 2.8*y, 2.0 + 2.8*x, 17.48 - 2.8*y);
 }
