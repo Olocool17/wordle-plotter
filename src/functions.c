@@ -22,6 +22,18 @@
 //3) Add draw functions for indicators of correctness of guess (decide on symbols + add functions).
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+//Bounds of the board
+
+#define XMIN 0
+#define YMIN 3
+#define XMAX 14
+#define YMAX 21
+
+//Iterations per cm
+
+#define ITERS 3
+#define ITER_DELAY 15
+
 //Macro's for x² and x³
 #define SQUARE(x) (x)*(x)
 #define CUBE(x) (x)*(x)*(x)
@@ -50,25 +62,31 @@ void move_xy(double x_coor, double y_coor) {
 }
 
 void move_xy_with_lift(double x_coor, double y_coor) { 
-    double theta_2 = acos((SQUARE(x_coor) + SQUARE(y_coor) - 2 * SQUARE(13.8))/(2 * SQUARE(13.8)) );
-    double theta_1 = atan(y_coor/x_coor) + atan(13.8*sin(theta_2)/(13.8 + 13.8*cos(theta_2)));
+    double r = sqrt(SQUARE(x_coor) + SQUARE(y_coor));
+    double theta_2 = M_PI - 2*asin(r / (13.8*2));
+    double theta_1 = M_PI - asin(y_coor / r) - acos(r / (13.8 * 2));
     move_with_lift(theta_1, theta_2);
 }
 
-void lin_bez(double start_x, double start_y, double end_x, double end_y) {
-    _delay_ms(250);
-    if (!(start_x >= 0 && start_x <= 15 && start_y >= 0 && start_y <= 21)) {
-        assert(0); //OoB check for start
+bool within_bounds(double x_coor, double y_coor)
+{
+    if ((x_coor <  XMIN)|| (x_coor > XMAX) || (y_coor < YMIN) || (y_coor > YMAX))
+    {
+        return false;
     }
-    if (!(end_x >= 0 && end_x <= 15 && end_y >= 0 && end_y <= 21)) {
-        assert(0); //OoB check for end
-    }
-    int t = 0;
-    while (t<50) {
-        t += 1;
-        double x_next = start_x + t*(end_x - start_x)/50;
-        double y_next = start_y + t*(end_y - start_y)/50;
-        _delay_ms(15);
+    return true;
+}
+
+void lin_bez(double start_x, double start_y, double end_x, double end_y) 
+{
+    if (!(within_bounds(start_x,start_y) && within_bounds(end_x,end_y))) return;
+    float pathlength = sqrt(SQUARE(end_x - start_x) + SQUARE(end_y - start_y));
+    int segments = ITERS * pathlength;
+    for(size_t t = 0; t <= segments ; t++) 
+    {
+        double x_next = start_x + t*(end_x - start_x)/segments;
+        double y_next = start_y + t*(end_y - start_y)/segments;
+        _delay_ms(ITER_DELAY);
         move_xy(x_next, y_next); //transfer next coordinates to the angle finding function
     }
 }
@@ -91,11 +109,26 @@ void cub_bez(double start_x, double start_y, double cp1_x, double cp1_y, double 
     while (t<50) {
         t += 1;
         double scale = t/50;
-        double x_next = CUBE(1-scale)*start_x + 3*SQUARE(1-scale)*scale*cp1_x+3*(1-scale)*SQUARE(scale)*cp2_x+CUBE(scale)*end_x;
-        double y_next = CUBE(1-scale)*start_y + 3*SQUARE(1-scale)*scale*cp1_y+3*(1-scale)*SQUARE(scale)*cp2_y+CUBE(scale)*end_y;
+        double x_next = CUBE(1-scale)*start_x + 3*SQUARE(1-scale)*scale*cp1_x + 3*(1-scale)*SQUARE(scale)*cp2_x + CUBE(scale)*end_x;
+        double y_next = CUBE(1-scale)*start_y + 3*SQUARE(1-scale)*scale*cp1_y + 3*(1-scale)*SQUARE(scale)*cp2_y + CUBE(scale)*end_y;
         _delay_ms(15);
         move_xy(x_next, y_next); //transfer next coordinates to the angle finding function
     }
+}
+
+void draw_grid()
+{
+    for (size_t i = XMIN; i < XMAX; i++) 
+    {
+        move_with_lift(i, YMIN);
+        lin_bez(i, YMIN, i, YMAX);
+    }
+    for (size_t i = YMIN; i < YMAX; i++)
+    {
+        move_with_lift(XMIN, i);
+        lin_bez(XMIN, i, XMAX, i);
+    }
+    
 }
 
 void draw_A(float x, float y) {
