@@ -129,7 +129,6 @@ void draw_grid()
     }
     
 }
-//INCREASE ALL Y VALUES BY 3
 void draw_A(float x, float y) {
     move_xy_with_lift(1.16 + 2.8*x, 18.16 - 2.8*y);
     lin_bez(1.16 + 2.8*x, 18.16 - 2.8*y, 1.864 + 2.8*x, 19.6 - 2.8*y);
