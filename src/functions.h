@@ -10,10 +10,14 @@ void move_xy(double x_coor, double y_coor);
 //Same but calling to move_with_lift at the end
 void move_xy_with_lift(double x_coor, double y_coor);
 
+bool within_bounds(double x_coor, double y_coor);
+
 //Function for linear bézier curve
 void lin_bez(double start_x, double start_y, double end_x, double end_y);
 //Function for cubic bézier curve
 void cub_bez(double start_x, double start_y, double cp1_x, double cp1_y, double cp2_x, double cp2_y, double end_x, double end_y);
+
+void draw_grid();
 
 //Functions for individual letters
 void draw_A(float x, float y);

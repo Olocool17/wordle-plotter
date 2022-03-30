@@ -10,7 +10,7 @@
 
 const int wordlist_count = sizeof(wordle_list) / sizeof(wordle_list[0]);
 
-void worlde(bool random)
+void wordle(bool random)
 {
     srand(time(NULL));
     if (random)
