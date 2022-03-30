@@ -67,22 +67,18 @@ void move_xy_with_lift(double x_coor, double y_coor) {
     move_with_lift(theta_1, theta_2);
 }
 
-bool within_bounds(double x_coor, double y_coor)
-{
-    if ((x_coor <  XMIN)|| (x_coor > XMAX) || (y_coor < YMIN) || (y_coor > YMAX))
-    {
+bool within_bounds(double x_coor, double y_coor) {
+    if ((x_coor <  XMIN)|| (x_coor > XMAX) || (y_coor < YMIN) || (y_coor > YMAX)) {
         return false;
     }
     return true;
 }
 
-void lin_bez(double start_x, double start_y, double end_x, double end_y) 
-{
+void lin_bez(double start_x, double start_y, double end_x, double end_y)  {
     if (!(within_bounds(start_x,start_y) && within_bounds(end_x,end_y))) return;
     float pathlength = sqrt(SQUARE(end_x - start_x) + SQUARE(end_y - start_y));
     int segments = ITERS * pathlength;
-    for(size_t t = 0; t <= segments ; t++) 
-    {
+    for(size_t t = 0; t <= segments ; t++) {
         double x_next = start_x + t*(end_x - start_x)/segments;
         double y_next = start_y + t*(end_y - start_y)/segments;
         _delay_ms(ITER_DELAY);
@@ -92,17 +88,8 @@ void lin_bez(double start_x, double start_y, double end_x, double end_y)
 
 void cub_bez(double start_x, double start_y, double cp1_x, double cp1_y, double cp2_x, double cp2_y, double end_x, double end_y) {
     _delay_ms(25);
-    if (!(start_x >= 0 && start_x <= 15 && start_y >= 0 && start_y <= 21)) {
-        assert(0); //OoB check for start
-    }
-    if (!(cp1_x >= 0 && cp1_x <= 15 && cp1_y >= 0 && cp1_y <= 21)) {
-        assert(0); //OoB check for first control point
-    }
-    if (!(cp2_x >= 0 && cp2_x <= 15 && cp2_y >= 0 && cp2_y <= 21)) {
-        assert(0); //OoB check for second control point
-    }
-    if (!(end_x >= 0 && end_x <= 15 && end_y >= 0 && end_y <= 21)) {
-        assert(0); //OoB check for end
+    if (!(within_bounds(start_x,start_y) && within_bounds(cp1_x, cp1_y) && within_bounds(cp2_x, cp2_y) && within_bounds(end_x, end_y))) {
+        assert(0);
     }
     int t = 0;
     while (t<50) {
