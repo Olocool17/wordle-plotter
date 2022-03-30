@@ -27,16 +27,16 @@
 #define CUBE(x) (x)*(x)*(x)
 
 void move(double theta_1, double theta_2) { 
-    servo1_dutymicros = theta_1/M_PI*1600 + 700;
-    servo2_dutymicros = theta_2/M_PI*1600 + 700;
+    servo1_dutymicros = theta_1/M_PI*1800 + 700;
+    servo2_dutymicros = theta_2/M_PI*1780 + 570;
 }
 
 void move_with_lift(double theta_1, double theta_2) {
     _delay_ms(150);
     //"lift pen"
     _delay_ms(150);
-    servo1_dutymicros = theta_1/M_PI*1600 + 700;
-    servo2_dutymicros = theta_2/M_PI*1600 + 700;
+    servo1_dutymicros = theta_1/M_PI*1800 + 700;
+    servo2_dutymicros = theta_2/M_PI*1780 + 570;
     _delay_ms(150);
     //"lower pen"
     _delay_ms(150);
