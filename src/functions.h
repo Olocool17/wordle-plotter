@@ -6,9 +6,9 @@ void move(double theta_1, double theta_2);
 void move_with_lift(double theta_1, double theta_2);
 
 //Inverse kinematics to find servo-angles
-void find_angles(double x_coor, double y_coor);
+void move_xy(double x_coor, double y_coor);
 //Same but calling to move_with_lift at the end
-void find_angles_with_lift(double x_coor, double y_coor);
+void move_xy_with_lift(double x_coor, double y_coor);
 
 //Function for linear bézier curve
 void lin_bez(double start_x, double start_y, double end_x, double end_y);
