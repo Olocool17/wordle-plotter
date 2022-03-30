@@ -28,7 +28,7 @@
 
 void move(double theta_1, double theta_2) { 
     servo1_dutymicros = ((M_PI/2)+theta_1)/M_PI*1600 + 700;
-    servo2_dutymicros = theta_2/M_PI*1600 + 700;
+    servo2_dutymicros = ((M_PI/2)+theta_1)/M_PI*1600 + 700;
 }
 
 void move_with_lift(double theta_1, double theta_2) {
