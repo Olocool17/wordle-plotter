@@ -1,7 +1,7 @@
 #ifndef WORLDELIST_LOADED
 #define WORLDELIST_LOADED
 #include <avr/pgmspace.h>
-const char* wordle_list[] PROGMEM =
+const char* const wordle_list[] PROGMEM =
 {
 "aback",
 "abase",
@@ -2321,5 +2321,5 @@ const char* wordle_list[] PROGMEM =
 "zebra",
 "zesty",
 "zonal",
-}
+};
 #endif

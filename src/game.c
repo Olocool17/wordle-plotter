@@ -13,22 +13,22 @@ const int wordlist_count = sizeof(wordle_list) / sizeof(wordle_list[0]);
 void worlde(bool random)
 {
     srand(time(NULL));
-    char* wordle_word = malloc(sizeof(char)*6);
     if (random)
     {
+        char* wordle_word = malloc(sizeof(char)*6);
         int rand_i = rand_range(wordlist_count);
-        wordle_word = wordle_list[rand_i];
+        strcpy(wordle_word, wordle_list[rand_i]);
     }
     else
     {
-        wordle_word = manual_word_select();
+        char* wordle_word = manual_word_select();
     }
 }
 
 char* manual_word_select()
 {
     char* word = word_select();
-    if(!word_in_list(word, wordle_list))
+    if(!word_in_list(word, (char**) wordle_list))
     {
         game_error_menu("word not found");
         return manual_word_select();
