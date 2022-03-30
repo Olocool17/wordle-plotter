@@ -10,4 +10,6 @@ bool word_in_list(char* word, char** list);
 
 int rand_range(int limit);
 
+void poging(int pogingnummer, char* attempt, char* secret_word);
+
 #endif
