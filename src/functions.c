@@ -12,7 +12,7 @@
 //The boundaries are those of an A5-sheet, being 15x21cm (rounded up)
 //For the individual letters, the following formulas apply:
 //value of x-position = (0.8 + 2*x_value/250) + 2.8*x
-//value of y-position = (15 + 2*y_value/250) - 2.8*y
+//value of y-position = (18 + 2*y_value/250) - 2.8*y
 //the variables x and y are the discrete coordinates of the tiles on the 5x6 wordle grid, with (0,0) being the tile in the TOP left corner!
 //the variables x_value and y_value are the x and y-values within an individual gridspace, both on a scale of 250 (each gridspace is 2cmx2cm in size)
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------
