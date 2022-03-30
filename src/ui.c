@@ -464,28 +464,28 @@ void manual_move_micros()
         else if (!(PINE & _BV(PE4)))
         {
             //Rotate servo 1 left
-            printStringToLCD("Servo 1, left ", 0, 0);
+            printStringToLCD("servo 1, left ", 0, 0);
             printIntToLCD(servo1_dutymicros, 1, 0);
             servo1_dutymicros -= 10;
         }
         else if (!(PINE & _BV(PE5)))
         {
         //Rotate servo 2 left
-            printStringToLCD("Servo 2, left ", 0, 0);
+            printStringToLCD("servo 2, left ", 0, 0);
             printIntToLCD(servo2_dutymicros , 1, 0);
             servo2_dutymicros -= 10;
         }    
         else if (!(PINE & _BV(PE6)))
         {
             //Rotate servo 1 right
-            printStringToLCD("Servo 1, right", 0, 0);
+            printStringToLCD("servo 1, right", 0, 0);
             printIntToLCD(servo1_dutymicros, 1, 0);
             servo1_dutymicros += 10;
         }    
         else if (!(PINE & _BV(PE7)))
         {
             //Rotate servo 2 right
-            printStringToLCD("Servo 2, right", 0, 0);
+            printStringToLCD("servo 2, right", 0, 0);
             printIntToLCD(servo2_dutymicros, 1, 0);
             servo2_dutymicros += 10;
         }
@@ -514,29 +514,37 @@ void manual_move_angles()
         else if (!(PINE & _BV(PE4)))
         {
             //Rotate servo 1 left
-            printStringToLCD("Servo 1, left ", 0, 0);
+            printStringToLCD("servo 1, left ", 0, 0);
             printIntToLCD(servo1_angle, 1, 0);
+            printStringToLCD("pwm:", 1, 3);
+            printIntToLCD(servo1_dutymicros, 1, 7);
             servo1_angle -= 1;
         }
         else if (!(PINE & _BV(PE5)))
         {
         //Rotate servo 2 left
-            printStringToLCD("Servo 2, left ", 0, 0);
+            printStringToLCD("servo 2, left ", 0, 0);
             printIntToLCD(servo2_angle , 1, 0);
+            printStringToLCD("pwm:", 1, 3);
+            printIntToLCD(servo2_dutymicros, 1, 7);
             servo2_angle -= 1;
         }    
         else if (!(PINE & _BV(PE6)))
         {
             //Rotate servo 1 right
-            printStringToLCD("Servo 1, right", 0, 0);
+            printStringToLCD("servo 1, right", 0, 0);
             printIntToLCD(servo1_angle, 1, 0);
+            printStringToLCD("pwm:", 1, 3);
+            printIntToLCD(servo1_dutymicros, 1, 7);
             servo1_angle += 1;
         }    
         else if (!(PINE & _BV(PE7)))
         {
             //Rotate servo 2 right
-            printStringToLCD("Servo 2, right", 0, 0);
+            printStringToLCD("servo 2, right", 0, 0);
             printIntToLCD(servo2_angle, 1, 0);
+            printStringToLCD("pwm:", 1, 3);
+            printIntToLCD(servo2_dutymicros, 1, 7);
             servo2_angle += 1;
         }
         else
