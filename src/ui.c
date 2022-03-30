@@ -503,9 +503,10 @@ void manual_move_angles()
     servos_enable();
     int servo1_angle = 90;
     int servo2_angle = 90;
+    printStringToLCD("manual control:",0,0);
+    printStringToLCD("angles", 1, 0);
     while(1){
         _delay_ms(100);
-        clearLCD();
         if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
         {
             servos_disable();
@@ -514,47 +515,47 @@ void manual_move_angles()
         else if (!(PINE & _BV(PE4)))
         {
             //Rotate servo 1 left
+            clearLCD();
             printStringToLCD("servo 1, left ", 0, 0);
             printIntToLCD(servo1_angle, 1, 0);
-            printStringToLCD("pwm:", 1, 3);
-            printIntToLCD(servo1_dutymicros, 1, 7);
+            printStringToLCD("pwm:", 1, 4);
+            printIntToLCD(servo1_dutymicros, 1, 8);
             servo1_angle -= 1;
         }
         else if (!(PINE & _BV(PE5)))
         {
-        //Rotate servo 2 left
+            //Rotate servo 2 left
+            clearLCD();
             printStringToLCD("servo 2, left ", 0, 0);
             printIntToLCD(servo2_angle , 1, 0);
-            printStringToLCD("pwm:", 1, 3);
-            printIntToLCD(servo2_dutymicros, 1, 7);
+            printStringToLCD("pwm:", 1, 4);
+            printIntToLCD(servo2_dutymicros, 1, 8);
             servo2_angle -= 1;
         }    
         else if (!(PINE & _BV(PE6)))
         {
             //Rotate servo 1 right
+            clearLCD();
             printStringToLCD("servo 1, right", 0, 0);
             printIntToLCD(servo1_angle, 1, 0);
-            printStringToLCD("pwm:", 1, 3);
-            printIntToLCD(servo1_dutymicros, 1, 7);
+            printStringToLCD("pwm:", 1, 4);
+            printIntToLCD(servo1_dutymicros, 1, 8);
             servo1_angle += 1;
         }    
         else if (!(PINE & _BV(PE7)))
         {
             //Rotate servo 2 right
+            clearLCD();
             printStringToLCD("servo 2, right", 0, 0);
             printIntToLCD(servo2_angle, 1, 0);
-            printStringToLCD("pwm:", 1, 3);
-            printIntToLCD(servo2_dutymicros, 1, 7);
+            printStringToLCD("pwm:", 1, 4);
+            printIntToLCD(servo2_dutymicros, 1, 8);
             servo2_angle += 1;
-        }
-        else
-        {
-            printStringToLCD("manual control:",0,0);
-            printStringToLCD("angles", 1, 0);
         }
         move((double)servo1_angle * M_PI / 180, (double)servo2_angle * M_PI / 180);
     }
 }
+
 void manual_move_xy()
 { 
     clock_setup();
