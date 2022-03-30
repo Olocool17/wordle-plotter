@@ -49,8 +49,13 @@ menu* wordle_menu();
 //Returns the primitives menu
 menu* primitives_menu();
 
+//Returns the manual move menu
+menu* manual_move_menu();
+
 //Returns the error menu with the appropriate reason
 menu* error_menu(char* reason);
+
+menu* game_error_menu(char* reason);
 
 menu* game_info_menu(char* message);
 
@@ -58,7 +63,9 @@ void letter_select();
 
 char* word_select();
 
-void manual_move();
+void manual_move_angles();
+
+void manual_move_micros();
 
 void drawing();
 #endif

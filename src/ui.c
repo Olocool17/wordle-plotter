@@ -200,7 +200,14 @@ menu* menu_handler(menu* dmenu, int id)
         return main_menu();   
         break;
     case 30:
-        manual_move();
+        return manual_move_menu();
+        break;
+    case 32:
+        manual_move_angles();
+        return main_menu();
+        break;
+    case 33:
+        manual_move_micros();
         return main_menu();
         break;
     default:
@@ -255,6 +262,21 @@ menu* primitives_menu()
     primitivesmenu->items[3].name = "letter";
     primitivesmenu->items[3].id = 24;
     return primitivesmenu;
+}
+
+menu* manual_move_menu()
+{
+    menu* manualmenu = malloc(sizeof(menu));
+    manualmenu->selected = 0;
+    manualmenu->scroll = 0;
+    manualmenu->item_count = 3;
+    manualmenu->items[0].name = "xy";
+    manualmenu->items[0].id = 31;
+    manualmenu->items[1].name = "angles";
+    manualmenu->items[1].id = 32;
+    manualmenu->items[2].name = "pwm micros";
+    manualmenu->items[2].id = 33;
+    return manualmenu;
 }
 
 menu* welcome_menu(char* version)
@@ -355,7 +377,12 @@ void letter_select()
 
 char* word_select()
 {
-    char word[5] = "AAAAA";
+    char* word = malloc(sizeof(char)*6);
+    for (size_t i = 0; i < 5; i++)
+    {
+        word[i] = 'A';
+    }
+    word[5] = '\0';
     int selection = 0;
     bool exit = false;
     while(1)
@@ -417,14 +444,15 @@ char* word_select()
     return word;
 }
 
-void manual_move()
+void manual_move_micros()
 { 
     clock_setup();
     servos_enable();
     while(1){
         _delay_ms(100);
         clearLCD();
-        printStringToLCD("MANUAL CONTROL",0,0);
+        printStringToLCD("manual control:",0,0);
+        printStringToLCD("pwm micros", 1, 0);
         if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
         {
             servos_disable();
@@ -458,6 +486,54 @@ void manual_move()
             printIntToLCD(servo2_dutymicros, 1, 0);
             servo2_dutymicros += 10;
         }
+    }
+}
+
+void manual_move_angles()
+{ 
+    clock_setup();
+    servos_enable();
+    double servo1_angle = 0;
+    double servo2_angle = 0;
+    while(1){
+        _delay_ms(100);
+        clearLCD();
+        printStringToLCD("manual control:",0,0);
+        printStringToLCD("angles", 1, 0);
+        if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
+        {
+            servos_disable();
+            return;
+        }
+        if (!(PINE & _BV(PE4)))
+        {
+            //Rotate servo 1 left
+            printStringToLCD("Servo 1, left ", 0, 0);
+            //printIntToLCD(servo1_angle, 1, 0);
+            servo1_angle -= 0.1;
+        }
+        if (!(PINE & _BV(PE5)))
+        {
+        //Rotate servo 2 left
+            printStringToLCD("Servo 2, left ", 0, 0);
+            //printIntToLCD(servo2_angle , 1, 0);
+            servo2_angle -= 0.1;
+        }    
+        if (!(PINE & _BV(PE6)))
+        {
+            //Rotate servo 1 right
+            printStringToLCD("Servo 1, right", 0, 0);
+            //printIntToLCD(servo1_angle, 1, 0);
+            servo1_angle += 0.1;
+        }    
+        if (!(PINE & _BV(PE7)))
+        {
+            //Rotate servo 2 right
+            printStringToLCD("Servo 2, right", 0, 0);
+            //printIntToLCD(servo2_angle, 1, 0);
+            servo2_angle += 0.1;
+        }
+        move(servo1_angle, servo2_angle);
     }
 }
 void drawing()
