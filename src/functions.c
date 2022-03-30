@@ -32,7 +32,7 @@
 //Iterations per cm
 
 #define ITERS 3
-#define ITER_DELAY 15
+#define ITER_DELAY 60
 
 //Macro's for x² and x³
 #define SQUARE(x) (x)*(x)
@@ -120,12 +120,12 @@ void draw_grid()
 {
     for (size_t i = XMIN; i < XMAX; i++) 
     {
-        move_with_lift(i, YMIN);
+        move_xy_with_lift(i, YMIN);
         lin_bez(i, YMIN, i, YMAX);
     }
     for (size_t i = YMIN; i < YMAX; i++)
     {
-        move_with_lift(XMIN, i);
+        move_xy_with_lift(XMIN, i);
         lin_bez(XMIN, i, XMAX, i);
     }
     
