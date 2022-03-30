@@ -286,13 +286,17 @@ void draw_Z(float x, float y) {
 }
 
 void draw_black(float x, float y) {
+    move_xy_with_lift(1.68 + 2.8*x, 17.48 - 2.8*y);
     lin_bez(1.68 + 2.8*x, 17.48 - 2.8*y, 2.0 + 2.8*x, 17.16 - 2.8*y);
+    move_xy_with_lift(1.68 + 2.8*x, 17.16 - 2.8*y);
     lin_bez(1.68 + 2.8*x, 17.16 - 2.8*y, 2.0 + 2.8*x, 17.48 - 2.8*y);
 }
 void draw_yellow(float x, float y) {
+    move_xy_with_lift(1.504 + 2.8*x, 17.28 - 2.8*y);
     cub_bez(1.504 + 2.8*x, 17.28 - 2.8*y, 1.776 + 2.8*x, 17.64 - 2.8*y, 1.776 + 2.8*x, 16.92 - 2.8*y, 2.088 + 2.8*x, 17.376 - 2.8*y);
 }
 void draw_green(float x, float y) {
+    move_xy_with_lift(.68 + 2.8*x, 17.48 - 2.8*y);
     lin_bez(1.68 + 2.8*x, 17.48 - 2.8*y, 1.84 + 2.8*x, 17.16 - 2.8*y);
     lin_bez(1.84 + 2.8*x, 17.16 - 2.8*y, 2.0 + 2.8*x, 17.48 - 2.8*y);
 }
