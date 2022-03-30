@@ -498,8 +498,8 @@ void manual_move_angles()
 { 
     clock_setup();
     servos_enable();
-    double servo1_angle = 0;
-    double servo2_angle = 0;
+    int servo1_angle = 90;
+    int servo2_angle = 90;
     while(1){
         _delay_ms(100);
         clearLCD();
@@ -514,31 +514,31 @@ void manual_move_angles()
         {
             //Rotate servo 1 left
             printStringToLCD("Servo 1, left ", 0, 0);
-            //printIntToLCD(servo1_angle, 1, 0);
-            servo1_angle -= 0.1;
+            printIntToLCD(servo1_angle, 1, 0);
+            servo1_angle -= 1;
         }
         if (!(PINE & _BV(PE5)))
         {
         //Rotate servo 2 left
             printStringToLCD("Servo 2, left ", 0, 0);
             //printIntToLCD(servo2_angle , 1, 0);
-            servo2_angle -= 0.1;
+            servo2_angle -= 1;
         }    
         if (!(PINE & _BV(PE6)))
         {
             //Rotate servo 1 right
             printStringToLCD("Servo 1, right", 0, 0);
             //printIntToLCD(servo1_angle, 1, 0);
-            servo1_angle += 0.1;
+            servo1_angle += 1;
         }    
         if (!(PINE & _BV(PE7)))
         {
             //Rotate servo 2 right
             printStringToLCD("Servo 2, right", 0, 0);
             //printIntToLCD(servo2_angle, 1, 0);
-            servo2_angle += 0.1;
+            servo2_angle += 1;
         }
-        move(servo1_angle, servo2_angle);
+        move((double)servo1_angle * M_PI / 180, (double)servo2_angle * M_PI / 180);
     }
 }
 void manual_move_xy()
