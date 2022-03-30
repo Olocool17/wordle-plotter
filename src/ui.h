@@ -63,6 +63,8 @@ void letter_select();
 
 char* word_select();
 
+void manual_move_xy();
+
 void manual_move_angles();
 
 void manual_move_micros();

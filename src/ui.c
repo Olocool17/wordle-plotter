@@ -182,7 +182,8 @@ menu* menu_handler(menu* dmenu, int id)
     case 20:
         return primitives_menu();
     case 21:
-        //draw grid
+        drawing();
+        draw_grid();
         return main_menu();
         break;
      case 22:
@@ -201,6 +202,10 @@ menu* menu_handler(menu* dmenu, int id)
         break;
     case 30:
         return manual_move_menu();
+        break;
+    case 31:
+        manual_move_xy();
+        return main_menu();
         break;
     case 32:
         manual_move_angles();
@@ -536,6 +541,54 @@ void manual_move_angles()
         move(servo1_angle, servo2_angle);
     }
 }
+void manual_move_xy()
+{ 
+    clock_setup();
+    servos_enable();
+    double x = 5;
+    double y = 5;
+    while(1){
+        _delay_ms(100);
+        clearLCD();
+        printStringToLCD("manual control:",0,0);
+        printStringToLCD("xy", 1, 0);
+        if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
+        {
+            servos_disable();
+            return;
+        }
+        if (!(PINE & _BV(PE4)))
+        {
+            //Rotate servo 1 left
+            printStringToLCD("x, left ", 1, 0);
+            printIntToLCD((int)x, 1, 10);
+            x -= 0.1;
+        }
+        if (!(PINE & _BV(PE5)))
+        {
+        //Rotate servo 2 left
+            printStringToLCD("y, down ", 1, 0);
+            printIntToLCD((int)y , 1, 10);
+            y-= 0.1;
+        }    
+        if (!(PINE & _BV(PE6)))
+        {
+            //Rotate servo 1 right
+            printStringToLCD("x, right", 1, 0);
+            printIntToLCD((int)x, 1, 10);
+            x += 0.1;
+        }    
+        if (!(PINE & _BV(PE7)))
+        {
+            //Rotate servo 2 right
+            printStringToLCD("y, up", 1, 0);
+            printIntToLCD((int)y, 1, 10);
+            y += 0.1;
+        }
+        move_xy(x, y);
+    }
+}
+
 void drawing()
 {
         servos_enable();
