@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
 
 #include "dwenguinoLCD.h"
 

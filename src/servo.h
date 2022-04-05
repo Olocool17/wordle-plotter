@@ -1,6 +1,8 @@
 #ifndef SERVO_LOADED
 #define SERVO_LOADED
 
+//Handles the servo initialisation and the accompanying PWM signals.
+
 //Servo 1's duty cycle in microseconds
 volatile int servo1_dutymicros;
 //Servo 2's duty cycle in microseconds

@@ -3,6 +3,8 @@
 #ifndef UI_LOADED
 #define UI_LOADED
 
+//Handles the display, the UI and most of the user-facing logic
+
 typedef struct menu_item
 {
     /*

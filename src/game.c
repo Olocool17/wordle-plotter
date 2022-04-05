@@ -69,61 +69,7 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
     int positie = 0;
     while (positie < 5) 
     {
-        switch(attempt_copy[positie]) 
-        {
-            case 'A':
-                draw_A(positie, attempt_number - 1);
-            case 'B':
-                draw_B(positie, attempt_number - 1);
-            case 'C':
-                draw_C(positie, attempt_number - 1);
-            case 'D':
-                draw_D(positie, attempt_number - 1);
-            case 'E':
-                draw_E(positie, attempt_number - 1);
-            case 'F':
-                draw_F(positie, attempt_number - 1);
-            case 'G':
-                draw_G(positie, attempt_number - 1);
-            case 'H':
-                draw_H(positie, attempt_number - 1);
-            case 'I':
-                draw_I(positie, attempt_number - 1);
-            case 'J':
-                draw_J(positie, attempt_number - 1);
-            case 'K':
-                draw_K(positie, attempt_number - 1);
-            case 'L':
-                draw_L(positie, attempt_number - 1);
-            case 'M':
-                draw_M(positie, attempt_number - 1);
-            case 'N':
-                draw_N(positie, attempt_number - 1);
-            case 'O':
-                draw_O(positie, attempt_number - 1);
-            case 'P':
-                draw_P(positie, attempt_number - 1);
-            case 'Q':
-                draw_Q(positie, attempt_number - 1);
-            case 'R':
-                draw_R(positie, attempt_number - 1);
-            case 'S':
-                draw_S(positie, attempt_number - 1);
-            case 'T':
-                draw_T(positie, attempt_number - 1);
-            case 'U':
-                draw_U(positie, attempt_number - 1);
-            case 'V':
-                draw_V(positie, attempt_number - 1);
-            case 'W':
-                draw_W(positie, attempt_number - 1);
-            case 'X':
-                draw_X(positie, attempt_number - 1);
-            case 'Y':
-                draw_Y(positie, attempt_number - 1);
-            case 'Z':
-                draw_Z(positie, attempt_number - 1);
-        }
+        draw_letter(attempt_copy[positie], positie, attempt_number - 1);
         if (attempt_copy[positie] == secret_word_copy[positie]) 
         {
             draw_green(positie, attempt_number - 1);
