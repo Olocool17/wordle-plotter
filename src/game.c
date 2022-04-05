@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <wordlelist.h>
 
+#include <wordlelist.h>
 #include <functions.h>
 #include <game.h>
 #include <ui.h>
@@ -53,8 +53,11 @@ void poging(int pogingnummer, char* attempt, char* secret_word) {
     char* secret_word_copy = malloc(sizeof(char)*6);
     strcpy(secret_word_copy, secret_word);
     //First iteration: draws the letters on the grid and directly checks for matching letters and draws "green tiles" if the characters match.
-    for (size_t positie = 0; positie < 5; positie++) {
-        switch(attempt_copy[positie]) {
+    int positie = 0;
+    while (positie < 5) 
+    {
+        switch(attempt_copy[positie]) 
+        {
             case 'A':
                 draw_A(positie, pogingnummer - 1);
             case 'B':
@@ -108,7 +111,8 @@ void poging(int pogingnummer, char* attempt, char* secret_word) {
             case 'Z':
                 draw_Z(positie, pogingnummer - 1);
         }
-        if (attempt_copy[positie] == secret_word_copy[positie]) {
+        if (attempt_copy[positie] == secret_word_copy[positie]) 
+        {
             draw_green(positie, pogingnummer - 1);
             attempt_copy[positie] = '0';
             secret_word_copy[positie] = '0';

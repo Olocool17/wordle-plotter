@@ -503,10 +503,12 @@ void manual_move_angles()
     servos_enable();
     int servo1_angle = 90;
     int servo2_angle = 90;
+    clearLCD();
     printStringToLCD("manual control:",0,0);
     printStringToLCD("angles", 1, 0);
     while(1){
         _delay_ms(100);
+        move((double)servo1_angle * M_PI / 180, (double)servo2_angle * M_PI / 180);
         if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
         {
             servos_disable();
@@ -552,7 +554,6 @@ void manual_move_angles()
             printIntToLCD(servo2_dutymicros, 1, 8);
             servo2_angle += 1;
         }
-        move((double)servo1_angle * M_PI / 180, (double)servo2_angle * M_PI / 180);
     }
 }
 
