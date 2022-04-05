@@ -1,15 +1,40 @@
 #ifndef UI_LOADED
 #define UI_LOADED
 
-typedef struct menu_item{
+typedef struct menu_item
+{
+    /*
+        The name of the menu item.
+    */
     char* name;
+    /*
+        The menu item's ID corresponding to a specific menu.
+    */
     int id;
 } menu_item;
 
-typedef struct menu{
-    int selected; 
+/*
+    @brief Menu containing menu items, the current scroll state and the current selection state.
+*/
+typedef struct menu
+{
+    /*
+        Determines the selected menu item. 
+        If -1, the menu will always return to the main menu. 
+        If -2, the menu is for transient use, and is not to be used in the UI loop.
+    */
+    int selected;
+    /*
+        Determines the current scroll state of the menu.
+    */
     int scroll;
+    /*
+        The amount of items in the menu.
+    */
     int item_count;
+    /*
+        The array of menu items.
+    */
     menu_item items[];
 } menu;
 
@@ -23,51 +48,113 @@ bool south_button;
 bool east_button;
 bool north_button ;
 
-//Initialises the buttons
+/*
+    @brief Initialises the button pins and their associated interrupts.
+*/
 void initialise_buttons();
 
-//Calls the button logic: this should be put before the delay in your UI while loop
+/*
+    @brief Manages the button logic, adding a certain debounce to the button presses. Best called at the start of a UI loop.
+*/
 void button_logic();
 
-//Initialises the UI, LCD and buttons/interrupts
+/*
+    @brief Starts the LCD and nitialises the UI loop.
+    @param version The program version to be displayed at the welcome screen
+*/
 void initialise_ui(char* version);
 
-//Enters the display loop of a menu, also handles buttons
-void display_menu(menu* menu);
+/*
+    @brief UI loop where menus are sequentially assigned, displayed and discarded.
+*/
+void ui_loop(menu* first_menu);
 
-//Returns the menu that corresponds to the ID and frees the previous menu from memory
+/*
+    @brief Displays a given menu until a next menu has been selected.
+    @param menu The menu to be displayed
+    @param next_id The next menu id to be passed to the menu handler and then displayed by the UI loop
+*/
+void display_menu(menu* menu, int* next_id);
+
+/*
+    @brief Frees the current menu in memory and then returns the appropriate menu corresponding to the id.
+    @param dmenu The current menu that was displayed
+    @param id The menu id of which the corresponding menu is returned
+*/
 menu* menu_handler(menu* dmenu, int id);
-//Returns the main menu
+
+/*
+    @brief Creates and returns the main menu.
+*/
 menu* main_menu();
 
-//Returns the welcome menu with the appropriate version
+/*
+    @brief Creates and returns the welcome menu.
+    @param version The version to be displayed.
+*/
 menu* welcome_menu(char* version);
 
-//Returns the wordle menu
+/*
+    @brief Creates and returns the wordle menu.
+*/
 menu* wordle_menu();
 
-//Returns the primitives menu
+/*
+    @brief Creates and returns the primitives menu.
+*/
 menu* primitives_menu();
 
-//Returns the manual move menu
+/*
+    @brief Creates and returns the manual movement menu.
+*/
 menu* manual_move_menu();
 
-//Returns the error menu with the appropriate reason
+/*
+    @brief Creates and returns an error menu.
+    @param reason Reason for the error
+*/
 menu* error_menu(char* reason);
 
+/*
+    @brief Creates and returns a game error menu.
+    @param reason The reason for the error
+*/
 menu* game_error_menu(char* reason);
 
+/*
+    @brief Creates and returns a game info menu.
+    @param message The message to be displayed
+*/
 menu* game_info_menu(char* message);
 
+/*
+    @brief Displays a menu allowing the selection of a letter, then draws that letter.
+*/
 void letter_select();
 
+/*
+    @brief Displays a menu allowing the selection of a word.
+    @return The word that was selected. Must be freed after use!
+*/
 char* word_select();
 
+/*
+    @brief Displays a menu allowing the manual movement according to the x and y axes.
+*/
 void manual_move_xy();
 
+/*
+    @brief Displays a menu allowing the manual movement according to the servo angles.
+*/
 void manual_move_angles();
 
+/*
+    @brief Displays a menu allowing the selection of a letter, then draws that letter.
+*/
 void manual_move_micros();
 
+/*
+    @brief Enables servos and displays a transient 'Drawing...' message.
+*/
 void drawing();
 #endif

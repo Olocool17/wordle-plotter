@@ -81,14 +81,24 @@ void button_logic()
 
 void initialise_ui(char* version)
 {
-    clock_setup();
     initLCD();
     clearLCD();
     backlightOn();
-    display_menu(welcome_menu(version));
+    ui_loop(welcome_menu(version));
 }
 
-void display_menu(menu* dmenu)
+void ui_loop(menu* firstmenu)
+{
+    menu* current_menu = firstmenu;
+    while(1)
+    {
+        int next_id = -1;
+        display_menu(current_menu, &next_id);
+        current_menu = menu_handler(current_menu, next_id);
+    }
+}
+
+void display_menu(menu* dmenu, int* next_id)
 {   
     if(dmenu == NULL){
         dmenu = error_menu("Menu is NULL");
@@ -152,11 +162,11 @@ void display_menu(menu* dmenu)
     }
     else if ((dmenu->selected == -1) | back)
     {
-        display_menu(menu_handler(dmenu, 0));
+        *next_id = 0;
     }
     else
     {
-        display_menu(menu_handler(dmenu, dmenu->items[dmenu->selected].id));
+        *next_id = dmenu->items[dmenu->selected].id;
     }
 }
 
@@ -451,7 +461,6 @@ char* word_select()
 
 void manual_move_micros()
 { 
-    clock_setup();
     servos_enable();
     while(1){
         _delay_ms(100);
@@ -499,7 +508,6 @@ void manual_move_micros()
 
 void manual_move_angles()
 { 
-    clock_setup();
     servos_enable();
     int servo1_angle = 90;
     int servo2_angle = 90;
@@ -559,7 +567,6 @@ void manual_move_angles()
 
 void manual_move_xy()
 { 
-    clock_setup();
     servos_enable();
     double x = 5;
     double y = 5;

@@ -1,5 +1,4 @@
 #include "dwenguinoBoard.h"
-#include "dwenguinoLCD.h"
 
 #include <ui.h>
 #include <servo.h>
@@ -11,10 +10,7 @@
 int main(void)
 {
   initialise_buttons();
-  initLCD();
-  clearLCD();
-  backlightOn();
+  clock_setup();
   initialise_ui(VERSION);
-  //manual_move();
   return 0;
 }
