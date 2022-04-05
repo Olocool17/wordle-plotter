@@ -1,5 +1,5 @@
 #include <stdbool.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include <math.h>
 #include <assert.h>
 
@@ -114,6 +114,93 @@ void draw_grid()
         lin_bez(XMIN, i, XMAX, i);
     }
     
+}
+
+void draw_letter(char letter, float x, float y)
+{
+    switch(letter) 
+    {
+        case 'A':
+            draw_A(x, y - 1);
+            break;
+        case 'B':
+            draw_B(x, y - 1);
+            break;
+        case 'C':
+            draw_C(x, y - 1);
+            break;
+        case 'D':
+            draw_D(x, y - 1);
+            break;
+        case 'E':
+            draw_E(x, y - 1);
+            break;
+        case 'F':
+            draw_F(x, y - 1);
+            break;
+        case 'G':
+            draw_G(x, y - 1);
+            break;
+        case 'H':
+            draw_H(x, y - 1);
+            break;
+        case 'I':
+            draw_I(x, y - 1);
+            break;
+        case 'J':
+            draw_J(x, y - 1);
+            break;
+        case 'K':
+            draw_K(x, y - 1);
+            break;
+        case 'L':
+            draw_L(x, y - 1);
+            break;
+        case 'M':
+            draw_M(x, y - 1);
+            break;
+        case 'N':
+            draw_N(x, y - 1);
+            break;
+        case 'O':
+            draw_O(x, y - 1);
+            break;
+        case 'P':
+            draw_P(x, y - 1);
+            break;
+        case 'Q':
+            draw_Q(x, y - 1);
+            break;
+        case 'R':
+            draw_R(x, y - 1);
+            break;
+        case 'S':
+            draw_S(x, y - 1);
+            break;
+        case 'T':
+            draw_T(x, y - 1);
+            break;
+        case 'U':
+            draw_U(x, y - 1);
+            break;
+        case 'V':
+            draw_V(x, y - 1);
+            break;
+        case 'W':
+            draw_W(x, y - 1);
+            break;
+        case 'X':
+            draw_X(x, y - 1);
+            break;
+        case 'Y':
+            draw_Y(x, y - 1);
+            break;
+        case 'Z':
+            draw_Z(x, y - 1);
+            break;
+        default:
+        return;
+    }
 }
 
 void draw_A(float x, float y) 

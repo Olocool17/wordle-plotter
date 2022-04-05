@@ -1,6 +1,8 @@
 #ifndef FUNCTIONS_LOADED
 #define FUNCTIONS_LOADED
 
+//Handles the drawing logic, inverse kinematics and shape functions.
+
 /*
     @brief Moves the arms to the corresponding angles.
     @param theta_1 The target angle for servo 1
@@ -59,7 +61,16 @@ void cub_bez(float start_x, float start_y, float cp1_x, float cp1_y, float cp2_x
 */
 void draw_grid();
 
+/*
+    @brief Draws the given letter at the given coordinates (lower left corner of the letter's 'box')
+    @param letter The letter to be drawn
+    @param x The x-coordinate for the origin of the letter
+    @param y The y-coordinate for the origin of the letter
+*/
+void draw_letter(char letter, float x, float y);
+
 //Functions for individual letters
+
 /*
     @brief Draws the letter A at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
