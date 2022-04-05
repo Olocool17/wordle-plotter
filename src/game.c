@@ -136,7 +136,7 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
     //instance of this letter in the attempt. This correctly works out for duplicates from both sides :).
     for (size_t i = 0; i < 5; i++) 
     {
-        if (strstr(secret_word_copy, attempt_copy[i])!=NULL && attempt_copy[i]!='0') {
+        if (strchr(secret_word_copy, attempt_copy[i])!=NULL && attempt_copy[i]!='0') {
             draw_yellow(i, attempt_number - 1);
             //Iteration to find the first instance of the letter appearing in the secret word without already being marked as a "green tile".
             int p = 0;
