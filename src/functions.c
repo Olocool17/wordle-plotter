@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <avr/delay.h>
 #include <math.h>
 #include <assert.h>
 
@@ -23,13 +24,15 @@
 
 //Bounds of the board
 
-#define XMIN 0
-#define YMIN 3
-#define XMAX 14
-#define YMAX 21
+#define XMIN (0)
+#define YMIN (3)
+#define XMAX (14)
+#define YMAX (21)
 
-#define ITERS 3 //Amount of subdivisions for each cm of a curve
-#define ITER_DELAY 60 //Time in miliseconds for the pen to trace each such subdivision
+#define ARM_LENGTH (13.8) //Length of each servo arm
+
+#define ITERS (3) //Amount of subdivisions for each cm of a curve
+#define ITER_DELAY (60) //Time in miliseconds for the pen to trace each such subdivision
 
 //Macro's for x² and x³
 #define SQUARE(x) ((x)*(x))
@@ -44,8 +47,8 @@ void move(float theta_1, float theta_2)
 void move_xy(float x_coor, float y_coor) 
 { 
     float r = sqrt(SQUARE(x_coor) + SQUARE(y_coor));
-    float theta_2 = M_PI - 2*asin(r / (13.8*2));
-    float theta_1 = M_PI - asin(y_coor / r) - acos(r / (13.8 * 2));
+    float theta_2 = M_PI - 2*asin(r / (ARM_LENGTH * 2));
+    float theta_1 = M_PI - asin(y_coor / r) - acos(r / (ARM_LENGTH* 2));
     move(theta_1, theta_2);
 }
 
@@ -85,10 +88,7 @@ void lin_bez(float start_x, float start_y, float end_x, float end_y)
 
 void cub_bez(float start_x, float start_y, float cp1_x, float cp1_y, float cp2_x, float cp2_y, float end_x, float end_y) {
     _delay_ms(25);
-    if (!((within_bounds(start_x,start_y) && within_bounds(cp1_x, cp1_y) && within_bounds(cp2_x, cp2_y) && within_bounds(end_x, end_y)))) 
-    {
-        assert(0);
-    }
+    if (!((within_bounds(start_x,start_y) && within_bounds(cp1_x, cp1_y) && within_bounds(cp2_x, cp2_y) && within_bounds(end_x, end_y)))) return;
     int t = 0;
     while (t<50) 
     {

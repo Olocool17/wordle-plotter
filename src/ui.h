@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #ifndef UI_LOADED
 #define UI_LOADED
 

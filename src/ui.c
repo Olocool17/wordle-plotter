@@ -516,7 +516,7 @@ void manual_move_angles()
     printStringToLCD("angles", 1, 0);
     while(1){
         _delay_ms(100);
-        move((double)servo1_angle * M_PI / 180, (double)servo2_angle * M_PI / 180);
+        move((float)servo1_angle * M_PI / 180, (float)servo2_angle * M_PI / 180);
         if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
         {
             servos_disable();
