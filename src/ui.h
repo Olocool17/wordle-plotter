@@ -127,9 +127,10 @@ menu* game_error_menu(char* reason);
 
 /*
     @brief Creates and returns a game info menu.
-    @param message The message to be displayed
+    @param message1 The message on the first line
+    @param message2 The message on the second line
 */
-menu* game_info_menu(char* message);
+menu* game_info_menu(char* message1, char* message2);
 
 /*
     @brief Displays a menu allowing the selection of a letter, then draws that letter.

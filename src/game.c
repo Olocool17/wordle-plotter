@@ -18,18 +18,48 @@ void wordle(bool random)
         int rand_i = rand_range(wordlist_count);
         strcpy(wordle_word, wordle_list[rand_i]);
     }
-    else {
+    else 
+    {
         free(wordle_word);
         char* wordle_word = manual_word_select();
+        if ((strcmp(wordle_word, "00000") == 0))
+        {
+            display_menu(game_info_menu("exiting game...", ""), NULL);
+            return;
+        }
     }
-    //play the game
+    bool game_won = false;
+    for(size_t attempt_count = 0; (attempt_count < 5) && (!game_won); attempt_count++)
+    {
+        char* attempt_word = manual_word_select();
+        if ((strcmp(attempt_word, "00000") == 0))
+        {
+            display_menu(game_info_menu("exiting game...", ""), NULL);
+            free(wordle_word);
+            return;
+        }
+        attempt(attempt_count, attempt_word, wordle_word);
+        if(attempt_word == wordle_word)
+        {
+            game_won = true;
+        }
+        free(attempt_word);
+    }
+    if (game_won)
+    {
+        display_menu(game_info_menu("victory", wordle_word), NULL);
+    }
+    else
+    {
+        display_menu(game_info_menu("defeat", wordle_word), NULL);      
+    }
     free(wordle_word);
 }
 
 char* manual_word_select() 
 {
     char* word = word_select();
-    if(!word_in_list(word, (char**) wordle_list)) 
+    if((strcmp(word, "00000") == 0)  && (!word_in_list(word, (char**) wordle_list))  ) 
     {
         game_error_menu("word not found");
         return manual_word_select();

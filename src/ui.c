@@ -163,11 +163,11 @@ void display_menu(menu* dmenu, int* next_id)
     }
     else if ((dmenu->selected == -1) | back)
     {
-        *next_id = 0;
+        if (next_id != NULL) *next_id = 0;
     }
     else
     {
-        *next_id = dmenu->items[dmenu->selected].id;
+        if (next_id != NULL) *next_id = dmenu->items[dmenu->selected].id;
     }
 }
 
@@ -183,11 +183,11 @@ menu* menu_handler(menu* dmenu, int id)
         return wordle_menu();
         break;
     case 11:
-        //wordle(false);
+        wordle(false);
         return main_menu();
         break;
     case 12:
-        //wordle(true);
+        wordle(true);
         return main_menu();
         break;
     case 20:
@@ -334,14 +334,16 @@ menu* game_error_menu(char* reason)
     return error;
 }
 
-menu* game_info_menu(char* message)
+menu* game_info_menu(char* message1, char* message2)
 {
     menu* info = malloc(sizeof(menu));
     info->selected = -2;
     info-> scroll = 0;
-    info->item_count = 1;
-    info->items[0].name = message;
+    info->item_count = 2;
+    info->items[0].name = message1;
     info->items[0].id = 0;
+    info->items[1].name = message2;
+    info->items[1].id = 0;
     return info;
 }
 
@@ -456,7 +458,11 @@ char* word_select()
         printStringToLCD("   go",0,11);
         printCharToLCD('^',1,6 + selection);
     }
-    if (exit) return "00000";
+    if (exit)
+    {
+        free(word);
+        return "00000";
+    } 
     return word;
 }
 
