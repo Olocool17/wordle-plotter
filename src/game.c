@@ -57,56 +57,82 @@ void poging(int pogingnummer, char* attempt, char* secret_word) {
         switch(attempt_copy[positie]) {
             case 'A':
                 draw_A(positie, pogingnummer - 1);
+                break;
             case 'B':
                 draw_B(positie, pogingnummer - 1);
+                break;
             case 'C':
                 draw_C(positie, pogingnummer - 1);
+                break;
             case 'D':
                 draw_D(positie, pogingnummer - 1);
+                break;
             case 'E':
                 draw_E(positie, pogingnummer - 1);
+                break;
             case 'F':
                 draw_F(positie, pogingnummer - 1);
+                break;
             case 'G':
                 draw_G(positie, pogingnummer - 1);
+                break;
             case 'H':
                 draw_H(positie, pogingnummer - 1);
+                break;
             case 'I':
                 draw_I(positie, pogingnummer - 1);
+                break;
             case 'J':
                 draw_J(positie, pogingnummer - 1);
+                break;
             case 'K':
                 draw_K(positie, pogingnummer - 1);
+                break;
             case 'L':
                 draw_L(positie, pogingnummer - 1);
+                break;
             case 'M':
                 draw_M(positie, pogingnummer - 1);
+                break;
             case 'N':
                 draw_N(positie, pogingnummer - 1);
+                break;
             case 'O':
                 draw_O(positie, pogingnummer - 1);
+                break;
             case 'P':
                 draw_P(positie, pogingnummer - 1);
+                break;
             case 'Q':
                 draw_Q(positie, pogingnummer - 1);
+                break;
             case 'R':
                 draw_R(positie, pogingnummer - 1);
+                break;
             case 'S':
                 draw_S(positie, pogingnummer - 1);
+                break;
             case 'T':
                 draw_T(positie, pogingnummer - 1);
+                break;
             case 'U':
                 draw_U(positie, pogingnummer - 1);
+                break;
             case 'V':
                 draw_V(positie, pogingnummer - 1);
+                break;
             case 'W':
                 draw_W(positie, pogingnummer - 1);
+                break;
             case 'X':
                 draw_X(positie, pogingnummer - 1);
+                break;
             case 'Y':
                 draw_Y(positie, pogingnummer - 1);
+                break;
             case 'Z':
                 draw_Z(positie, pogingnummer - 1);
+                break;
         }
         if (attempt_copy[positie] == secret_word_copy[positie]) {
             draw_green(positie, pogingnummer - 1);
@@ -127,7 +153,7 @@ void poging(int pogingnummer, char* attempt, char* secret_word) {
                     secret_word_copy[p] = '0';
                     p = 0;
                     attempt_copy[i] = '0';
-                    break;
+                    break; //is this break not misplaced?
                 }
                 p += 1;
             }
