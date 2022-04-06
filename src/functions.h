@@ -47,7 +47,7 @@ bool within_bounds(int x_coor, int y_coor);
     @param end_x The x coordinate of the end point
     @param end_y The y coordinate of the end point
 */
-void lin_bez(float start_x, float start_y, float end_x, float end_y);
+void lin_bez(int start_x, int start_y, int end_x, int end_y);
 /*
     @brief Moves the pen in a cubic bezier curve.
     @param start_x The x coordinate of the start point
@@ -59,7 +59,7 @@ void lin_bez(float start_x, float start_y, float end_x, float end_y);
     @param end_x The x coordinate of the end point
     @param end_y The y coordinate of the end point
 */
-void cub_bez(float start_x, float start_y, float cp1_x, float cp1_y, float cp2_x, float cp2_y, float end_x, float end_y);
+void cub_bez(int start_x, int start_y, int cp1_x, int cp1_y, int cp2_x, int cp2_y, int end_x, int end_y);
 
 
 //Primitives

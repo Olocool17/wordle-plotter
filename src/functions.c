@@ -33,7 +33,7 @@
 
 #define MICROS_PI 2300 //The servo duty cycle in microseconds that corresponds to 180 degrees or pi radians
 
-#define ITERS (1) //Amount of subdivisions for each 0.1mm of a curve
+#define ITERS (0.01) //Amount of subdivisions for each 0.1mm of a curve
 #define ITER_DELAY (60) //Time in miliseconds for the pen to trace each such subdivision
 
 //Macro's for x² and x³
@@ -80,33 +80,38 @@ bool within_bounds(int x_coor, int y_coor)
     return true;
 }
 
-void lin_bez(float start_x, float start_y, float end_x, float end_y)  
+void lin_bez(int start_x, int start_y, int end_x, int end_y)  
 {
     if (!(within_bounds(start_x,start_y) && within_bounds(end_x,end_y))) return;
-    float pathlength = sqrt(SQUARE(end_x - start_x) + SQUARE(end_y - start_y));
-    int segments = ITERS * pathlength;
-    for(size_t t = 0; t <= segments ; t++) 
+    int pathlength = sqrt(SQUARE(end_x - start_x) + SQUARE(end_y - start_y));
+    int segments = (int) (ITERS * pathlength);
+    if (segments == 0) return; //too small to draw at current precision
+    int segment_x = (end_x - start_x)/segments;
+    int segment_y = (end_y - start_y)/segments;
+    int x_next = start_x;
+    int y_next = start_y;
+    move_xy(x_next, y_next);
+    for(size_t t = 0; t < segments ; t++) 
     {
-        float x_next = start_x + t*(end_x - start_x)/segments;
-        float y_next = start_y + t*(end_y - start_y)/segments;
+        x_next += segment_x;
+        y_next += segment_y;
         _delay_ms(ITER_DELAY);
         move_xy(x_next, y_next); //transfer next coordinates to the angle finding function
     }
 }
 
-void cub_bez(float start_x, float start_y, float cp1_x, float cp1_y, float cp2_x, float cp2_y, float end_x, float end_y) {
-    _delay_ms(25);
+void cub_bez(int start_x, int start_y, int cp1_x, int cp1_y, int cp2_x, int cp2_y, int end_x, int end_y) {
     if (!((within_bounds(start_x,start_y) && within_bounds(cp1_x, cp1_y) && within_bounds(cp2_x, cp2_y) && within_bounds(end_x, end_y)))) return;
-    int t = 0;
-    while (t<50) 
+    int pathlength = sqrt(SQUARE(end_x - start_x) + SQUARE(end_y - start_y));
+    int segments = (int) (ITERS * pathlength);
+    if (segments == 0) return; //too small to draw at current precision
+    for (size_t t = 0; t <= segments; t++)
     {
-        t += 1;
-        float scale = t/50;
-        float x_next = CUBE(1-scale)*start_x + 3*SQUARE(1-scale)*scale*cp1_x + 3*(1-scale)*SQUARE(scale)*cp2_x + CUBE(scale)*end_x;
-        float y_next = CUBE(1-scale)*start_y + 3*SQUARE(1-scale)*scale*cp1_y + 3*(1-scale)*SQUARE(scale)*cp2_y + CUBE(scale)*end_y;
-        _delay_ms(15);
+        int x_next = (CUBE(segments - t)*start_x + 3*SQUARE(segments - t)*t*cp1_x + 3*(segments - t)*SQUARE(t)*cp2_x + CUBE( t)*end_x) / CUBE(segments);
+        int y_next = (CUBE(segments - t)*start_y + 3*SQUARE(segments - t)*t*cp1_y + 3*(segments - t)*SQUARE(t)*cp2_y + CUBE( t)*end_y) / CUBE(segments);
+        _delay_ms(ITER_DELAY);
         move_xy(x_next, y_next); //transfer next coordinates to the angle finding function
-    }
+    } 
 }
 
 void draw_grid()
