@@ -129,7 +129,7 @@ void draw_grid()
     
 }
 
-void draw_letter(char letter, float x, float y)
+void draw_letter(char letter, int x, int y)
 {
     switch(letter) 
     {
@@ -211,12 +211,25 @@ void draw_letter(char letter, float x, float y)
         case 'Z':
             draw_Z(x, y);
             break;
+        case 'g':
+            draw_green(x, y);
+        case 'y':
+            draw_yellow(x, y);
+        case 'b':
+            draw_black(x, y);
         default:
             return;
     }
 }
 
-void draw_A(float x, float y) 
+void draw_letter_on_grid(char letter, int tile_x, int tile_y)
+{
+    int x = 100 + 260 * tile_x; //letters are bound between 100 < x < 1200
+    int y = 1800 - 300 * tile_y; //letters are bound between 600 < y < 2000
+    draw_letter(letter, x, y);
+}
+
+void draw_A( int x, int y) 
 {
     move_xy_with_lift(x, y);
     lin_bez(x, y, x + 80, y + 200);
@@ -225,7 +238,7 @@ void draw_A(float x, float y)
     lin_bez(x + 40, y + 100, x + 120, y + 100);
 }
 
-void draw_B(float x, float y) 
+void draw_B( int x, int y) 
 {
     move_xy_with_lift(x, y);
     lin_bez(x, y, x, y + 200);
@@ -233,20 +246,20 @@ void draw_B(float x, float y)
     cub_bez(x, y + 100, x + 200, y + 100, x + 200, y, x, y );
 }
 
-void draw_C(float x, float y) 
+void draw_C( int x, int y) 
 {
     move_xy_with_lift(x + 180, y);
     cub_bez(x + 160, y + 20, x - 50, y - 50, x - 50, y + 250, x + 160, y + 180);
 }
 
-void draw_D(float x, float y) 
+void draw_D( int x, int y) 
 {
     move_xy_with_lift(x, y);
     lin_bez(x, y, x, y + 200);
     cub_bez(x, y + 200, x + 200, y + 200, x + 200, y, x, y);
 }
 
-void draw_E(float x, float y) 
+void draw_E( int x, int y) 
 {
     move_xy_with_lift(x + 160, y);
     lin_bez(x + 160, y, x, y);
@@ -256,7 +269,7 @@ void draw_E(float x, float y)
     lin_bez(x, y + 100, x + 120, y + 100);
 }
 
-void draw_F(float x, float y) 
+void draw_F( int x, int y) 
 {
     move_xy_with_lift(x, y);
     lin_bez(x, y, x, y + 200);
@@ -265,7 +278,7 @@ void draw_F(float x, float y)
     lin_bez(x, y + 100, x + 120, y + 100);
 }
 
-void draw_G(float x, float y) 
+void draw_G( int x, int y) 
 {
     move_xy_with_lift(x + 100, y + 100);
     lin_bez(x + 100, y + 100, x + 160, y + 100);
@@ -274,7 +287,7 @@ void draw_G(float x, float y)
 
 }
 
-void draw_H(float x, float y) 
+void draw_H( int x, int y) 
 {
     move_xy_with_lift(x, y);
     lin_bez(x, y, x, y + 200);
@@ -284,7 +297,7 @@ void draw_H(float x, float y)
     lin_bez(x + 160, y, x + 160, y + 200);
 }
 
-void draw_I(float x, float y) 
+void draw_I( int x, int y) 
 {
     move_xy_with_lift(x + 40, y);
     lin_bez(x + 40, y, x + 120, y);
@@ -294,7 +307,7 @@ void draw_I(float x, float y)
     lin_bez(x + 40, y + 200, x + 120, y + 200);
 }
 
-void draw_J(float x, float y) 
+void draw_J( int x, int y) 
 {
     move_xy_with_lift(x + 80, y + 200);
     lin_bez(x + 80, y + 200, x + 160, y + 200);
@@ -303,7 +316,7 @@ void draw_J(float x, float y)
     cub_bez(x + 120, y + 100, x + 120, y - 30, x, y - 30, x, y + 100);
 }
 
-void draw_K(float x, float y) 
+void draw_K( int x, int y) 
 {
     move_xy_with_lift(x, y);
     lin_bez(x, y, x, y + 200);
@@ -312,14 +325,14 @@ void draw_K(float x, float y)
     lin_bez(x, y + 100, x + 160, y + 200);
 }
 
-void draw_L(float x, float y) 
+void draw_L( int x, int y) 
 {
     move_xy_with_lift(x, y + 200);
     lin_bez(x, y + 200, x, y);
     lin_bez(x, y, x + 160, y);
 }
 
-void draw_M(float x, float y) 
+void draw_M( int x, int y) 
 {
     move_xy_with_lift(x,y);
     lin_bez(x, y, x, y + 200);
@@ -328,7 +341,7 @@ void draw_M(float x, float y)
     lin_bez(x + 160, y + 200, x + 160, y);
 }
 
-void draw_N(float x, float y) 
+void draw_N( int x, int y) 
 {
     move_xy_with_lift(x, y);
     lin_bez(x, y, x, y + 200);
@@ -336,28 +349,28 @@ void draw_N(float x, float y)
     lin_bez(x + 160, y, x + 160, y + 200);
 }
 
-void draw_O(float x, float y) 
+void draw_O( int x, int y) 
 {
     move_xy_with_lift(x, y + 100);
     cub_bez(x, y + 100, x, y + 230, x + 160, y + 230, x + 160, y + 100);
     cub_bez(x + 160, y + 100, x + 160, y - 30, x, y - 30, x, y + 100);
 }
 
-void draw_P(float x, float y) 
+void draw_P( int x, int y) 
 {
     move_xy_with_lift(x, y);
     lin_bez(x, y, x, y + 200);
     cub_bez(x, y + 200, x + 200, y + 200, x + 200, y + 100, x, y + 100);
 }
 
-void draw_Q(float x, float y) 
+void draw_Q( int x, int y) 
 {
     move_xy_with_lift(x + 80, y + 80);
     lin_bez(x + 80, y + 80, x + 160, y);
     draw_O(x, y);
 }
 
-void draw_R(float x, float y) 
+void draw_R( int x, int y) 
 {
     move_xy_with_lift(x, y);
     lin_bez(x, y, x, y + 200);
@@ -365,7 +378,7 @@ void draw_R(float x, float y)
     lin_bez(x, y + 100, x + 160, y);
 }
 
-void draw_S(float x, float y) 
+void draw_S( int x, int y) 
 {
     move_xy_with_lift(x, y);
     lin_bez(x, y, x + 80, y);
@@ -374,7 +387,7 @@ void draw_S(float x, float y)
     lin_bez(x + 80, y + 200, x + 160, y + 200);
 }
 
-void draw_T(float x, float y) 
+void draw_T( int x, int y) 
 {
     move_xy_with_lift(x, y + 200);
     lin_bez(x, y + 200, x + 160, y + 200);
@@ -382,7 +395,7 @@ void draw_T(float x, float y)
     lin_bez(x + 80, y + 200, x + 80, 0);
 }
 
-void draw_U(float x, float y) 
+void draw_U( int x, int y) 
 {
     move_xy_with_lift(x, y + 200);
     lin_bez(x, y + 200, x, y + 100);
@@ -390,14 +403,14 @@ void draw_U(float x, float y)
     lin_bez(x + 160, y + 100, x + 160, y + 200);
 }
 
-void draw_V(float x, float y) 
+void draw_V( int x, int y) 
 {
     move_xy_with_lift(x, y + 200);
     lin_bez(x, y + 200, x + 80, y);
     lin_bez(x + 80, y, x + 160, y + 200);
 }
 
-void draw_W(float x, float y) 
+void draw_W( int x, int y) 
 {
     move_xy_with_lift(x, y + 200);
     lin_bez(x, y + 200, x, y);
@@ -406,7 +419,7 @@ void draw_W(float x, float y)
     lin_bez(x + 160, y, x + 160, y + 200);
 }
 
-void draw_X(float x, float y) 
+void draw_X( int x, int y) 
 {
     move_xy_with_lift(x, y + 200);
     lin_bez(x, y + 200, x + 160, y);
@@ -414,7 +427,7 @@ void draw_X(float x, float y)
     lin_bez(x, y, x + 160, y + 200);
 }
 
-void draw_Y(float x, float y) 
+void draw_Y( int x, int y) 
 {
     move_xy_with_lift(x, y + 200);
     lin_bez(x, y + 200, x + 80, y + 100);
@@ -423,7 +436,7 @@ void draw_Y(float x, float y)
     lin_bez(x + 80, y + 100, x + 80, y);
 }
 
-void draw_Z(float x, float y) 
+void draw_Z( int x, int y) 
 {
     move_xy_with_lift(x, y + 200);
     lin_bez(x, y + 200, x + 160, y + 200);

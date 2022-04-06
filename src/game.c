@@ -32,7 +32,7 @@ void wordle(bool random)
     for(size_t attempt_count = 0; (attempt_count < 5) && (!game_won); attempt_count++)
     {
         char* attempt_word = manual_word_select();
-        if ((strcmp(attempt_word, "00000") == 0))
+        if (strcmp(attempt_word, "00000") == 0)
         {
             display_menu(game_info_menu("exiting game...", ""), NULL);
             free(wordle_word);
@@ -96,45 +96,44 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
     strcpy(secret_word_copy, secret_word);
     //First iteration: draws the letters on the grid and directly checks for matching letters and draws "green tiles" if the characters match.
     
-    int positie = 0;
-    while (positie < 5) 
+    for (size_t position = 0; position < 5; position++)
     {
-        draw_letter(attempt_copy[positie], positie, attempt_number - 1);
-        if (attempt_copy[positie] == secret_word_copy[positie]) 
+        draw_letter_on_grid(attempt_copy[position], position, attempt_number);
+        if (attempt_copy[position] == secret_word_copy[position]) 
         {
-            draw_green(positie, attempt_number - 1);
-            attempt_copy[positie] = '0';
-            secret_word_copy[positie] = '0';
+            draw_letter_on_grid('g', position, attempt_number);
+            attempt_copy[position] = '0';
+            secret_word_copy[position] = '0';
         }
     }
+    
     //Second iteration: check for the remaining letters in the attempt if they appear anywhere in the remainder of the secret word.
     //If a match is found it will immediately set the first instances of the letter in both strings to 0 and draw a "yellow tile" on the place of the first
     //instance of this letter in the attempt. This correctly works out for duplicates from both sides :).
+
     for (size_t i = 0; i < 5; i++) 
     {
-        if (strchr(secret_word_copy, attempt_copy[i])!=NULL && attempt_copy[i]!='0') {
-            draw_yellow(i, attempt_number - 1);
+        if ((strchr(secret_word_copy, attempt_copy[i]) != NULL) && (attempt_copy[i] != '0')) 
+        {
+            draw_letter_on_grid('y', i, attempt_number);
             //Iteration to find the first instance of the letter appearing in the secret word without already being marked as a "green tile".
-            int p = 0;
-            while (1) 
+            for (size_t p = 0; p < 5; p++)
             {
                 if (secret_word_copy[p] == attempt_copy[i]) 
                 {
                     secret_word_copy[p] = '0';
-                    p = 0;
                     attempt_copy[i] = '0';
                     break;
                 }
-                p += 1;
             }
         }
     }
-    //Third iteration: drawing "black tiles" for every tile that has not receieved a color in the previous 2 iterations.
+    //Third iteration: drawing "black tiles" for every tile that has not received a color in the previous 2 iterations.
     for (size_t l=0; l < 5; l++) 
     {
         if (attempt_copy[l] != '0') 
         {
-            draw_black(l, attempt_number - 1);
+            draw_letter_on_grid('b', l, attempt_number);
             attempt_copy[l] = '0';
         }
     }

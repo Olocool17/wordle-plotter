@@ -75,7 +75,15 @@ void draw_grid();
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_letter(char letter, float x, float y);
+void draw_letter(char letter, int x, int y);
+
+/*
+    @brief Draws the given letter inside of a tile in the letter 'grid'. (0,0) is the top left tile in this grid.
+    @param letter The letter to be drawn
+    @param tile_x The x-coordinate for the tile
+    @param tile_y The y-coordinate for the tile
+*/
+void draw_letter_on_grid(char letter, int tile_x, int tile_y);
 
 //Functions for individual letters
 
@@ -84,182 +92,182 @@ void draw_letter(char letter, float x, float y);
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_A(float x, float y);
+void draw_A( int x, int y);
 
 /*
     @brief Draws the letter B at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_B(float x, float y);
+void draw_B( int x, int y);
 
 /*
     @brief Draws the letter C at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_C(float x, float y);
+void draw_C( int x, int y);
 
 /*
     @brief Draws the letter D at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_D(float x, float y);
+void draw_D( int x, int y);
 
 /*
     @brief Draws the letter E at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_E(float x, float y);
+void draw_E( int x, int y);
 
 /*
     @brief Draws the letter F at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_F(float x, float y);
+void draw_F( int x, int y);
 
 /*
     @brief Draws the letter G at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_G(float x, float y);
+void draw_G( int x, int y);
 
 /*
     @brief Draws the letter H at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_H(float x, float y);
+void draw_H( int x, int y);
 
 /*
     @brief Draws the letter I at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_I(float x, float y);
+void draw_I( int x, int y);
 
 /*
     @brief Draws the letter J at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_J(float x, float y);
+void draw_J( int x, int y);
 
 /*
     @brief Draws the letter K at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_K(float x, float y);
+void draw_K( int x, int y);
 
 /*
     @brief Draws the letter L at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_L(float x, float y);
+void draw_L( int x, int y);
 
 /*
     @brief Draws the letter M at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_M(float x, float y);
+void draw_M( int x, int y);
 
 /*
     @brief Draws the letter N at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_N(float x, float y);
+void draw_N( int x, int y);
 
 /*
     @brief Draws the letter O at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_O(float x, float y);
+void draw_O( int x, int y);
 
 /*
     @brief Draws the letter P at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_P(float x, float y);
+void draw_P( int x, int y);
 
 /*
     @brief Draws the letter Q at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_Q(float x, float y);
+void draw_Q( int x, int y);
 
 /*
     @brief Draws the letter R at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_R(float x, float y);
+void draw_R( int x, int y);
 
 /*
     @brief Draws the letter S at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_S(float x, float y);
+void draw_S( int x, int y);
 
 /*
     @brief Draws the letter T at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_T(float x, float y);
+void draw_T( int x, int y);
 
 /*
     @brief Draws the letter U at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_U(float x, float y);
+void draw_U( int x, int y);
 
 /*
     @brief Draws the letter V at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_V(float x, float y);
+void draw_V( int x, int y);
 
 /*
     @brief Draws the letter W at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_W(float x, float y);
+void draw_W( int x, int y);
 
 /*
     @brief Draws the letter X at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_X(float x, float y);
+void draw_X( int x, int y);
 
 /*
     @brief Draws the letter Y at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_Y(float x, float y);
+void draw_Y( int x, int y);
 
 /*
     @brief Draws the letter Z at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_Z(float x, float y);
+void draw_Z( int x, int y);
 
 //Functions for indicating the correctness of the user guesses
 
