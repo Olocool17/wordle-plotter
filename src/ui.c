@@ -193,14 +193,11 @@ menu* menu_handler(menu* dmenu, int id)
     case 20:
         return primitives_menu();
     case 21:
-        drawing();
         draw_grid();
         return main_menu();
         break;
      case 22:
         //draw circle
-        drawing();
-        draw_O(3,3);
         return main_menu();
         break;
     case 23:
@@ -523,7 +520,7 @@ void manual_move_angles()
     printStringToLCD("angles", 1, 0);
     while(1){
         _delay_ms(100);
-        move((float)servo1_angle * M_PI / 180, (float)servo2_angle * M_PI / 180);
+        move(radians_to_micro((float)servo1_angle * M_PI / 180), radians_to_micro((float)servo2_angle * M_PI / 180));
         if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
         {
             servos_disable();

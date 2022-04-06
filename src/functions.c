@@ -5,6 +5,7 @@
 
 #include <functions.h>
 #include <servo.h>
+#include <ui.h>
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 //functions.c:
@@ -116,6 +117,7 @@ void cub_bez(int start_x, int start_y, int cp1_x, int cp1_y, int cp2_x, int cp2_
 
 void draw_grid()
 {
+    drawing();
     for (size_t i = XMIN; i < XMAX; i++) 
     {
         move_xy_with_lift(i, YMIN);
@@ -131,6 +133,7 @@ void draw_grid()
 
 void draw_letter(char letter, int x, int y)
 {
+    drawing();
     switch(letter) 
     {
         case 'A':
