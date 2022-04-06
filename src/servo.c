@@ -21,7 +21,7 @@ ISR(TIMER1_COMPA_vect)
   {
     servo1_pwm = true;
     PORTC |= _BV(PC0); // set PWM signal to high
-    OCR1A = 2 * servo1_dutymicros; // duration of PWM high cycle
+    OCR1A = 2 * servo1_dutymicros; // duration of PWM high cycle,
   }
 }
 

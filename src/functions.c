@@ -8,7 +8,7 @@
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 //functions.c:
-//Calculations done assuming L1 (= length of the first servo) = L2 (= length of second servo) = 13.8cm, with the coordinate system also in cm.
+//Calculations done assuming L1 (= length of the first servo) = L2 (= length of second servo) = 13.8cm, with the coordinate system in increments of 0.1mm.
 //No out of bounds check is needed for move_xy since boundaries were already checked during the bezier call, requiring only 2 or 4 checks instead of 100.
 //The boundaries are those of an A5-sheet, being 15x21cm (rounded up)
 //For the individual letters, the following formulas apply:
@@ -25,34 +25,42 @@
 //Bounds of the board
 
 #define XMIN (0)
-#define YMIN (3)
-#define XMAX (14)
-#define YMAX (21)
+#define YMIN (300)
+#define XMAX (1400)
+#define YMAX (2100)
 
-#define ARM_LENGTH (13.8) //Length of each servo arm
+#define ARM_LENGTH (1380) //Length of each servo arm
 
-#define ITERS (3) //Amount of subdivisions for each cm of a curve
+#define MICROS_PI 2300 //The servo duty cycle in microseconds that corresponds to 180 degrees or pi radians
+
+#define ITERS (1) //Amount of subdivisions for each 0.1mm of a curve
 #define ITER_DELAY (60) //Time in miliseconds for the pen to trace each such subdivision
 
 //Macro's for x² and x³
 #define SQUARE(x) ((x)*(x))
 #define CUBE(x) ((x)*(x)*(x))
 
-void move(float theta_1, float theta_2) 
+int radians_to_micros(float rad)
 {
-    servo1_dutymicros = theta_1/M_PI*1800 + 700;
-    servo2_dutymicros = theta_2/M_PI*1780 + 570;
+    return 700 + (int)((rad / M_PI) * 1600);
 }
 
-void move_xy(float x_coor, float y_coor) 
+void move(int theta_1, int theta_2) 
+{
+    servo1_dutymicros = theta_1;
+    servo2_dutymicros = theta_2;
+}
+
+void move_xy(int x_coor, int y_coor) 
 { 
-    float r = sqrt(SQUARE(x_coor) + SQUARE(y_coor));
-    float theta_2 = M_PI - 2*asin(r / (ARM_LENGTH * 2));
-    float theta_1 = M_PI - asin(y_coor / r) - acos(r / (ARM_LENGTH* 2));
+    int r = sqrt(SQUARE(x_coor) + SQUARE(y_coor));
+    int help_theta = 2 * asin(r / (ARM_LENGTH * 2));
+    int theta_2 = MICROS_PI - help_theta;
+    int theta_1 = (MICROS_PI / 2) - asin(y_coor / r) + (help_theta / 2);
     move(theta_1, theta_2);
 }
 
-void move_xy_with_lift(float x_coor, float y_coor) 
+void move_xy_with_lift(int x_coor, int y_coor) 
 { 
     _delay_ms(150);
     //"lift pen"
@@ -63,7 +71,7 @@ void move_xy_with_lift(float x_coor, float y_coor)
     _delay_ms(150);
 }
 
-bool within_bounds(float x_coor, float y_coor) 
+bool within_bounds(int x_coor, int y_coor) 
 {
     if ((x_coor <  XMIN)|| (x_coor > XMAX) || (y_coor < YMIN) || (y_coor > YMAX)) 
     {
@@ -199,7 +207,7 @@ void draw_letter(char letter, float x, float y)
             draw_Z(x, y);
             break;
         default:
-        return;
+            return;
     }
 }
 

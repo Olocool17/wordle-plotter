@@ -3,26 +3,34 @@
 
 //Handles the drawing logic, inverse kinematics and shape functions.
 
+
 /*
-    @brief Moves the arms to the corresponding angles.
-    @param theta_1 The target angle for servo 1
-    @param theta_2 The target angle for servo 2
+    @brief Converts an angle in radians to the PWM duty cycle in microseconds.
+    @param rad The angle in radians
+    @return The corresponding angle in PWM duty cycle in microseconds
 */
-void move(float theta_1, float theta_2);
+int radians_to_micro(float rad);
+
+/*
+    @brief Moves the arms to the corresponding duty cycles. Must be a value between 700 and 2300.
+    @param theta_1 The target microsecond duty cycle for servo 1.
+    @param theta_2 The target microsecond duty cycle for servo 2.
+*/
+void move(int theta_1, int theta_2);
 
 /*
     @brief Moves the arms to the corresponding x and y coordinates.
     @param x_coor The target x coordinate
     @param y_coor The target y coordinate
 */
-void move_xy(float x_coor, float y_coor);
+void move_xy(int x_coor, int y_coor);
 
 /*
     @brief Moves the arms to the corresponding x and y coordinates with the pen lifted.
     @param x_coor The target x coordinate
     @param y_coor The target y coordinate
 */
-void move_xy_with_lift(float x_coor, float y_coor);
+void move_xy_with_lift(int x_coor, int y_coor);
 
 /*
     @brief Checks if the given coordinates are within the bounds of the board.
@@ -30,7 +38,7 @@ void move_xy_with_lift(float x_coor, float y_coor);
     @param y_coor The y coordinate to be checked
     @return Whether or not the coordinates are within the bounds of the board
 */
-bool within_bounds(float x_coor, float y_coor);
+bool within_bounds(int x_coor, int y_coor);
 
 /*
     @brief Moves the pen in a lineair bezier curve (= a straight line).
