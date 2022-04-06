@@ -121,82 +121,82 @@ void draw_letter(char letter, float x, float y)
     switch(letter) 
     {
         case 'A':
-            draw_A(x, y - 1);
+            draw_A(x, y);
             break;
         case 'B':
-            draw_B(x, y - 1);
+            draw_B(x, y);
             break;
         case 'C':
-            draw_C(x, y - 1);
+            draw_C(x, y);
             break;
         case 'D':
-            draw_D(x, y - 1);
+            draw_D(x, y);
             break;
         case 'E':
-            draw_E(x, y - 1);
+            draw_E(x, y);
             break;
         case 'F':
-            draw_F(x, y - 1);
+            draw_F(x, y);
             break;
         case 'G':
-            draw_G(x, y - 1);
+            draw_G(x, y);
             break;
         case 'H':
-            draw_H(x, y - 1);
+            draw_H(x, y);
             break;
         case 'I':
-            draw_I(x, y - 1);
+            draw_I(x, y);
             break;
         case 'J':
-            draw_J(x, y - 1);
+            draw_J(x, y);
             break;
         case 'K':
-            draw_K(x, y - 1);
+            draw_K(x, y);
             break;
         case 'L':
-            draw_L(x, y - 1);
+            draw_L(x, y);
             break;
         case 'M':
-            draw_M(x, y - 1);
+            draw_M(x, y);
             break;
         case 'N':
-            draw_N(x, y - 1);
+            draw_N(x, y);
             break;
         case 'O':
-            draw_O(x, y - 1);
+            draw_O(x, y);
             break;
         case 'P':
-            draw_P(x, y - 1);
+            draw_P(x, y);
             break;
         case 'Q':
-            draw_Q(x, y - 1);
+            draw_Q(x, y);
             break;
         case 'R':
-            draw_R(x, y - 1);
+            draw_R(x, y);
             break;
         case 'S':
-            draw_S(x, y - 1);
+            draw_S(x, y);
             break;
         case 'T':
-            draw_T(x, y - 1);
+            draw_T(x, y);
             break;
         case 'U':
-            draw_U(x, y - 1);
+            draw_U(x, y);
             break;
         case 'V':
-            draw_V(x, y - 1);
+            draw_V(x, y);
             break;
         case 'W':
-            draw_W(x, y - 1);
+            draw_W(x, y);
             break;
         case 'X':
-            draw_X(x, y - 1);
+            draw_X(x, y);
             break;
         case 'Y':
-            draw_Y(x, y - 1);
+            draw_Y(x, y);
             break;
         case 'Z':
-            draw_Z(x, y - 1);
+            draw_Z(x, y);
             break;
         default:
         return;
