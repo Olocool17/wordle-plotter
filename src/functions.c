@@ -33,8 +33,8 @@
 
 #define MICROS_PI 2300 //The servo duty cycle in microseconds that corresponds to 180 degrees or pi radians
 
-#define ITERS (0.01) //Amount of subdivisions for each 0.1mm of a curve
-#define ITER_DELAY (60) //Time in miliseconds for the pen to trace each such subdivision
+#define ITERS (0.06) //Amount of subdivisions for each 0.1mm of a curve
+#define ITER_DELAY (10) //Time in miliseconds for the pen to trace each such subdivision
 
 //Macro's for x² and x³
 #define SQUARE(x) ((x)*(x))
@@ -218,206 +218,217 @@ void draw_letter(char letter, float x, float y)
 
 void draw_A(float x, float y) 
 {
-    move_xy_with_lift(1.16 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(1.16 + 2.8*x, 18.16 - 2.8*y, 1.864 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(1.864 + 2.8*x, 19.6 - 2.8*y, 2.568 + 2.8*x, 18.16 - 2.8*y);
-    move_xy_with_lift(1.512 + 2.8*x, 18.88 - 2.8*y);
-    lin_bez(1.512 + 2.8*x, 18.88 - 2.8*y, 2.216 + 2.8*x, 18.88 - 2.8*y);
+    move_xy_with_lift(x, y);
+    lin_bez(x, y, x + 80, y + 200);
+    lin_bez(x + 80, y + 200, x + 160, y);
+    move_xy_with_lift(x + 40, y + 100);
+    lin_bez(x + 40, y + 100, x + 120, y + 100);
 }
 
 void draw_B(float x, float y) 
 {
-    move_xy_with_lift(1.36 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(1.36 + 2.8*x, 18.16 - 2.8*y, 1.36 + 2.8*x, 19.6 - 2.8*y);
-    cub_bez(1.36 + 2.8*x, 19.6 - 2.8*y, 2.2 + 2.8*x, 19.6 - 2.8*y, 2.2 + 2.8*x, 18.88 - 2.8*y, 1.36 + 2.8*x, 18.88 - 2.8*y);
-    cub_bez(1.36 + 2.8*x, 18.88 - 2.8*y, 2.2 + 2.8*x, 18.88 - 2.8*y, 2.2 + 2.8*x, 18.16 - 2.8*y, 1.36 + 2.8*x, 18.16 - 2.8*y);
+    move_xy_with_lift(x, y);
+    lin_bez(x, y, x, y + 200);
+    cub_bez(x, y + 200, x + 200, y + 200, x + 200, y + 100, x, y + 100);
+    cub_bez(x, y + 100, x + 200, y + 100, x + 200, y, x, y );
 }
 
 void draw_C(float x, float y) 
 {
-    move_xy_with_lift(2.4 + 2.8*x, 19.6 - 2.8*y);
-    cub_bez(2.4 + 2.8*x, 19.6 - 2.8*y, 0.96 + 2.8*x, 19.6 - 2.8*y, 0.96 + 2.8*x, 18.16 - 2.8*y, 2.4 + 2.8*x, 18.16 - 2.8*y);
+    move_xy_with_lift(x + 180, y);
+    cub_bez(x + 160, y + 20, x - 50, y - 50, x - 50, y + 250, x + 160, y + 180);
 }
 
 void draw_D(float x, float y) 
 {
-    move_xy_with_lift(0.96 + 2.8*x, 15.16 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 18.16 - 2.8*y, 0.96 + 2.8*x, 19.6 - 2.8*y);
-    cub_bez(0.96 + 2.8*x, 19.6 - 2.8*y, 2.4 + 2.8*x, 19.6 - 2.8*y, 2.4 + 2.8*x, 18.16 - 2.8*y, 0.96 + 2.8*x, 18.16 - 2.8*y);
+    move_xy_with_lift(x, y);
+    lin_bez(x, y, x, y + 200);
+    cub_bez(x, y + 200, x + 200, y + 200, x + 200, y, x, y);
 }
 
 void draw_E(float x, float y) 
 {
-    move_xy_with_lift(1.68 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(1.68 + 2.8*x, 18.16 - 2.8*y, 0.96 + 2.8*x, 18.16 - 2.8*y);
-    draw_F(x,y);
+    move_xy_with_lift(x + 160, y);
+    lin_bez(x + 160, y, x, y);
+    lin_bez(x, y, x, y + 200);
+    lin_bez(x, y + 200, x + 160, y + 200);
+    move_xy_with_lift(x, y + 100);
+    lin_bez(x, y + 100, x + 120, y + 100);
 }
 
 void draw_F(float x, float y) 
 {
-    move_xy_with_lift(0.96 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 18.16 - 2.8*y, 0.96 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 19.6 - 2.8*y, 1.68 + 2.8*x, 19.6 - 2.8*y);
-    move_xy_with_lift(0.96 + 2.8*x, 18.88 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 18.88 - 2.8*y, 1.68 + 2.8*x, 18.88 - 2.8*y);
+    move_xy_with_lift(x, y);
+    lin_bez(x, y, x, y + 200);
+    lin_bez(x, y + 200, x + 160, y + 200);
+    move_xy_with_lift(x, y + 100);
+    lin_bez(x, y + 100, x + 120, y + 100);
 }
 
 void draw_G(float x, float y) 
 {
-    move_xy_with_lift(2.128 + 2.8*x, 19.088 - 2.8*y);
-    lin_bez(2.128 + 2.8*x, 19.088 - 2.8*y, 1.888 + 2.8*x, 19.088 - 2.8*y);
-    move_xy_with_lift(1.888 + 2.8*x, 19.64 - 2.8*y);
-    cub_bez(1.888 + 2.8*x, 19.64 - 2.8*y, 0.8 + 2.8*x, 19.472 - 2.8*y, 1.728 + 2.8*x, 18 - 2.8*y, 2.128 + 2.8*x, 19.088 - 2.8*y);
+    move_xy_with_lift(x + 100, y + 100);
+    lin_bez(x + 100, y + 100, x + 160, y + 100);
+    cub_bez(x + 160, y + 100, x + 160, y - 30, x, y - 30, x, y + 100);
+    cub_bez(x, y + 100, x, y + 230, x + 160, y + 200, x + 160, y + 170);
+
 }
 
 void draw_H(float x, float y) 
 {
-    move_xy_with_lift(0.96 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 18.16 - 2.8*y, 0.96 + 2.8*x, 19.6 - 2.8*y);
-    move_xy_with_lift(0.96 + 2.8*x, 18.88 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 18.88 - 2.8*y, 1.68 + 2.8*x, 18.88 - 2.8*y);
-    move_xy_with_lift(1.68 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(1.68 + 2.8*x, 18.16 - 2.8*y, 1.68 + 2.8*x, 19.6 - 2.8*y);
+    move_xy_with_lift(x, y);
+    lin_bez(x, y, x, y + 200);
+    move_xy_with_lift(x, y + 120);
+    lin_bez(x, y + 120, x + 160, y + 120);
+    move_xy_with_lift(x + 160, y);
+    lin_bez(x + 160, y, x + 160, y + 200);
 }
 
 void draw_I(float x, float y) 
 {
-    move_xy_with_lift(1.44 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(1.44 + 2.8*x, 19.6 - 2.8*y, 2.16 + 2.8*x, 19.6 - 2.8*y);
-    move_xy_with_lift(1.44 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(1.44 + 2.8*x, 18.16 - 2.8*y, 2.16 + 2.8*x, 18.16 - 2.8*y);
-    move_xy_with_lift(1.8 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(1.8 + 2.8*x, 18.16 - 2.8*y, 1.8 + 2.8*x, 19.6 - 2.8*y);
+    move_xy_with_lift(x + 40, y);
+    lin_bez(x + 40, y, x + 120, y);
+    move_xy_with_lift(x + 80, y);
+    lin_bez(x + 80, y, x + 80, y + 200);
+    move_xy_with_lift(x + 40, y + 200);
+    lin_bez(x + 40, y + 200, x + 120, y + 200);
 }
 
 void draw_J(float x, float y) 
 {
-    move_xy_with_lift(1.44 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(1.44 + 2.8*x, 19.6 - 2.8*y, 2.16 + 2.8*x, 19.6 - 2.8*y);
-    move_xy_with_lift(1.8 + 2.8*x, 19.6 - 2.8*y);
-    cub_bez(1.8 + 2.8*x, 19.6 - 2.8*y, 1.864 + 2.8*x, 19.168 - 2.8*y, 2.152 + 2.8*x, 18.384 - 2.8*y, 1.44 + 2.8*x, 18.384 - 2.8*y);
+    move_xy_with_lift(x + 80, y + 200);
+    lin_bez(x + 80, y + 200, x + 160, y + 200);
+    move_xy_with_lift(x + 120, y + 200);
+    lin_bez(x + 120, y + 200, x + 120, y + 100);
+    cub_bez(x + 120, y + 100, x + 120, y - 30, x, y - 30, x, y + 100);
 }
 
 void draw_K(float x, float y) 
 {
-    move_xy_with_lift(0.96 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 18.16 - 2.8*y, 0.96 + 2.8*x, 19.6 - 2.8*y);
-    move_xy_with_lift(1.44 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(1.44 + 2.8*x, 19.6 - 2.8*y, 0.96 + 2.8*x, 18.88 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 18.88 - 2.8*y, 1.44 + 2.8*x, 18.16 - 2.8*y);
+    move_xy_with_lift(x, y);
+    lin_bez(x, y, x, y + 200);
+    move_xy_with_lift(x + 160, y);
+    lin_bez(x + 160, y, x, y + 100);
+    lin_bez(x, y + 100, x + 160, y + 200);
 }
 
 void draw_L(float x, float y) 
 {
-    move_xy_with_lift(0.96 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 19.6 - 2.8*y, 0.96 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 18.16 - 2.8*y, 1.92 + 2.8*x, 18.16 - 2.8*y);
+    move_xy_with_lift(x, y + 200);
+    lin_bez(x, y + 200, x, y);
+    lin_bez(x, y, x + 160, y);
 }
 
 void draw_M(float x, float y) 
 {
-    move_xy_with_lift(0.96 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 18.16 - 2.8*y, 0.96 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 19.6 - 2.8*y, 1.52 + 2.8*x, 18.88 - 2.8*y);
-    lin_bez(1.52 + 2.8*x, 18.88 - 2.8*y, 2.08 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(2.08 + 2.8*x, 19.6 - 2.8*y, 2.08 + 2.8*x, 18.16 - 2.8*y);
+    move_xy_with_lift(x,y);
+    lin_bez(x, y, x, y + 200);
+    lin_bez(x, y + 200, x + 80, y + 120);
+    lin_bez(x + 80, y + 120, x + 160, y + 200);
+    lin_bez(x + 160, y + 200, x + 160, y);
 }
 
 void draw_N(float x, float y) 
 {
-    move_xy_with_lift(0.96 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 18.16 - 2.8*y, 0.96 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(0.96 + 2.8*x, 19.6 - 2.8*y, 1.92 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(1.92 + 2.8*x, 18.16 - 2.8*y, 1.92 + 2.8*x, 19.6 - 2.8*y);
+    move_xy_with_lift(x, y);
+    lin_bez(x, y, x, y + 200);
+    lin_bez(x, y + 200, x + 160, y);
+    lin_bez(x + 160, y, x + 160, y + 200);
 }
 
 void draw_O(float x, float y) 
 {
-    move_xy_with_lift(1.2 + 2.8*x, 19 - 2.8*y);
-    cub_bez(1.2 + 2.8*x, 19 - 2.8*y, 1.2 + 2.8*x, 18.04 - 2.8*y, 2.48 + 2.8*x, 18.04 - 2.8*y, 2.48 + 2.8*x, 19 - 2.8*y);
-    cub_bez(2.48 + 2.8*x, 19 - 2.8*y, 2.48 + 2.8*x, 19.96 - 2.8*y, 1.2 + 2.8*x, 19.96 - 2.8*y, 1.2 + 2.8*x, 19 - 2.8*y);
+    move_xy_with_lift(x, y + 100);
+    cub_bez(x, y + 100, x, y + 230, x + 160, y + 230, x + 160, y + 100);
+    cub_bez(x + 160, y + 100, x + 160, y - 30, x, y - 30, x, y + 100);
 }
 
 void draw_P(float x, float y) 
 {
-    move_xy_with_lift(1.36 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(1.36 + 2.8*x, 18.16 - 2.8*y, 1.36 + 2.8*x, 19.6 - 2.8*y);
-    cub_bez(1.36 + 2.8*x, 19.6 - 2.8*y, 2.2 + 2.8*x, 19.6 - 2.8*y, 2.2 + 2.8*x, 18.88 - 2.8*y, 1.36 + 2.8*x, 18.88 - 2.8*y);
+    move_xy_with_lift(x, y);
+    lin_bez(x, y, x, y + 200);
+    cub_bez(x, y + 200, x + 200, y + 200, x + 200, y + 100, x, y + 100);
 }
 
 void draw_Q(float x, float y) 
 {
-    move_xy_with_lift(1.88 + 2.8*x, 18.96 - 2.8*y);
-    lin_bez(1.88 + 2.8*x, 18.96 - 2.8*y, 2.464 + 2.8*x, 18.24 - 2.8*y);
+    move_xy_with_lift(x + 80, y + 80);
+    lin_bez(x + 80, y + 80, x + 160, y);
     draw_O(x, y);
 }
 
 void draw_R(float x, float y) 
 {
-    move_xy_with_lift(1.36 + 2.8*x, 18.16 - 2.8*y);
-    lin_bez(1.36 + 2.8*x, 18.16 - 2.8*y, 1.36 + 2.8*x, 19.6 - 2.8*y);
-    cub_bez(1.36 + 2.8*x, 19.6 - 2.8*y, 2.2 + 2.8*x, 19.6 - 2.8*y, 2.2 + 2.8*x, 18.88 - 2.8*y, 1.36 + 2.8*x, 18.88 - 2.8*y);
-    lin_bez(1.36 + 2.8*x, 18.88 - 2.8*y, 1.92 + 2.8*x, 18.16 - 2.8*y);
+    move_xy_with_lift(x, y);
+    lin_bez(x, y, x, y + 200);
+    cub_bez(x, y + 200, x + 200, y + 200, x + 200, y + 100, x, y + 100);
+    lin_bez(x, y + 100, x + 160, y);
 }
 
 void draw_S(float x, float y) 
 {
-    move_xy_with_lift(2 + 2.8*x, 19.44 - 2.8*y);
-    cub_bez(2 + 2.8*x, 19.44 - 2.8*y, 1.04 + 2.8*x, 19.44 - 2.8*y, 2.6 + 2.8*x, 18.456 - 2.8*y, 1.64 + 2.8*x, 18.456 - 2.8*y);
+    move_xy_with_lift(x, y);
+    lin_bez(x, y, x + 80, y);
+    cub_bez(x + 80, y, x + 160, y, x + 160, y + 100, x + 80, y + 100);
+    cub_bez(x + 80, y + 100, x, y + 100, x, y + 200, x + 80, y + 200);
+    lin_bez(x + 80, y + 200, x + 160, y + 200);
 }
 
 void draw_T(float x, float y) 
 {
-    move_xy_with_lift(1.12 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(1.12 + 2.8*x, 19.6 - 2.8*y, 2.56 + 2.8*x, 19.6 - 2.8*y);
-    move_xy_with_lift(1.84 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(1.84 + 2.8*x, 19.6 - 2.8*y, 1.84 + 2.8*x, 18.48 - 2.8*y);
+    move_xy_with_lift(x, y + 200);
+    lin_bez(x, y + 200, x + 160, y + 200);
+    move_xy_with_lift(x + 80, y + 200);
+    lin_bez(x + 80, y + 200, x + 80, 0);
 }
 
 void draw_U(float x, float y) 
 {
-    move_xy_with_lift(1.4 + 2.8*x, 19.76 - 2.8*y);
-    cub_bez(1.4 + 2.8*x, 19.76 - 2.8*y, 1.4 + 2.8*x, 18 - 2.8*y, 2.6 + 2.8*x, 18 - 2.8*y, 2.6 + 2.8*x, 19.76 - 2.8*y);
+    move_xy_with_lift(x, y + 200);
+    lin_bez(x, y + 200, x, y + 100);
+    cub_bez(x, y + 100, x, y - 30, x + 160, y - 30, x + 160, y + 100);
+    lin_bez(x + 160, y + 100, x + 160, y + 200);
 }
 
 void draw_V(float x, float y) 
 {
-    move_xy_with_lift(1.2 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(1.2 + 2.8*x, 19.6 - 2.8*y, 1.8 + 2.8*x, 18.48 - 2.8*y);
-    lin_bez(1.8 + 2.8*x, 18.48 - 2.8*y, 2.4 + 2.8*x, 19.6 - 2.8*y);
+    move_xy_with_lift(x, y + 200);
+    lin_bez(x, y + 200, x + 80, y);
+    lin_bez(x + 80, y, x + 160, y + 200);
 }
 
 void draw_W(float x, float y) 
 {
-    move_xy_with_lift(1.04 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(1.04 + 2.8*x, 19.6 - 2.8*y, 1.4 + 2.8*x, 18.32 - 2.8*y);
-    lin_bez(1.4 + 2.8*x, 18.32 - 2.8*y, 1.76 + 2.8*x, 18.96 - 2.8*y);
-    lin_bez(1.76 + 2.8*x, 18.96 - 2.8*y, 2.12 + 2.8*x, 18.32 - 2.8*y);
-    lin_bez(2.12 + 2.8*x, 18.32 - 2.8*y, 2.48 + 2.8*x, 19.6 - 2.8*y);
+    move_xy_with_lift(x, y + 200);
+    lin_bez(x, y + 200, x, y);
+    lin_bez(x, y, x + 80, y + 80);
+    lin_bez(x + 80, y + 80, x + 160, y);
+    lin_bez(x + 160, y, x + 160, y + 200);
 }
 
 void draw_X(float x, float y) 
 {
-    move_xy_with_lift(1.2 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(1.2 + 2.8*x, 19.6 - 2.8*y, 2.48 + 2.8*x, 18.32 - 2.8*y);
-    move_xy_with_lift(1.2 + 2.8*x, 18.32 - 2.8*y);
-    lin_bez(1.2 + 2.8*x, 18.32 - 2.8*y, 2.48 + 2.8*x, 19.6 - 2.8*y);
+    move_xy_with_lift(x, y + 200);
+    lin_bez(x, y + 200, x + 160, y);
+    move_xy_with_lift(x, y);
+    lin_bez(x, y, x + 160, y + 200);
 }
 
 void draw_Y(float x, float y) 
 {
-    move_xy_with_lift(1.2 + 2.8*x, 19.6 - 2.8*y);
-    lin_bez(1.2 + 2.8*x, 19.6 - 2.8*y, 1.6 + 2.8*x, 19 - 2.8*y);
-    move_xy_with_lift(1.2 + 2.8*x, 18.4 - 2.8*y);
-    lin_bez(1.2 + 2.8*x, 18.4 - 2.8*y, 2 + 2.8*x, 19.6 - 2.8*y);
+    move_xy_with_lift(x, y + 200);
+    lin_bez(x, y + 200, x + 80, y + 100);
+    lin_bez(x + 80, y + 100, x + 160, y + 200);
+    move_xy_with_lift(x + 80, y + 100);
+    lin_bez(x + 80, y + 100, x + 80, y);
 }
 
 void draw_Z(float x, float y) 
 {
-    move_xy_with_lift(1.2 + 2.8*x, 19.76 - 2.8*y);
-    lin_bez(1.2 + 2.8*x, 19.76 - 2.8*y, 2.4 + 2.8*x, 19.76 - 2.8*y);
-    lin_bez(2.4 + 2.8*x, 19.76 - 2.8*y, 1.2 + 2.8*x, 18.4 - 2.8*y);
-    lin_bez(1.2 + 2.8*x, 18.4 - 2.8*y, 2.4 + 2.8*x, 18.4 - 2.8*y);
+    move_xy_with_lift(x, y + 200);
+    lin_bez(x, y + 200, x + 160, y + 200);
+    lin_bez(x + 160, y + 200, x, y);
+    lin_bez(x, y, x + 160, y);
 }
 
 void draw_black(float x, float y) 
