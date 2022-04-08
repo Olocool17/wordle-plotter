@@ -449,21 +449,21 @@ void draw_Z( int x, int y)
 
 void draw_black(float x, float y) 
 {
-    move_xy_with_lift(1.68 + 2.8*x, 20.48 - 2.8*y);
-    lin_bez(1.68 + 2.8*x, 20.48 - 2.8*y, 2.0 + 2.8*x, 20.16 - 2.8*y);
-    move_xy_with_lift(1.68 + 2.8*x, 20.16 - 2.8*y);
-    lin_bez(1.68 + 2.8*x, 20.16 - 2.8*y, 2.0 + 2.8*x, 20.48 - 2.8*y);
+    move_xy_with_lift(x + 110, y + 250);
+    lin_bez(x + 110, y + 250, x + 150, y + 210);
+    move_xy_with_lift(x + 110, y + 210);
+    lin_bez(x + 110, y + 210, x + 150, y + 250);
 }
 
 void draw_yellow(float x, float y) 
 {
-    move_xy_with_lift(1.504 + 2.8*x, 20.28 - 2.8*y);
-    cub_bez(1.504 + 2.8*x, 20.28 - 2.8*y, 1.776 + 2.8*x, 20.64 - 2.8*y, 1.776 + 2.8*x, 19.92 - 2.8*y, 2.088 + 2.8*x, 20.376 - 2.8*y);
+    move_xy_with_lift(x + 88, y + 225);
+    cub_bez(x + 88, y + 225, x + 122, y + 270, x + 122, y + 180, x + 161, y + 237);
 }
 
 void draw_green(float x, float y) 
 {
-    move_xy_with_lift(1.68 + 2.8*x, 20.48 - 2.8*y);
-    lin_bez(1.68 + 2.8*x, 20.48 - 2.8*y, 1.84 + 2.8*x, 20.16 - 2.8*y);
-    lin_bez(1.84 + 2.8*x, 20.16 - 2.8*y, 2.0 + 2.8*x, 20.48 - 2.8*y);
+    move_xy_with_lift(x + 110, y + 250);
+    lin_bez(x + 110, y + 250, x + 130, y + 210);
+    lin_bez(x + 130, y + 210, x + 150, y + 250);
 }
