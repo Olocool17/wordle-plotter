@@ -95,16 +95,7 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
     char* secret_word_copy = malloc(sizeof(char)*6);
     strcpy(secret_word_copy, secret_word);
     //First iteration: draws the letters on the grid and directly checks for matching letters and draws "green tiles" if the characters match.
-    for (size_t position = 0; position < 5; position++) {
-        draw_letter_on_grid(attempt_copy[position], position, attempt_number);
-        if (attempt_copy[position] == secret_word_copy[position]) 
-        {
-            draw_letter_on_grid('g', position, attempt_number);
-            attempt_copy[position] = '0';
-            secret_word_copy[position] = '0';
-        }
-    
-    for (size_t position = 0; position < 5; position++)
+    for (size_t position = 0; position < 5; position++) 
     {
         draw_letter_on_grid(attempt_copy[position], position, attempt_number);
         if (attempt_copy[position] == secret_word_copy[position]) 
@@ -114,7 +105,7 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
             secret_word_copy[position] = '0';
         }
     }
-    
+
     //Second iteration: check for the remaining letters in the attempt if they appear anywhere in the remainder of the secret word.
     //If a match is found it will immediately set the first instances of the letter in both strings to 0 and draw a "yellow tile" on the place of the first
     //instance of this letter in the attempt. This correctly works out for duplicates from both sides :).
@@ -147,5 +138,4 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
     }
     free(secret_word_copy);
     free(attempt_copy);
-    }
 }
