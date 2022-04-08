@@ -276,19 +276,19 @@ void draw_Z( int x, int y);
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_black(float x, float y);
+void draw_black(int x, int y);
 
 /*
     @brief Draws the yellow symbol at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_yellow(float x, float y);
+void draw_yellow(int x, int y);
 
 /*
     @brief Draws the green symbol at the given coordinates (lower left corner of the letter's 'box')
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_green(float x, float y);
+void draw_green(int x, int y);
 #endif
