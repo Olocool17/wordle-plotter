@@ -99,7 +99,7 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
         draw_letter_on_grid(attempt_copy[position], position, attempt_number);
         if (attempt_copy[position] == secret_word_copy[position]) 
         {
-            draw_green(position, attempt_number);
+            draw_letter_on_grid('g', position, attempt_number);
             attempt_copy[position] = '0';
             secret_word_copy[position] = '0';
         }
