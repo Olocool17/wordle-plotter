@@ -55,9 +55,9 @@ void move(int theta_1, int theta_2)
 void move_xy(int x_coor, int y_coor) 
 { 
     int r = sqrt(SQUARE(x_coor) + SQUARE(y_coor));
-    int help_theta = 2 * asin(r / (ARM_LENGTH * 2));
+    int help_theta = 2 * radians_to_micros(asin(r / (ARM_LENGTH * 2)));
     int theta_2 = MICROS_PI - help_theta;
-    int theta_1 = (MICROS_PI / 2) - asin(y_coor / r) + (help_theta / 2);
+    int theta_1 = (MICROS_PI / 2) - radians_to_micros(asin(y_coor / r)) + (help_theta / 2);
     move(theta_1, theta_2);
 }
 

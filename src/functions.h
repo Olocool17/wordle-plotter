@@ -9,7 +9,7 @@
     @param rad The angle in radians
     @return The corresponding angle in PWM duty cycle in microseconds
 */
-int radians_to_micro(float rad);
+int radians_to_micros(float rad);
 
 /*
     @brief Moves the arms to the corresponding duty cycles. Must be a value between 700 and 2300.
