@@ -95,91 +95,14 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
     char* secret_word_copy = malloc(sizeof(char)*6);
     strcpy(secret_word_copy, secret_word);
     //First iteration: draws the letters on the grid and directly checks for matching letters and draws "green tiles" if the characters match.
-    for (size_t positie = 0; positie < 5; positie++) {
-        switch(attempt_copy[positie]) {
-            case 'A':
-                draw_A(positie, attempt_number - 1);
-                break;
-            case 'B':
-                draw_B(positie, attempt_number - 1);
-                break;
-            case 'C':
-                draw_C(positie, attempt_number - 1);
-                break;
-            case 'D':
-                draw_D(positie, attempt_number - 1);
-                break;
-            case 'E':
-                draw_E(positie, attempt_number - 1);
-                break;
-            case 'F':
-                draw_F(positie, attempt_number - 1);
-                break;
-            case 'G':
-                draw_G(positie, attempt_number - 1);
-                break;
-            case 'H':
-                draw_H(positie, attempt_number - 1);
-                break;
-            case 'I':
-                draw_I(positie, attempt_number - 1);
-                break;
-            case 'J':
-                draw_J(positie, attempt_number - 1);
-                break;
-            case 'K':
-                draw_K(positie, attempt_number - 1);
-                break;
-            case 'L':
-                draw_L(positie, attempt_number - 1);
-                break;
-            case 'M':
-                draw_M(positie, attempt_number - 1);
-                break;
-            case 'N':
-                draw_N(positie, attempt_number - 1);
-                break;
-            case 'O':
-                draw_O(positie, attempt_number - 1);
-                break;
-            case 'P':
-                draw_P(positie, attempt_number - 1);
-                break;
-            case 'Q':
-                draw_Q(positie, attempt_number - 1);
-                break;
-            case 'R':
-                draw_R(positie, attempt_number - 1);
-                break;
-            case 'S':
-                draw_S(positie, attempt_number - 1);
-                break;
-            case 'T':
-                draw_T(positie, attempt_number - 1);
-                break;
-            case 'U':
-                draw_U(positie, attempt_number - 1);
-                break;
-            case 'V':
-                draw_V(positie, attempt_number - 1);
-                break;
-            case 'W':
-                draw_W(positie, attempt_number - 1);
-                break;
-            case 'X':
-                draw_X(positie, attempt_number - 1);
-                break;
-            case 'Y':
-                draw_Y(positie, attempt_number - 1);
-                break;
-            case 'Z':
-                draw_Z(positie, attempt_number - 1);
-                break;
+    for (size_t position = 0; position < 5; position++) {
+        draw_letter_on_grid(attempt_copy[position], position, attempt_number);
+        if (attempt_copy[position] == secret_word_copy[position]) 
+        {
+            draw_green(position, attempt_number);
+            attempt_copy[position] = '0';
+            secret_word_copy[position] = '0';
         }
-        if (attempt_copy[positie] == secret_word_copy[positie]) {
-            draw_green(positie, attempt_number - 1);
-            attempt_copy[positie] = '0';
-            secret_word_copy[positie] = '0';
     
     for (size_t position = 0; position < 5; position++)
     {
