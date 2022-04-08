@@ -1,6 +1,8 @@
 #ifndef WORLDELIST_LOADED
 #define WORLDELIST_LOADED
 #include <avr/pgmspace.h>
+
+//List of all the valid wordle words
 const char* const wordle_list[] PROGMEM =
 {
 "aback",

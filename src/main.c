@@ -1,12 +1,3 @@
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <stdbool.h>
-#include <util/delay.h>
-#include <avr/delay.h>
-
-#include "dwenguinoBoard.h"
-#include "dwenguinoLCD.h"
-
 #include <ui.h>
 #include <servo.h>
 
@@ -15,13 +6,9 @@
 //hello world from wouter (^3^)s
 
 int main(void)
-
 {
   initialise_buttons();
-  initLCD();
-  clearLCD();
-  backlightOn();
+  clock_setup();
   initialise_ui(VERSION);
-  //manual_move();
   return 0;
 }

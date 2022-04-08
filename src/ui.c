@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
 
 #include "dwenguinoLCD.h"
 
@@ -81,14 +82,24 @@ void button_logic()
 
 void initialise_ui(char* version)
 {
-    clock_setup();
     initLCD();
     clearLCD();
     backlightOn();
-    display_menu(welcome_menu(version));
+    ui_loop(welcome_menu(version));
 }
 
-void display_menu(menu* dmenu)
+void ui_loop(menu* firstmenu)
+{
+    menu* current_menu = firstmenu;
+    while(1)
+    {
+        int next_id = -1;
+        display_menu(current_menu, &next_id);
+        current_menu = menu_handler(current_menu, next_id);
+    }
+}
+
+void display_menu(menu* dmenu, int* next_id)
 {   
     if(dmenu == NULL){
         dmenu = error_menu("Menu is NULL");
@@ -152,11 +163,11 @@ void display_menu(menu* dmenu)
     }
     else if ((dmenu->selected == -1) | back)
     {
-        display_menu(menu_handler(dmenu, 0));
+        if (next_id != NULL) *next_id = 0;
     }
     else
     {
-        display_menu(menu_handler(dmenu, dmenu->items[dmenu->selected].id));
+        if (next_id != NULL) *next_id = dmenu->items[dmenu->selected].id;
     }
 }
 
@@ -172,24 +183,21 @@ menu* menu_handler(menu* dmenu, int id)
         return wordle_menu();
         break;
     case 11:
-        //wordle(false);
+        wordle(false);
         return main_menu();
         break;
     case 12:
-        //wordle(true);
+        wordle(true);
         return main_menu();
         break;
     case 20:
         return primitives_menu();
     case 21:
-        drawing();
         draw_grid();
         return main_menu();
         break;
      case 22:
         //draw circle
-        drawing();
-        draw_O(3,3);
         return main_menu();
         break;
     case 23:
@@ -323,14 +331,16 @@ menu* game_error_menu(char* reason)
     return error;
 }
 
-menu* game_info_menu(char* message)
+menu* game_info_menu(char* message1, char* message2)
 {
     menu* info = malloc(sizeof(menu));
     info->selected = -2;
     info-> scroll = 0;
-    info->item_count = 1;
-    info->items[0].name = message;
+    info->item_count = 2;
+    info->items[0].name = message1;
     info->items[0].id = 0;
+    info->items[1].name = message2;
+    info->items[1].id = 0;
     return info;
 }
 
@@ -445,13 +455,16 @@ char* word_select()
         printStringToLCD("   go",0,11);
         printCharToLCD('^',1,6 + selection);
     }
-    if (exit) return "00000";
+    if (exit)
+    {
+        free(word);
+        return "00000";
+    } 
     return word;
 }
 
 void manual_move_micros()
 { 
-    clock_setup();
     servos_enable();
     while(1){
         _delay_ms(100);
@@ -499,14 +512,15 @@ void manual_move_micros()
 
 void manual_move_angles()
 { 
-    clock_setup();
     servos_enable();
     int servo1_angle = 90;
     int servo2_angle = 90;
+    clearLCD();
     printStringToLCD("manual control:",0,0);
     printStringToLCD("angles", 1, 0);
     while(1){
         _delay_ms(100);
+        move(radians_to_micro((float)servo1_angle * M_PI / 180), radians_to_micro((float)servo2_angle * M_PI / 180));
         if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
         {
             servos_disable();
@@ -552,13 +566,11 @@ void manual_move_angles()
             printIntToLCD(servo2_dutymicros, 1, 8);
             servo2_angle += 1;
         }
-        move((double)servo1_angle * M_PI / 180, (double)servo2_angle * M_PI / 180);
     }
 }
 
 void manual_move_xy()
 { 
-    clock_setup();
     servos_enable();
     double x = 5;
     double y = 5;
