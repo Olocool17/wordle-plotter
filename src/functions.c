@@ -30,6 +30,11 @@ TODO:
 #define XMAX (1400)
 #define YMAX (2100)
 
+//Gridspace measurements
+
+#define XOFFSET (260)
+#define YOFFSET (300)
+
 #define ARM_LENGTH (1380) //Length of each servo arm
 
 #define MICROS_PI 2300 //The servo duty cycle in microseconds that corresponds to 180 degrees or pi radians
@@ -83,10 +88,12 @@ bool within_bounds(int x_coor, int y_coor)
 
 void lin_bez(int start_x, int start_y, int end_x, int end_y)  
 {
-    if (!(within_bounds(start_x,start_y) && within_bounds(end_x,end_y))) return;
+    if (!(within_bounds(start_x,start_y) && within_bounds(end_x,end_y))) return; //given values out-of-bounds
+    
     int pathlength = sqrt(SQUARE(end_x - start_x) + SQUARE(end_y - start_y));
     int segments = (int) (ITERS * pathlength);
     if (segments == 0) return; //too small to draw at current precision
+    
     int segment_x = (end_x - start_x)/segments;
     int segment_y = (end_y - start_y)/segments;
     int x_next = start_x;
@@ -319,7 +326,7 @@ void draw_letter(char letter, int x, int y)
 
 void draw_letter_on_grid(char letter, int tile_x, int tile_y)
 {
-    int x = 100 + 260 * tile_x; //letters are bound between 100 < x < 1200
-    int y = 1800 - 300 * tile_y; //letters are bound between 600 < y < 2000
+    int x = 100 + XOFFSET * tile_x; //letters are bound between 100 < x < 1200
+    int y = 1800 - YOFFSET * tile_y; //letters are bound between 600 < y < 2000
     draw_letter(letter, x, y);
 }
