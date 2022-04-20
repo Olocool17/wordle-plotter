@@ -74,7 +74,7 @@ void move_xy_with_lift(int x_coor, int y_coor)
 
 bool within_bounds(int x_coor, int y_coor) 
 {
-    if ((x_coor <  XMIN)|| (x_coor > XMAX) || (y_coor < YMIN) || (y_coor > YMAX)) 
+    if ((x_coor <  XMIN) || (x_coor > XMAX) || (y_coor < YMIN) || (y_coor > YMAX)) 
     {
         return false;
     }
@@ -108,6 +108,7 @@ void cub_bez(int start_x, int start_y, int cp1_x, int cp1_y, int cp2_x, int cp2_
     if (segments == 0) return; //too small to draw at current precision
     for (size_t t = 0; t <= segments; t++)
     {
+        //formula for the Cubic Bezier curve
         int x_next = (CUBE(segments - t)*start_x + 3*SQUARE(segments - t)*t*cp1_x + 3*(segments - t)*SQUARE(t)*cp2_x + CUBE( t)*end_x) / CUBE(segments);
         int y_next = (CUBE(segments - t)*start_y + 3*SQUARE(segments - t)*t*cp1_y + 3*(segments - t)*SQUARE(t)*cp2_y + CUBE( t)*end_y) / CUBE(segments);
         _delay_ms(ITER_DELAY);
@@ -131,6 +132,7 @@ void draw_grid()
     
 }
 
+//drawing letters on the grid
 void draw_letter(char letter, int x, int y)
 {
     drawing();
@@ -298,14 +300,14 @@ void draw_letter(char letter, int x, int y)
             lin_bez(x + 160, y + 200, x, y);
             lin_bez(x, y, x + 160, y);
             break;
-        case 'g':
+        case 'g': //draws a small "v", corresponds to a green tile from the original game
             move_xy_with_lift(x + 110, y + 250);
             lin_bez(x + 110, y + 250, x + 130, y + 210);
             lin_bez(x + 130, y + 210, x + 150, y + 250);
-        case 'y':
+        case 'y': //draws a small "~", corresponds to a yellow tile from the original game
             move_xy_with_lift(x + 88, y + 225);
             cub_bez(x + 88, y + 225, x + 122, y + 270, x + 122, y + 180, x + 161, y + 237);
-        case 'b':
+        case 'b': //draws a small "x", corresponds to a black (empty) tile from the original game
             move_xy_with_lift(x + 110, y + 250);
             lin_bez(x + 110, y + 250, x + 150, y + 210);
             move_xy_with_lift(x + 110, y + 210);
