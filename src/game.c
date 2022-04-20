@@ -11,7 +11,6 @@
 
 void wordle(bool random) 
 {
-    //word selection phase
     char* wordle_word = malloc(sizeof(char)*6);
     if (random) 
     {
@@ -28,9 +27,7 @@ void wordle(bool random)
             display_menu(game_info_menu("exiting game...", ""), NULL);
         }
     }
-    //word guessing phase
-    bool game_won = false;
-    for(size_t attempt_count = 0; (attempt_count < 5) && (!game_won); attempt_count++)
+    for(size_t attempt_count = 0; attempt_count < 6; attempt_count++)
     {
         char* attempt_word = manual_word_select(attempt_count);
         if (strcmp(attempt_word, "00000") == 0)
@@ -41,20 +38,16 @@ void wordle(bool random)
         attempt(attempt_count, attempt_word, wordle_word);
         if(attempt_word == wordle_word)
         {
-            game_won = true;
-            break;
+            //victory termination procedure
+            free(attempt_word);
+            display_menu(game_info_menu("victory", wordle_word), NULL);
+            free(wordle_word);
+            return;
         }
         free(attempt_word);
     }
-    //final game state check
-    if (game_won)
-    {
-        display_menu(game_info_menu("victory", wordle_word), NULL);
-    }
-    else
-    {
-        display_menu(game_info_menu("defeat", wordle_word), NULL);      
-    }
+    //defeat termination procedure
+    display_menu(game_info_menu("defeat", wordle_word), NULL);      
     free(wordle_word);
 }
 
