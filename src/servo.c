@@ -4,22 +4,18 @@
 
 #include <servo.h>
 
-volatile bool servo1_pwm = false; // true if PWM signal is high
-volatile bool servo2_pwm = false;
 volatile int servo1_dutymicros = 1500;
 volatile int servo2_dutymicros = 1500;
 
 ISR(TIMER1_COMPA_vect) 
 {
-  if (servo1_pwm)
+  if (PORTC & _BV(PC0))
   {
     PORTC &= ~_BV(PC0); //set PWM signal to low
-    servo1_pwm = false;
     OCR1A = 2 * (10000 - servo1_dutymicros); // duration of PWM low cycle
   }
   else 
   {
-    servo1_pwm = true;
     PORTC |= _BV(PC0); // set PWM signal to high
     OCR1A = 2 * servo1_dutymicros; // duration of PWM high cycle,
   }
@@ -27,15 +23,13 @@ ISR(TIMER1_COMPA_vect)
 
 ISR(TIMER3_COMPA_vect) 
 {
-  if (servo2_pwm)
+  if (PORTC & _BV(PC1))
   {
     PORTC &= ~_BV(PC1); //set PWM signal to low
-    servo2_pwm = false;
     OCR3A = 2 * (10000 - servo2_dutymicros); // duration of PWM low cycle
   }
   else 
   {
-    servo2_pwm = true;
     PORTC |= _BV(PC1); // set PWM signal to high
     OCR3A = 2 * servo2_dutymicros; // duration of PWM high cycle
   }
@@ -81,8 +75,8 @@ void servos_enable()
   TCCR3B |= _BV(CS31);
   TCCR3B &= ~_BV(CS30);
 
-  servo1_pwm = false;
-  servo2_pwm = false;
+  PORTC &= ~_BV(PC0);
+  PORTC &= ~_BV(PC1);
 
   OCR1A = 2*10000; // Clock interrupts every 10 ms
   OCR3A = 2*10000; 
