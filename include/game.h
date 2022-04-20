@@ -3,9 +3,9 @@
 
 //Handles the wordle game's logic and drawing
 
-/*
+/*  
     @brief Starts the wordle game.
-    @param random Determines if the secret word should be random or manually selected at the start of the game
+    @param random Determines if the secret word should be random or manually selected at the start of the game 
 */
 void wordle(bool random);
 
