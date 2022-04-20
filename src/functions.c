@@ -11,7 +11,7 @@
 functions.c:
 Calculations done assuming L1 (= length of the first servo) = L2 (= length of second servo) = 13.8cm, with the coordinate system in increments of 0.1mm.
 No out of bounds check is needed for move_xy since boundaries were already checked during the bezier call, requiring only 2 or 4 checks instead of 100.
-The boundaries are those of an A5-sheet, being 15x21cm (rounded up)
+The boundaries are 14x21cm, roughly the size of an A5 paper
 For the individual letters, the following formulas apply:
 value of x-position = (0.8 + 2*x_value/250) + 2.8*x
 value of y-position = (18 + 2*y_value/250) - 2.8*y
