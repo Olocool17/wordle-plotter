@@ -6,7 +6,7 @@
 const char* const wordle_list[] PROGMEM =
 {
 "aback",
-"abase",
+/*"abase",
 "abate",
 "abbey",
 "abbot",
@@ -2322,6 +2322,6 @@ const char* const wordle_list[] PROGMEM =
 "youth",
 "zebra",
 "zesty",
-"zonal",
+"zonal",*/
 };
 #endif
