@@ -390,7 +390,7 @@ void letter_select()
     return;
 }
 
-char* word_select()
+char* word_select(int attempt_count)
 {
     char* word = malloc(sizeof(char)*6);
     for (size_t i = 0; i < 5; i++)
@@ -452,6 +452,12 @@ char* word_select()
         clearLCD();
         printStringToLCD("exit",0,0);
         printStringToLCD(word,0,6);
+        if (attempt_count != -1)
+        {
+            printCharToLCD('(', 0, 13);
+            printIntToLCD( attempt_count, 0, 14);
+            printCharToLCD(')', 0, 15);
+        }
         printStringToLCD("   go",0,11);
         printCharToLCD('^',1,6 + selection);
     }
@@ -515,12 +521,13 @@ void manual_move_angles()
     servos_enable();
     int servo1_angle = 90;
     int servo2_angle = 90;
+    int servo1_micros = radians_to_micros((float)servo1_angle * M_PI / 180);
+    int servo2_micros = radians_to_micros((float)servo2_angle * M_PI / 180);
     clearLCD();
     printStringToLCD("manual control:",0,0);
     printStringToLCD("angles", 1, 0);
     while(1){
         _delay_ms(100);
-        move(radians_to_micros((float)servo1_angle * M_PI / 180), radians_to_micros((float)servo2_angle * M_PI / 180));
         if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
         {
             servos_disable();
@@ -529,43 +536,48 @@ void manual_move_angles()
         else if (!(PINE & _BV(PE4)))
         {
             //Rotate servo 1 left
+            servo1_angle -= 1;
+            servo1_micros = radians_to_micros((float)servo1_angle * M_PI / 180);
             clearLCD();
             printStringToLCD("servo 1, left ", 0, 0);
             printIntToLCD(servo1_angle, 1, 0);
             printStringToLCD("pwm:", 1, 4);
-            printIntToLCD(servo1_dutymicros, 1, 8);
-            servo1_angle -= 1;
+            printIntToLCD(servo1_micros, 1, 8);
         }
         else if (!(PINE & _BV(PE5)))
         {
             //Rotate servo 2 left
+            servo2_angle -= 1;
+            servo2_micros = radians_to_micros((float)servo2_angle * M_PI / 180);
             clearLCD();
             printStringToLCD("servo 2, left ", 0, 0);
             printIntToLCD(servo2_angle , 1, 0);
             printStringToLCD("pwm:", 1, 4);
-            printIntToLCD(servo2_dutymicros, 1, 8);
-            servo2_angle -= 1;
+            printIntToLCD(servo2_micros, 1, 8);
         }    
         else if (!(PINE & _BV(PE6)))
         {
             //Rotate servo 1 right
+            servo1_angle += 1;
+            servo1_micros = radians_to_micros((float)servo1_angle * M_PI / 180);
             clearLCD();
             printStringToLCD("servo 1, right", 0, 0);
             printIntToLCD(servo1_angle, 1, 0);
             printStringToLCD("pwm:", 1, 4);
-            printIntToLCD(servo1_dutymicros, 1, 8);
-            servo1_angle += 1;
+            printIntToLCD(servo1_micros, 1, 8);
         }    
         else if (!(PINE & _BV(PE7)))
         {
             //Rotate servo 2 right
+            servo2_angle += 1;
+            servo2_micros = radians_to_micros((float)servo2_angle * M_PI / 180);
             clearLCD();
             printStringToLCD("servo 2, right", 0, 0);
             printIntToLCD(servo2_angle, 1, 0);
             printStringToLCD("pwm:", 1, 4);
-            printIntToLCD(servo2_dutymicros, 1, 8);
-            servo2_angle += 1;
+            printIntToLCD(servo2_micros, 1, 8);
         }
+        move(radians_to_micros((float)servo1_angle * M_PI / 180), radians_to_micros((float)servo2_angle * M_PI / 180));
     }
 }
 
@@ -588,28 +600,28 @@ void manual_move_xy()
             //Rotate servo 1 left
             printStringToLCD("x, left ", 1, 0);
             printIntToLCD(x, 1, 10);
-            x -= 1;
+            x -= 10;
         }
         else if (!(PINE & _BV(PE5)))
         {
         //Rotate servo 2 left
             printStringToLCD("y, down ", 1, 0);
             printIntToLCD(y , 1, 10);
-            y-= 1;
+            y-= 10;
         }    
         else if (!(PINE & _BV(PE6)))
         {
             //Rotate servo 1 right
             printStringToLCD("x, right", 1, 0);
             printIntToLCD(x, 1, 10);
-            x += 1;
+            x += 10;
         }    
         else if (!(PINE & _BV(PE7)))
         {
             //Rotate servo 2 right
             printStringToLCD("y, up", 1, 0);
             printIntToLCD(y, 1, 10);
-            y += 1;
+            y += 10;
         }
         else
         {
