@@ -37,7 +37,9 @@ TODO:
 
 #define ARM_LENGTH (1380) //Length of each servo arm
 
-#define MICROS_PI 2300 //The servo duty cycle in microseconds that corresponds to 180 degrees or pi radians
+#define MICROS_PI 1600 //The servo duty cycle difference in microseconds that corresponds to 180 degrees or pi radians
+#define PWM_BEGIN 700
+#define PWM_END 2300
 
 #define ITERS (0.06) //Amount of subdivisions for each 0.1mm of a curve
 #define ITER_DELAY (10) //Time in miliseconds for the pen to trace each such subdivision
@@ -48,18 +50,18 @@ TODO:
 
 int radians_to_micros(float rad)
 {
-    return 700 + (int)((rad / M_PI) * 1600);
+    return ((rad / M_PI) * MICROS_PI);
 }
 
 void move(int theta_1, int theta_2) 
 {
-    servo1_dutymicros = theta_1;
-    servo2_dutymicros = theta_2;
+    servo1_dutymicros = PWM_BEGIN + theta_1;
+    servo2_dutymicros = PWM_BEGIN + theta_2;
 }
 
 void move_xy(int x_coor, int y_coor) 
 { 
-    int r = sqrt(SQUARE(x_coor) + SQUARE(y_coor));
+    float r = sqrt(SQUARE((long int)x_coor) + SQUARE((long int) y_coor));
     int help_theta = 2 * radians_to_micros(asin(r / (ARM_LENGTH * 2)));
     int theta_2 = MICROS_PI - help_theta;
     int theta_1 = (MICROS_PI / 2) - radians_to_micros(asin(y_coor / r)) + (help_theta / 2);
@@ -126,12 +128,12 @@ void cub_bez(int start_x, int start_y, int cp1_x, int cp1_y, int cp2_x, int cp2_
 void draw_grid()
 {
     drawing();
-    for (size_t i = XMIN; i < XMAX; i++) 
+    for (size_t i = XMIN; i < XMAX; i += 100) 
     {
         move_xy_with_lift(i, YMIN);
         lin_bez(i, YMIN, i, YMAX);
     }
-    for (size_t i = YMIN; i < YMAX; i++)
+    for (size_t i = YMIN; i < YMAX; i += 100)
     {
         move_xy_with_lift(XMIN, i);
         lin_bez(XMIN, i, XMAX, i);

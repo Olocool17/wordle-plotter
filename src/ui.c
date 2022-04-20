@@ -572,11 +572,12 @@ void manual_move_angles()
 void manual_move_xy()
 { 
     servos_enable();
-    double x = 5;
-    double y = 5;
+    long int x = 500;
+    long int y = 500;
     while(1){
         _delay_ms(100);
         clearLCD();
+        move_xy(x, y);
         if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
         {
             servos_disable();
@@ -586,36 +587,35 @@ void manual_move_xy()
         {
             //Rotate servo 1 left
             printStringToLCD("x, left ", 1, 0);
-            printIntToLCD((int)x, 1, 10);
-            x -= 0.1;
+            printIntToLCD(x, 1, 10);
+            x -= 1;
         }
         else if (!(PINE & _BV(PE5)))
         {
         //Rotate servo 2 left
             printStringToLCD("y, down ", 1, 0);
-            printIntToLCD((int)y , 1, 10);
-            y-= 0.1;
+            printIntToLCD(y , 1, 10);
+            y-= 1;
         }    
         else if (!(PINE & _BV(PE6)))
         {
             //Rotate servo 1 right
             printStringToLCD("x, right", 1, 0);
-            printIntToLCD((int)x, 1, 10);
-            x += 0.1;
+            printIntToLCD(x, 1, 10);
+            x += 1;
         }    
         else if (!(PINE & _BV(PE7)))
         {
             //Rotate servo 2 right
             printStringToLCD("y, up", 1, 0);
-            printIntToLCD((int)y, 1, 10);
-            y += 0.1;
+            printIntToLCD(y, 1, 10);
+            y += 1;
         }
         else
         {
             printStringToLCD("manual control:",0,0);
             printStringToLCD("xy", 1, 0);
         }
-        move_xy(x, y);
     }
 }
 
