@@ -12,15 +12,11 @@ functions.c:
 Calculations done assuming L1 (= length of the first servo) = L2 (= length of second servo) = 13.8cm, with the coordinate system in increments of 0.1mm.
 No out of bounds check is needed for move_xy since boundaries were already checked during the bezier call, requiring only 2 or 4 checks instead of 100.
 The boundaries are 14x21cm, roughly the size of an A5 paper
-For the individual letters, the following formulas apply:
-value of x-position = (0.8 + 2*x_value/250) + 2.8*x
-value of y-position = (18 + 2*y_value/250) - 2.8*y
-the variables x and y are the discrete coordinates of the tiles on the 5x6 wordle grid, with (0,0) being the tile in the TOP left corner!
-the variables x_value and y_value are the x and y-values within an individual gridspace, both on a scale of 250 (each gridspace is 2cmx2cm in size)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 TODO:
 1) Test every letter in a position that checks all variables.
 2) Add pen-lifting function with corresponding dutycycle.
+3) Change grid to actually account for 6 attempts :(
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 //Bounds of the board
