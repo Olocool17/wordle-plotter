@@ -11,9 +11,10 @@ void wordle(bool random);
 
 /*
     @brief Prompts the user to enter a word and checks if this word is in the wordle list.
+    @param attempt_count The attempt count that should be displayed. Use -1 to not display an attempt count.
     @return The manually selected word.
 */
-char* manual_word_select();
+char* manual_word_select(int attempt_count);
 
 /*
     @brief Checks if a word is in a list of words.

@@ -22,7 +22,7 @@ void wordle(bool random)
     else 
     {
         free(wordle_word);
-        char* wordle_word = manual_word_select();
+        char* wordle_word = manual_word_select(-1);
         if ((strcmp(wordle_word, "00000") == 0))
         {
             display_menu(game_info_menu("exiting game...", ""), NULL);
@@ -32,7 +32,7 @@ void wordle(bool random)
     bool game_won = false;
     for(size_t attempt_count = 0; (attempt_count < 5) && (!game_won); attempt_count++)
     {
-        char* attempt_word = manual_word_select();
+        char* attempt_word = manual_word_select(attempt_count);
         if (strcmp(attempt_word, "00000") == 0)
         {
             display_menu(game_info_menu("exiting game...", ""), NULL);
@@ -42,6 +42,7 @@ void wordle(bool random)
         if(attempt_word == wordle_word)
         {
             game_won = true;
+            break;
         }
         free(attempt_word);
     }
@@ -57,13 +58,13 @@ void wordle(bool random)
     free(wordle_word);
 }
 
-char* manual_word_select() 
+char* manual_word_select(int attempt_count) 
 {
-    char* word = word_select();
+    char* word = word_select(attempt_count);
     if((strcmp(word, "00000") == 0) && (!word_in_list(word, (char**) wordle_list))) 
     {
         game_error_menu("word not found");
-        return manual_word_select();
+        return manual_word_select(attempt_count);
     }
     return word;
 }

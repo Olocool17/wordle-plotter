@@ -139,9 +139,10 @@ void letter_select();
 
 /*
     @brief Displays a menu allowing the selection of a word.
+    @param attempt_count The attempt count that will be displayed. Use -1 to disable the display of this attempt count.
     @return The word that was selected. Must be freed after use!
 */
-char* word_select();
+char* word_select(int attempt_count);
 
 /*
     @brief Displays a menu allowing the manual movement according to the x and y axes.
