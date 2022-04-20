@@ -28,14 +28,14 @@ TODO:
 
 //Gridspace measurements
 
-#define XOFFSET (260)
-#define YOFFSET (300)
+#define LETTER_WIDTH (260)
+#define LETTER_HEIGHT (300)
 
 #define ARM_LENGTH (1380) //Length of each servo arm
 
-#define MICROS_PI 1600 //The servo duty cycle difference in microseconds that corresponds to 180 degrees or pi radians
-#define PWM_BEGIN 700
-#define PWM_END 2300
+#define MICROS_PI (1600) //The servo duty cycle difference in microseconds that corresponds to 180 degrees or pi radians
+#define PWM_BEGIN (700)
+#define PWM_END (2300)
 
 #define ITERS (0.06) //Amount of subdivisions for each 0.1mm of a curve
 #define ITER_DELAY (10) //Time in miliseconds for the pen to trace each such subdivision
@@ -324,7 +324,7 @@ void draw_letter(char letter, int x, int y)
 
 void draw_letter_on_grid(char letter, int tile_x, int tile_y)
 {
-    int x = 100 + XOFFSET * tile_x; //letters are bound between 100 < x < 1200
-    int y = 1800 - YOFFSET * tile_y; //letters are bound between 600 < y < 2000
+    int x = 100 + LETTER_WIDTH * tile_x; //letters are bound between 100 < x < 1200
+    int y = 1800 - LETTER_HEIGHT * tile_y; //letters are bound between 600 < y < 2000
     draw_letter(letter, x, y);
 }
