@@ -16,7 +16,7 @@ void wordle(bool random)
     {
         int wordlist_count = sizeof(wordle_list) / sizeof(wordle_list[0]);
         int rand_i = rand_range(wordlist_count);
-        strcpy(wordle_word, wordle_list[rand_i]);
+        strcpy_P(wordle_word, (char*)pgm_read_ptr(&(wordle_list[rand_i])));
     }
     else 
     {
@@ -65,7 +65,7 @@ char* manual_word_select(int attempt_count)
 bool word_in_list(char* word, char** list) 
 {
     int wordlist_count = sizeof(wordle_list) / sizeof(wordle_list[0]);
-    for (size_t i = 0; (i < wordlist_count) && (strcmp(word, list[i]) == 0); i++) 
+    for (size_t i = 0; (i < wordlist_count) && (strcmp_P(word, (char*)pgm_read_ptr(&(list[i]))) == 0); i++) 
     {
         return true;
     }
