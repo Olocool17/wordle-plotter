@@ -392,6 +392,7 @@ void letter_select()
 
 char* word_select(int attempt_count)
 {
+    //displaying 'AAAAA' to user at the start of word selection
     char* word = malloc(sizeof(char)*6);
     for (size_t i = 0; i < 5; i++)
     {
@@ -400,6 +401,7 @@ char* word_select(int attempt_count)
     word[5] = '\0';
     int selection = 0;
     bool exit = false;
+    //handling the word selection
     while(1)
     {
         button_logic();
@@ -452,6 +454,7 @@ char* word_select(int attempt_count)
         clearLCD();
         printStringToLCD("exit",0,0);
         printStringToLCD(word,0,6);
+        //showing the user what attempt they are currently on
         if (attempt_count != -1)
         {
             printCharToLCD('(', 0, 13);

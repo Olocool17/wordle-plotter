@@ -12,12 +12,14 @@
 void wordle(bool random) 
 {
     char* wordle_word = malloc(sizeof(char)*6);
+    //if the player chose to randomly select a word
     if (random) 
     {
         int wordlist_count = sizeof(wordle_list) / sizeof(wordle_list[0]);
         int rand_i = rand_range(wordlist_count);
         strcpy_P(wordle_word, (char*)pgm_read_ptr(&(wordle_list[rand_i])));
     }
+    //if the player chose to manually select a word
     else 
     {
         free(wordle_word);
@@ -54,6 +56,7 @@ void wordle(bool random)
 char* manual_word_select(int attempt_count) 
 {
     char* word = word_select(attempt_count);
+    //returning the user to word_select if they entered an invalid word
     if((strcmp(word, "00000") == 0) && (!word_in_list(word, (char**) wordle_list))) 
     {
         game_error_menu("word not found");
@@ -78,9 +81,9 @@ int rand_range(int limit)
     return rand() / RAND_MAX * limit;
 }
 
+//applying the wordle word comparison logic between the guessed word and secret word
 void attempt(int attempt_number, char* attempt, char* secret_word) 
 {
-//create copies of attempt and secret word
     char* attempt_copy = malloc(sizeof(char)*6);
     strcpy(attempt_copy, attempt);
     char* secret_word_copy = malloc(sizeof(char)*6);
@@ -96,15 +99,13 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
             secret_word_copy[i] = '0';
         }
     }
-/* 
-    second iteration: check for the remaining letters in if they appear anywhere in the remainder of the secret word
-    if a match is found it will set the first instances of the letter in both strings to 0 and draw a "yellow tile" on the place of the first instance of
-    this letter in the attempt
-*/  
+/* second iteration: check for the remaining letters in if they appear anywhere in the remainder of the secret word
+   if a match is found it will set the first instances of the letter in both strings to 0 and draw a "yellow tile" on the place of the first instance of
+   this letter in the attempt */  
     for (size_t i = 0; (i < 5) && ((strchr(secret_word_copy, attempt_copy[i]) != NULL) && (attempt_copy[i] != '0')); i++) 
     { 
         draw_letter_on_grid('y', i, attempt_number);
-        //Finding the first instance of the letter appearing in the secret word that is not already being marked as a "green tile".
+        //Finding the first instance of the letter appearing in the secret word that is not already marked as a "green tile".
         for (size_t p = 0; (p < 5) && (secret_word_copy[p] == attempt_copy[i]); p++)
         {
             secret_word_copy[p] = '0';
@@ -112,7 +113,7 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
             break; 
         }
     }
-//third iteration: drawing "black tiles" for every letter that hasn't been assigned a color yet.
+//third iteration: drawing "black tiles" for every tile in the guessed word that hasn't been assigned a color yet.
     for (size_t i=0; (i < 5) && (attempt_copy[i] != '0'); i++) 
     {
         draw_letter_on_grid('b', i, attempt_number);
