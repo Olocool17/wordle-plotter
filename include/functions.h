@@ -70,6 +70,12 @@ void cub_bez(int start_x, int start_y, int cp1_x, int cp1_y, int cp2_x, int cp2_
 void draw_grid();
 
 /*
+    @brief Draws a circle on the board.
+*/
+void draw_circle();
+
+
+/*
     @brief Draws the given letter at the given coordinates (lower left corner of the letter's 'box')
     @param letter The letter to be drawn
     @param x The x-coordinate for the origin of the letter

@@ -38,7 +38,10 @@ TODO:
 #define PWM_END (2300)
 
 #define ITERS (0.06) //Amount of subdivisions for each 0.1mm of a curve
-#define ITER_DELAY (5) //Time in miliseconds for the pen to trace each such subdivision
+#define ITER_DELAY (10) //Time in miliseconds for the pen to trace each such subdivision
+
+#define CIRCLE_ITERS (50)
+#define CIRCLE_RADIUS (500)
 
 //Macro's for x² and x³
 #define SQUARE(x) ((x)*(x))
@@ -135,6 +138,20 @@ void draw_grid()
         lin_bez(XMIN, i, XMAX, i);
     }
     
+}
+
+void draw_circle()
+{
+    drawing();
+    move_xy_with_lift(850 + CIRCLE_RADIUS, 850);
+    float circle_subdiv = M_PI / CIRCLE_ITERS;
+    float new_i = 0;
+    for (float i = 0 ; i < M_PI;)
+    {
+        new_i += circle_subdiv;
+        lin_bez(CIRCLE_RADIUS * cos(i), CIRCLE_RADIUS*cos(i) , CIRCLE_RADIUS * cos(new_i), CIRCLE_RADIUS * sin(new_i));
+        i = new_i;
+    }
 }
 
 //drawing letters on the grid
