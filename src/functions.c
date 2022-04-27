@@ -119,8 +119,8 @@ void cub_bez(int start_x, int start_y, int cp1_x, int cp1_y, int cp2_x, int cp2_
     for (size_t t = 0; t <= segments; t++)
     {
         //formula for the Cubic Bezier curve
-        int x_next = (CUBE(segments - t)*start_x + 3*SQUARE(segments - t)*t*cp1_x + 3*(segments - t)*SQUARE(t)*cp2_x + CUBE( t)*end_x) / CUBE(segments);
-        int y_next = (CUBE(segments - t)*start_y + 3*SQUARE(segments - t)*t*cp1_y + 3*(segments - t)*SQUARE(t)*cp2_y + CUBE( t)*end_y) / CUBE(segments);
+        int x_next = (CUBE(segments - t)*start_x + 3*SQUARE(segments - t)*t*cp1_x + 3*(segments - t)*SQUARE(t)*cp2_x + CUBE(t)*end_x) / (float)(CUBE(segments));
+        int y_next = (CUBE(segments - t)*start_y + 3*SQUARE(segments - t)*t*cp1_y + 3*(segments - t)*SQUARE(t)*cp2_y + CUBE(t)*end_y) / (float)(CUBE(segments));
         _delay_ms(ITER_DELAY);
         move_xy(x_next, y_next); //transfer next coordinates to the angle finding function
     } 
@@ -148,7 +148,7 @@ void draw_circle()
     move_xy_with_lift(CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y);
     float circle_subdiv = 2 * M_PI / CIRCLE_ITERS;
     float new_i = 0;
-    for (float i = 0 ; i < 2 * M_PI;)
+    for (float i = 0 ; i <= 2 * M_PI;)
     {
         new_i += circle_subdiv;
         lin_bez(CIRCLE_CENTER_X + CIRCLE_RADIUS * cos(i), CIRCLE_CENTER_Y + CIRCLE_RADIUS*sin(i) , CIRCLE_CENTER_X + CIRCLE_RADIUS * cos(new_i), CIRCLE_CENTER_Y + CIRCLE_RADIUS * sin(new_i));
