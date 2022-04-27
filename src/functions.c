@@ -16,7 +16,6 @@ The boundaries are 14x21cm, roughly the size of an A5 paper
 TODO:
 1) Test every letter in a position that checks all variables.
 2) Add pen-lifting function with corresponding dutycycle.
-3) Change grid to actually account for 6 attempts :(
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 //Bounds of the board
