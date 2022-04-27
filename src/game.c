@@ -59,7 +59,7 @@ char* manual_word_select(int attempt_count)
     //returning the user to word_select if they entered an invalid word
     if((strcmp(word, "00000") == 0) || (!word_in_list(word, (char**) wordle_list))) 
     {
-        game_error_menu("word not found");
+        display_menu(game_error_menu("word not found"), NULL);
         return manual_word_select(attempt_count);
     }
     return word;

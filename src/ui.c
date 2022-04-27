@@ -454,6 +454,8 @@ char* word_select(int attempt_count)
         clearLCD();
         printStringToLCD("exit",0,0);
         printStringToLCD(word,0,6);
+        printStringToLCD("   go",0,11);
+        printCharToLCD('^',1,6 + selection);
         //showing the user what attempt they are currently on
         if (attempt_count != -1)
         {
@@ -461,8 +463,6 @@ char* word_select(int attempt_count)
             printIntToLCD( attempt_count, 0, 14);
             printCharToLCD(')', 0, 15);
         }
-        printStringToLCD("   go",0,11);
-        printCharToLCD('^',1,6 + selection);
     }
     if (exit)
     {
