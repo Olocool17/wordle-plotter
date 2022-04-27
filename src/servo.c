@@ -50,6 +50,12 @@ void clock_setup()
   TCCR3A &= ~_BV(WGM31);
   TCCR3B |= _BV(WGM32);
   TCCR3B &= ~_BV(WGM33);
+
+  OCR1A = 2*10000; // Clock interrupts every 10 ms
+  OCR3A = 2*10000; 
+
+  PORTC &= ~_BV(PC0);
+  PORTC &= ~_BV(PC1);
 }
 
 void servos_disable()
@@ -74,10 +80,4 @@ void servos_enable()
   TCCR3B &= ~_BV(CS32); //Selects clock with prescaling factor of 1/8 , enabling servo 2
   TCCR3B |= _BV(CS31);
   TCCR3B &= ~_BV(CS30);
-
-  PORTC &= ~_BV(PC0);
-  PORTC &= ~_BV(PC1);
-
-  OCR1A = 2*10000; // Clock interrupts every 10 ms
-  OCR3A = 2*10000; 
 }
