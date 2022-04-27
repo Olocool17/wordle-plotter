@@ -39,7 +39,7 @@ TODO:
 #define PWM_END (2300)
 
 #define ITERS (0.06) //Amount of subdivisions for each 0.1mm of a curve
-#define ITER_DELAY (10) //Time in miliseconds for the pen to trace each such subdivision
+#define ITER_DELAY (5) //Time in miliseconds for the pen to trace each such subdivision
 
 //Macro's for x² and x³
 #define SQUARE(x) ((x)*(x))
