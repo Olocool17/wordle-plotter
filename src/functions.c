@@ -53,7 +53,7 @@ int radians_to_micros(float rad)
 void move(int theta_1, int theta_2) 
 {
     servo1_dutymicros = PWM_BEGIN + 17*SQUARE(theta_1)/256000 + 321*theta_1/320 + 25;
-    servo2_dutymicros = PWM_BEGIN + theta_2 - (80*(3*CUBE(theta_1) + 8*CUBE(theta_1-800) + 22*CUBE(theta_1-1600)))/(9*(theta_1*(theta_1-800)*(theta_1-1600)));
+    servo2_dutymicros = PWM_BEGIN + theta_2 - (80*(3*CUBE(theta_1 - 25) + 8*CUBE(theta_1-870) + 22*CUBE(theta_1-1800)))/(9*((theta_1-25)*(theta_1-870)*(theta_1-1800)));
 }
 
 void move_xy(int x_coor, int y_coor) 
