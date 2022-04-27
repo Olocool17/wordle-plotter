@@ -7,7 +7,7 @@
 const char aback_string[] PROGMEM = "aback";
 const char abase_string[] PROGMEM = "abase";
 const char abate_string[] PROGMEM = "abate";
-const char abbey_string[] PROGMEM = "abbey";
+/*const char abbey_string[] PROGMEM = "abbey";
 const char abbot_string[] PROGMEM = "abbot";
 const char abhor_string[] PROGMEM = "abhor";
 const char abide_string[] PROGMEM = "abide";
@@ -2318,14 +2318,14 @@ const char young_string[] PROGMEM = "young";
 const char youth_string[] PROGMEM = "youth";
 const char zebra_string[] PROGMEM = "zebra";
 const char zesty_string[] PROGMEM = "zesty";
-const char zonal_string[] PROGMEM = "zonal";
+const char zonal_string[] PROGMEM = "zonal"; */
 
 const char* const wordle_list[] PROGMEM =
 {
 aback_string,
 abase_string,
 abate_string,
-abbey_string,
+/*abbey_string,
 abbot_string,
 abhor_string,
 abide_string,
@@ -4636,6 +4636,6 @@ young_string,
 youth_string,
 zebra_string,
 zesty_string,
-zonal_string,
+zonal_string,*/
 };
 #endif
