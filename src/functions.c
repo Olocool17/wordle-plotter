@@ -40,8 +40,10 @@ TODO:
 #define ITERS (0.06) //Amount of subdivisions for each 0.1mm of a curve
 #define ITER_DELAY (10) //Time in miliseconds for the pen to trace each such subdivision
 
-#define CIRCLE_ITERS (50)
-#define CIRCLE_RADIUS (500)
+#define CIRCLE_ITERS (10)
+#define CIRCLE_RADIUS (300)
+#define CIRCLE_CENTER_X (850)
+#define CIRCLE_CENTER_Y (850)
 
 //Macro's for x² and x³
 #define SQUARE(x) ((x)*(x))
@@ -143,13 +145,13 @@ void draw_grid()
 void draw_circle()
 {
     drawing();
-    move_xy_with_lift(850 + CIRCLE_RADIUS, 850);
-    float circle_subdiv = M_PI / CIRCLE_ITERS;
+    move_xy_with_lift(CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y);
+    float circle_subdiv = 2 * M_PI / CIRCLE_ITERS;
     float new_i = 0;
-    for (float i = 0 ; i < M_PI;)
+    for (float i = 0 ; i < 2 * M_PI;)
     {
         new_i += circle_subdiv;
-        lin_bez(CIRCLE_RADIUS * cos(i), CIRCLE_RADIUS*cos(i) , CIRCLE_RADIUS * cos(new_i), CIRCLE_RADIUS * sin(new_i));
+        lin_bez(CIRCLE_CENTER_X + CIRCLE_RADIUS * cos(i), CIRCLE_CENTER_Y + CIRCLE_RADIUS*sin(i) , CIRCLE_CENTER_X + CIRCLE_RADIUS * cos(new_i), CIRCLE_CENTER_Y + CIRCLE_RADIUS * sin(new_i));
         i = new_i;
     }
 }
