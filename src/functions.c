@@ -23,7 +23,7 @@ TODO:
 #define XMIN (0)
 #define YMIN (300)
 #define XMAX (1400)
-#define YMAX (2100)
+#define YMAX (2400)
 
 //Gridspace measurements
 
