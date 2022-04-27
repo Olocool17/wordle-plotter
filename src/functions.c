@@ -31,7 +31,8 @@ TODO:
 #define LETTER_WIDTH (260)
 #define LETTER_HEIGHT (300)
 
-#define ARM_LENGTH (1380) //Length of each servo arm
+#define ARM_LENGTH_1 (1250) //Length of each servo arm
+#define ARM_LENGTH_2 (1450)
 
 #define MICROS_PI (1600) //The servo duty cycle difference in microseconds that corresponds to 180 degrees or pi radians
 #define PWM_BEGIN (700)
@@ -57,10 +58,10 @@ void move(int theta_1, int theta_2)
 
 void move_xy(int x_coor, int y_coor) 
 { 
-    float r = sqrt(SQUARE((long int)x_coor) + SQUARE((long int) y_coor));
-    int help_theta = 2 * radians_to_micros(asin(r / (ARM_LENGTH * 2)));
-    int theta_2 = MICROS_PI - help_theta;
-    int theta_1 = (MICROS_PI / 2) - radians_to_micros(asin(y_coor / r)) + (help_theta / 2);
+    float r = sqrt(SQUARE((long)x_coor) + SQUARE((long) y_coor));
+    float help_theta = acos((float)(SQUARE((long)ARM_LENGTH_1) + SQUARE((long)ARM_LENGTH_2) - SQUARE(r)) / (2 * (long)ARM_LENGTH_1 * (long)ARM_LENGTH_2));
+    int theta_2 = MICROS_PI - radians_to_micros(help_theta);
+    int theta_1 = MICROS_PI - radians_to_micros(atan2(y_coor, x_coor)) - radians_to_micros(asin(ARM_LENGTH_2 * sin(help_theta) / r));
     move(theta_1, theta_2);
 }
 
@@ -88,7 +89,7 @@ void lin_bez(int start_x, int start_y, int end_x, int end_y)
 {
     if (!(within_bounds(start_x,start_y) && within_bounds(end_x,end_y))) return; //given values out-of-bounds
     
-    int pathlength = sqrt(SQUARE(end_x - start_x) + SQUARE(end_y - start_y));
+    int pathlength = sqrt(SQUARE((long)end_x - (long)start_x) + SQUARE((long)end_y - (long)start_y));
     int segments = (int) (ITERS * pathlength);
     if (segments == 0) return; //too small to draw at current precision
     
