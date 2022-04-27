@@ -137,7 +137,7 @@ void display_menu(menu* dmenu, int* next_id)
             dmenu->scroll = dmenu->selected / 2;
         }
         clearLCD();
-        if (dmenu->selected == -1) 
+        if (dmenu->selected < 0) 
         {
             printStringToLCD(dmenu->items[0 + dmenu->scroll*2].name, 0, 0);
             if (1 + dmenu->scroll*2 < dmenu->item_count)
@@ -459,9 +459,9 @@ char* word_select(int attempt_count)
         //showing the user what attempt they are currently on
         if (attempt_count != -1)
         {
-            printCharToLCD('(', 0, 13);
-            printIntToLCD( attempt_count, 0, 14);
-            printCharToLCD(')', 0, 15);
+            printCharToLCD('(', 1, 13);
+            printIntToLCD( attempt_count + 1, 1, 14);
+            printCharToLCD(')', 1, 15);
         }
     }
     if (exit)
