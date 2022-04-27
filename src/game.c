@@ -38,7 +38,7 @@ void wordle(bool random)
             free(wordle_word);
         }
         attempt(attempt_count, attempt_word, wordle_word);
-        if(attempt_word == wordle_word)
+        if(strcmp(attempt_word, wordle_word) == 0)
         {
             //victory termination procedure
             free(attempt_word);
@@ -57,7 +57,7 @@ char* manual_word_select(int attempt_count)
 {
     char* word = word_select(attempt_count);
     //returning the user to word_select if they entered an invalid word
-    if((strcmp(word, "00000") == 0) && (!word_in_list(word, (char**) wordle_list))) 
+    if((strcmp(word, "00000") == 0) || (!word_in_list(word, (char**) wordle_list))) 
     {
         game_error_menu("word not found");
         return manual_word_select(attempt_count);

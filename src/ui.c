@@ -197,7 +197,7 @@ menu* menu_handler(menu* dmenu, int id)
         return main_menu();
         break;
      case 22:
-        //draw circle
+        draw_circle();
         return main_menu();
         break;
     case 23:
@@ -524,8 +524,6 @@ void manual_move_angles()
     servos_enable();
     int servo1_angle = 90;
     int servo2_angle = 90;
-    int servo1_micros = radians_to_micros((float)servo1_angle * M_PI / 180);
-    int servo2_micros = radians_to_micros((float)servo2_angle * M_PI / 180);
     clearLCD();
     printStringToLCD("manual control:",0,0);
     printStringToLCD("angles", 1, 0);
