@@ -156,6 +156,12 @@ void draw_circle()
     }
 }
 
+void draw_circleBETER() {
+    move_xy_with_lift(CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y);
+    cub_bez(850 - CIRCLE_RADIUS, 850, 850 - CIRCLE_RADIUS, 850 + (13/8)*CIRCLE_RADIUS, 850 + CIRCLE_RADIUS, 850 + (13/8)*CIRCLE_RADIUS, 850 + CIRCLE_RADIUS, 850);
+    cub_bez(850 + CIRCLE_RADIUS, 850, 850 + CIRCLE_RADIUS, 850 - (13/8)*CIRCLE_RADIUS, 850 - CIRCLE_RADIUS, 850 - (13/8)*CIRCLE_RADIUS, 850 - CIRCLE_RADIUS, 850);
+}
+
 //drawing letters on the grid
 void draw_letter(char letter, int x, int y)
 {

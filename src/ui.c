@@ -197,7 +197,7 @@ menu* menu_handler(menu* dmenu, int id)
         return main_menu();
         break;
      case 22:
-        draw_circle();
+        draw_circleBETER();
         return main_menu();
         break;
     case 23:

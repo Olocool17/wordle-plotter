@@ -81,6 +81,7 @@ void draw_circle();
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
+void draw_circleBETER();
 void draw_letter(char letter, int x, int y);
 
 /*
