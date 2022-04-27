@@ -540,45 +540,41 @@ void manual_move_angles()
         {
             //Rotate servo 1 left
             servo1_angle -= 1;
-            servo1_micros = radians_to_micros((float)servo1_angle * M_PI / 180);
             clearLCD();
             printStringToLCD("servo 1, left ", 0, 0);
             printIntToLCD(servo1_angle, 1, 0);
             printStringToLCD("pwm:", 1, 4);
-            printIntToLCD(servo1_micros, 1, 8);
+            printIntToLCD(servo1_dutymicros, 1, 8);
         }
         else if (!(PINE & _BV(PE5)))
         {
             //Rotate servo 2 left
             servo2_angle -= 1;
-            servo2_micros = radians_to_micros((float)servo2_angle * M_PI / 180);
             clearLCD();
             printStringToLCD("servo 2, left ", 0, 0);
             printIntToLCD(servo2_angle , 1, 0);
             printStringToLCD("pwm:", 1, 4);
-            printIntToLCD(servo2_micros, 1, 8);
+            printIntToLCD(servo2_dutymicros, 1, 8);
         }    
         else if (!(PINE & _BV(PE6)))
         {
             //Rotate servo 1 right
             servo1_angle += 1;
-            servo1_micros = radians_to_micros((float)servo1_angle * M_PI / 180);
             clearLCD();
             printStringToLCD("servo 1, right", 0, 0);
             printIntToLCD(servo1_angle, 1, 0);
             printStringToLCD("pwm:", 1, 4);
-            printIntToLCD(servo1_micros, 1, 8);
+            printIntToLCD(servo1_dutymicros, 1, 8);
         }    
         else if (!(PINE & _BV(PE7)))
         {
             //Rotate servo 2 right
             servo2_angle += 1;
-            servo2_micros = radians_to_micros((float)servo2_angle * M_PI / 180);
             clearLCD();
             printStringToLCD("servo 2, right", 0, 0);
             printIntToLCD(servo2_angle, 1, 0);
             printStringToLCD("pwm:", 1, 4);
-            printIntToLCD(servo2_micros, 1, 8);
+            printIntToLCD(servo2_dutymicros, 1, 8);
         }
         move(radians_to_micros((float)servo1_angle * M_PI / 180), radians_to_micros((float)servo2_angle * M_PI / 180));
     }
