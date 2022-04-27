@@ -53,15 +53,15 @@ int radians_to_micros(float rad)
 void move(int theta_1, int theta_2) 
 {
     servo1_dutymicros = PWM_BEGIN + theta_1;
-    servo2_dutymicros = PWM_BEGIN + theta_2;
+    servo2_dutymicros = PWM_BEGIN + theta_2 - (80*(3*CUBE(theta_1) + 8*CUBE(theta_1-800) + 22*CUBE(theta_1-1600)))/(9*(theta_1*(theta_1-800)*(theta_1-1600)));
 }
 
 void move_xy(int x_coor, int y_coor) 
 { 
     float r = sqrt(SQUARE((long)x_coor) + SQUARE((long) y_coor));
     float help_theta = acos((float)(SQUARE((long)ARM_LENGTH_1) + SQUARE((long)ARM_LENGTH_2) - SQUARE(r)) / (2 * (long)ARM_LENGTH_1 * (long)ARM_LENGTH_2));
-    int theta_2 = MICROS_PI - radians_to_micros(help_theta);
     int theta_1 = MICROS_PI - radians_to_micros(atan2(y_coor, x_coor)) - radians_to_micros(asin(ARM_LENGTH_2 * sin(help_theta) / r));
+    int theta_2 = MICROS_PI - radians_to_micros(help_theta); 
     move(theta_1, theta_2);
 }
 
