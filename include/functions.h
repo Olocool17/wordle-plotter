@@ -61,7 +61,6 @@ void lin_bez(int start_x, int start_y, int end_x, int end_y);
 */
 void cub_bez(int start_x, int start_y, int cp1_x, int cp1_y, int cp2_x, int cp2_y, int end_x, int end_y);
 
-
 //Primitives
 
 /*
@@ -74,6 +73,12 @@ void draw_grid();
 */
 void draw_circle();
 
+void draw_circleBETER();
+
+/*
+    @brief Draws a square on the board.
+*/
+void draw_square();
 
 /*
     @brief Draws the given letter at the given coordinates (lower left corner of the letter's 'box')
@@ -81,7 +86,6 @@ void draw_circle();
     @param x The x-coordinate for the origin of the letter
     @param y The y-coordinate for the origin of the letter
 */
-void draw_circleBETER();
 void draw_letter(char letter, int x, int y);
 
 /*
