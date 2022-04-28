@@ -201,7 +201,7 @@ menu* menu_handler(menu* dmenu, int id)
         return main_menu();
         break;
     case 23:
-        //draw square
+        draw_square();
         return main_menu();
         break;
     case 24:
