@@ -9,6 +9,8 @@
 #include <functions.h>
 #include <game.h>
 
+#define REFRESH_MS (75)
+
 ISR(INT4_vect){
     west_button_pressed = true;
 }
@@ -109,7 +111,7 @@ void display_menu(menu* dmenu, int* next_id)
     while(1)
     { 
         button_logic();
-        _delay_ms(100);
+        _delay_ms(REFRESH_MS);
 
         if (west_button && !(PINE & _BV(PE4)))
         {
@@ -155,7 +157,7 @@ void display_menu(menu* dmenu, int* next_id)
             printCharToLCD('|', dmenu->selected % 2,0);
         }
     }
-    _delay_ms(100);
+    _delay_ms(REFRESH_MS);
     if (dmenu->selected == -2)
     {
         free(dmenu);
@@ -351,7 +353,7 @@ void letter_select()
     while(1)
     {
         button_logic();
-        _delay_ms(100);
+        _delay_ms(REFRESH_MS);
         if (west_button && !(PINE & _BV(PE4)))
         {
             back = true;
@@ -386,7 +388,7 @@ void letter_select()
         clearLCD();
         printCharToLCD(letter,0,8);
     }
-    if (!back) //draw letter;
+    if (!back) draw_letter(letter, 500, 500);
     return;
 }
 
@@ -405,7 +407,7 @@ char* word_select(int attempt_count)
     while(1)
     {
         button_logic();
-        _delay_ms(100);
+        _delay_ms(REFRESH_MS);
         if (west_button && !(PINE & _BV(PE4)))
         {
             if (selection == 0)
@@ -476,7 +478,7 @@ void manual_move_micros()
 { 
     servos_enable();
     while(1){
-        _delay_ms(100);
+        _delay_ms(REFRESH_MS);
         clearLCD();
         if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
         {
@@ -528,7 +530,7 @@ void manual_move_angles()
     printStringToLCD("manual control:",0,0);
     printStringToLCD("angles", 1, 0);
     while(1){
-        _delay_ms(100);
+        _delay_ms(REFRESH_MS);
         if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
         {
             servos_disable();
@@ -584,7 +586,7 @@ void manual_move_xy()
     long int x = 500;
     long int y = 500;
     while(1){
-        _delay_ms(100);
+        _delay_ms(REFRESH_MS);
         clearLCD();
         move_xy(x, y);
         if (!(PINE & _BV(PE4)) && !(PINE & _BV(PE5)) &&  !(PINE & _BV(PE6)) && !(PINE & _BV(PE7)))
