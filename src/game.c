@@ -78,7 +78,7 @@ bool word_in_list(char* word, char** list)
 int rand_range(int limit) 
 {
     srand(time(NULL)); //Set a seed for the RNG
-    return rand() / RAND_MAX * limit;
+    return (int)((rand() / (float)RAND_MAX )* limit);
 }
 
 //applying the wordle word comparison logic between the guessed word and secret word
