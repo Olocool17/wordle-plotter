@@ -7,6 +7,8 @@
 volatile int servo1_dutymicros;
 //Servo 2's duty cycle in microseconds
 volatile int servo2_dutymicros;
+//Servo 3's duty cycle in microseconds
+volatile int servo3_dutymicros;
 
 /*
     @brief Initialises the clock interrupts
@@ -14,7 +16,7 @@ volatile int servo2_dutymicros;
 void clock_setup();
 
 /* 
-    @brief Detaches the clocks, effectively disabling the servos
+    @brief Detaches the clocks for servo 1 and 2 , effectively disabling them
 */
 void servos_disable();
 
