@@ -53,6 +53,9 @@ TODO:
 #define SQUARE_CENTER_X (850)
 #define SQUARE_CENTER_Y (850)
 
+int current_x = 500;
+int current_y = 500;
+
 int radians_to_micros(float rad)
 {
     return ((rad / M_PI) * MICROS_PI);
@@ -71,6 +74,8 @@ void move_xy(int x_coor, int y_coor)
     int theta_1 = MICROS_PI - radians_to_micros(atan2(y_coor, x_coor)) - radians_to_micros(asin(ARM_LENGTH_2 * sin(help_theta) / r));
     int theta_2 = MICROS_PI - radians_to_micros(help_theta); 
     move(theta_1, theta_2);
+    current_x = x_coor;
+    current_y = y_coor;
 }
 
 void move_xy_with_lift(int x_coor, int y_coor) 
@@ -90,6 +95,16 @@ bool within_bounds(int x_coor, int y_coor)
         return false;
     }
     return true;
+}
+
+void lin_bez_with_lift(int end_x, int end_y)
+{
+    servo3_dutymicros = 2000;
+    _delay_ms(LIFT_DELAY);
+    lin_bez(current_x, current_y, end_x, end_y);
+    _delay_ms(LIFT_DELAY);
+    servo3_dutymicros = 1000;
+    _delay_ms(LIFT_DELAY);
 }
 
 void lin_bez(int start_x, int start_y, int end_x, int end_y)  
@@ -136,12 +151,12 @@ void draw_grid()
     drawing();
     for (size_t i = XMIN; i < XMAX; i += 100) 
     {
-        move_xy_with_lift(i, YMIN);
+        lin_bez_with_lift(i, YMIN);
         lin_bez(i, YMIN, i, YMAX);
     }
     for (size_t i = YMIN; i < YMAX; i += 100)
     {
-        move_xy_with_lift(XMIN, i);
+        lin_bez_with_lift(XMIN, i);
         lin_bez(XMIN, i, XMAX, i);
     }
     
@@ -150,7 +165,7 @@ void draw_grid()
 void draw_circle()
 {
     drawing();
-    move_xy_with_lift(CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y);
+    lin_bez_with_lift(CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y);
     float circle_subdiv = 2 * M_PI / CIRCLE_ITERS;
     float new_i = 0;
     for (float i = 0 ; i <= 2 * M_PI;)
@@ -163,7 +178,7 @@ void draw_circle()
 
 void draw_circleBETER() {
     drawing();
-    move_xy_with_lift(CIRCLE_CENTER_X - CIRCLE_RADIUS, CIRCLE_CENTER_Y);
+    lin_bez_with_lift(CIRCLE_CENTER_X - CIRCLE_RADIUS, CIRCLE_CENTER_Y);
     cub_bez(CIRCLE_CENTER_X - CIRCLE_RADIUS, CIRCLE_CENTER_Y, CIRCLE_CENTER_X - CIRCLE_RADIUS, CIRCLE_CENTER_Y + (13/8)*CIRCLE_RADIUS, CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y + (13/8)*CIRCLE_RADIUS, CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y);
     cub_bez(CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y, CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y - (13/8)*CIRCLE_RADIUS, CIRCLE_CENTER_X - CIRCLE_RADIUS, CIRCLE_CENTER_Y- (13/8)*CIRCLE_RADIUS, CIRCLE_CENTER_X - CIRCLE_RADIUS, CIRCLE_CENTER_Y);
 }
@@ -171,7 +186,7 @@ void draw_circleBETER() {
 void draw_square()
 {
     drawing();
-    move_xy_with_lift(SQUARE_CENTER_X - SQUARE_SIDE / 2, SQUARE_CENTER_Y - SQUARE_SIDE / 2);
+    lin_bez_with_lift(SQUARE_CENTER_X - SQUARE_SIDE / 2, SQUARE_CENTER_Y - SQUARE_SIDE / 2);
     lin_bez(SQUARE_CENTER_X - SQUARE_SIDE / 2, SQUARE_CENTER_Y - SQUARE_SIDE / 2, SQUARE_CENTER_X - SQUARE_SIDE / 2, SQUARE_CENTER_Y + SQUARE_SIDE / 2);
     lin_bez(SQUARE_CENTER_X - SQUARE_SIDE / 2, SQUARE_CENTER_Y + SQUARE_SIDE / 2, SQUARE_CENTER_X + SQUARE_SIDE / 2, SQUARE_CENTER_Y + SQUARE_SIDE / 2);
     lin_bez(SQUARE_CENTER_X + SQUARE_SIDE / 2, SQUARE_CENTER_Y + SQUARE_SIDE / 2, SQUARE_CENTER_X + SQUARE_SIDE / 2, SQUARE_CENTER_Y - SQUARE_SIDE / 2);
@@ -185,178 +200,178 @@ void draw_letter(char letter, int x, int y)
     switch(letter) 
     {
         case 'A':
-            move_xy_with_lift(x, y);
+            lin_bez_with_lift(x, y);
             lin_bez(x, y, x + 80, y + 200);
             lin_bez(x + 80, y + 200, x + 160, y);
-            move_xy_with_lift(x + 40, y + 100);
+            lin_bez_with_lift(x + 40, y + 100);
             lin_bez(x + 40, y + 100, x + 120, y + 100);
             break;
         case 'B':
-            move_xy_with_lift(x, y);
+            lin_bez_with_lift(x, y);
             lin_bez(x, y, x, y + 200);
             cub_bez(x, y + 200, x + 200, y + 200, x + 200, y + 100, x, y + 100);
             cub_bez(x, y + 100, x + 200, y + 100, x + 200, y, x, y );
             break;
         case 'C':
-            move_xy_with_lift(x + 180, y);
+            lin_bez_with_lift(x + 180, y);
             cub_bez(x + 160, y + 20, x - 50, y - 50, x - 50, y + 250, x + 160, y + 180);
             break;
         case 'D':
-            move_xy_with_lift(x, y);
+            lin_bez_with_lift(x, y);
             lin_bez(x, y, x, y + 200);
             cub_bez(x, y + 200, x + 200, y + 200, x + 200, y, x, y);
             break;
         case 'E':
-            move_xy_with_lift(x + 160, y);
+            lin_bez_with_lift(x + 160, y);
             lin_bez(x + 160, y, x, y);
             lin_bez(x, y, x, y + 200);
             lin_bez(x, y + 200, x + 160, y + 200);
-            move_xy_with_lift(x, y + 100);
+            lin_bez_with_lift(x, y + 100);
             lin_bez(x, y + 100, x + 120, y + 100);
             break;
         case 'F':
-            move_xy_with_lift(x, y);
+            lin_bez_with_lift(x, y);
             lin_bez(x, y, x, y + 200);
             lin_bez(x, y + 200, x + 160, y + 200);
-            move_xy_with_lift(x, y + 100);
+            lin_bez_with_lift(x, y + 100);
             lin_bez(x, y + 100, x + 120, y + 100);
             break;
         case 'G':
-            move_xy_with_lift(x + 100, y + 100);
+            lin_bez_with_lift(x + 100, y + 100);
             lin_bez(x + 100, y + 100, x + 160, y + 100);
             cub_bez(x + 160, y + 100, x + 160, y - 30, x, y - 30, x, y + 100);
             cub_bez(x, y + 100, x, y + 230, x + 160, y + 200, x + 160, y + 170);
             break;
         case 'H':
-            move_xy_with_lift(x, y);
+            lin_bez_with_lift(x, y);
             lin_bez(x, y, x, y + 200);
-            move_xy_with_lift(x, y + 120);
+            lin_bez_with_lift(x, y + 120);
             lin_bez(x, y + 120, x + 160, y + 120);
-            move_xy_with_lift(x + 160, y);
+            lin_bez_with_lift(x + 160, y);
             lin_bez(x + 160, y, x + 160, y + 200);
             break;
         case 'I':
-            move_xy_with_lift(x + 40, y);
+            lin_bez_with_lift(x + 40, y);
             lin_bez(x + 40, y, x + 120, y);
-            move_xy_with_lift(x + 80, y);
+            lin_bez_with_lift(x + 80, y);
             lin_bez(x + 80, y, x + 80, y + 200);
-            move_xy_with_lift(x + 40, y + 200);
+            lin_bez_with_lift(x + 40, y + 200);
             lin_bez(x + 40, y + 200, x + 120, y + 200);
             break;
         case 'J':
-            move_xy_with_lift(x + 80, y + 200);
+            lin_bez_with_lift(x + 80, y + 200);
             lin_bez(x + 80, y + 200, x + 160, y + 200);
-            move_xy_with_lift(x + 120, y + 200);
+            lin_bez_with_lift(x + 120, y + 200);
             lin_bez(x + 120, y + 200, x + 120, y + 100);
             cub_bez(x + 120, y + 100, x + 120, y - 30, x, y - 30, x, y + 100);
             break;
         case 'K':
-            move_xy_with_lift(x, y);
+            lin_bez_with_lift(x, y);
             lin_bez(x, y, x, y + 200);
-            move_xy_with_lift(x + 160, y);
+            lin_bez_with_lift(x + 160, y);
             lin_bez(x + 160, y, x, y + 100);
             lin_bez(x, y + 100, x + 160, y + 200);
             break;
         case 'L':
-            move_xy_with_lift(x, y + 200);
+            lin_bez_with_lift(x, y + 200);
             lin_bez(x, y + 200, x, y);
             lin_bez(x, y, x + 160, y);
             break;
         case 'M':
-            move_xy_with_lift(x,y);
+            lin_bez_with_lift(x,y);
             lin_bez(x, y, x, y + 200);
             lin_bez(x, y + 200, x + 80, y + 120);
             lin_bez(x + 80, y + 120, x + 160, y + 200);
             lin_bez(x + 160, y + 200, x + 160, y);
             break;
         case 'N':
-            move_xy_with_lift(x, y);
+            lin_bez_with_lift(x, y);
             lin_bez(x, y, x, y + 200);
             lin_bez(x, y + 200, x + 160, y);
             lin_bez(x + 160, y, x + 160, y + 200);
             break;
         case 'O':
-            move_xy_with_lift(x, y + 100);
+            lin_bez_with_lift(x, y + 100);
             cub_bez(x, y + 100, x, y + 230, x + 160, y + 230, x + 160, y + 100);
             cub_bez(x + 160, y + 100, x + 160, y - 30, x, y - 30, x, y + 100);
             break;
         case 'P':
-            move_xy_with_lift(x, y);
+            lin_bez_with_lift(x, y);
             lin_bez(x, y, x, y + 200);
             cub_bez(x, y + 200, x + 200, y + 200, x + 200, y + 100, x, y + 100);
             break;
         case 'Q':
-            move_xy_with_lift(x + 80, y + 80);
+            lin_bez_with_lift(x + 80, y + 80);
             lin_bez(x + 80, y + 80, x + 160, y);
             draw_letter('O', x, y);
             break;
         case 'R':
-            move_xy_with_lift(x, y);
+            lin_bez_with_lift(x, y);
             lin_bez(x, y, x, y + 200);
             cub_bez(x, y + 200, x + 200, y + 200, x + 200, y + 100, x, y + 100);
             lin_bez(x, y + 100, x + 160, y);
             break;
         case 'S':
-            move_xy_with_lift(x, y);
+            lin_bez_with_lift(x, y);
             lin_bez(x, y, x + 80, y);
             cub_bez(x + 80, y, x + 160, y, x + 160, y + 100, x + 80, y + 100);
             cub_bez(x + 80, y + 100, x, y + 100, x, y + 200, x + 80, y + 200);
             lin_bez(x + 80, y + 200, x + 160, y + 200);
             break;
         case 'T':
-            move_xy_with_lift(x, y + 200);
+            lin_bez_with_lift(x, y + 200);
             lin_bez(x, y + 200, x + 160, y + 200);
-            move_xy_with_lift(x + 80, y + 200);
+            lin_bez_with_lift(x + 80, y + 200);
             lin_bez(x + 80, y + 200, x + 80, y);
             break;
         case 'U':
-            move_xy_with_lift(x, y + 200);
+            lin_bez_with_lift(x, y + 200);
             lin_bez(x, y + 200, x, y + 100);
             cub_bez(x, y + 100, x, y - 30, x + 160, y - 30, x + 160, y + 100);
             lin_bez(x + 160, y + 100, x + 160, y + 200);
             break;
         case 'V':
-            move_xy_with_lift(x, y + 200);
+            lin_bez_with_lift(x, y + 200);
             lin_bez(x, y + 200, x + 80, y);
             lin_bez(x + 80, y, x + 160, y + 200);
             break;
         case 'W':
-            move_xy_with_lift(x, y + 200);
+            lin_bez_with_lift(x, y + 200);
             lin_bez(x, y + 200, x, y);
             lin_bez(x, y, x + 80, y + 80);
             lin_bez(x + 80, y + 80, x + 160, y);
             lin_bez(x + 160, y, x + 160, y + 200);
             break;
         case 'X':
-            move_xy_with_lift(x, y + 200);
+            lin_bez_with_lift(x, y + 200);
             lin_bez(x, y + 200, x + 160, y);
-            move_xy_with_lift(x, y);
+            lin_bez_with_lift(x, y);
             lin_bez(x, y, x + 160, y + 200);
             break;
         case 'Y':
-            move_xy_with_lift(x, y + 200);
+            lin_bez_with_lift(x, y + 200);
             lin_bez(x, y + 200, x + 80, y + 100);
             lin_bez(x + 80, y + 100, x + 160, y + 200);
-            move_xy_with_lift(x + 80, y + 100);
+            lin_bez_with_lift(x + 80, y + 100);
             lin_bez(x + 80, y + 100, x + 80, y);
             break;
         case 'Z':
-            move_xy_with_lift(x, y + 200);
+            lin_bez_with_lift(x, y + 200);
             lin_bez(x, y + 200, x + 160, y + 200);
             lin_bez(x + 160, y + 200, x, y);
             lin_bez(x, y, x + 160, y);
             break;
         case 'g': //draws a small "v", corresponds to a green tile from the original game
-            move_xy_with_lift(x + 110, y + 250);
+            lin_bez_with_lift(x + 110, y + 250);
             lin_bez(x + 110, y + 250, x + 130, y + 210);
             lin_bez(x + 130, y + 210, x + 150, y + 250);
         case 'y': //draws a small "~", corresponds to a yellow tile from the original game
-            move_xy_with_lift(x + 88, y + 225);
+            lin_bez_with_lift(x + 88, y + 225);
             cub_bez(x + 88, y + 225, x + 122, y + 270, x + 122, y + 180, x + 161, y + 237);
         case 'b': //draws a small "x", corresponds to a black (empty) tile from the original game
-            move_xy_with_lift(x + 110, y + 250);
+            lin_bez_with_lift(x + 110, y + 250);
             lin_bez(x + 110, y + 250, x + 150, y + 210);
-            move_xy_with_lift(x + 110, y + 210);
+            lin_bez_with_lift(x + 110, y + 210);
             lin_bez(x + 110, y + 210, x + 150, y + 250);
         default:
             return;
