@@ -38,14 +38,14 @@ ISR(TIMER3_COMPA_vect)
 
 ISR(TIMER0_COMPA_vect)
 {
-  if (PORTD & _BV(PD1))
+  if (PORTF & _BV(PF1))
   {
-    PORTD &= ~_BV(PD1); // set PWM signal to low
+    PORTF &= ~_BV(PF1); // set PWM signal to low
     OCR0A = (16320 - servo3_dutymicros) / 64; // duration of PWM low cycle
   }
   else
   {
-    PORTC |= _BV(PD1); //set PWM signal to high
+    PORTF |= _BV(PF1); //set PWM signal to high
     OCR0A = servo3_dutymicros / 64; //set PWM signal to low
   }
 }
@@ -77,6 +77,8 @@ void clock_setup()
 
   PORTC &= ~_BV(PC0);
   PORTC &= ~_BV(PC1);
+
+  DDRF |= _BV(PF1);
 }
 
 void servos_disable()
@@ -91,7 +93,7 @@ void servos_disable()
 
   PORTC &= ~_BV(PC0); //set PWM signal to low
   PORTC &= ~_BV(PC1);
-  PORTD &= ~_BV(PD1);
+  PORTF &= ~_BV(PF1);
 }
 
 void servos_enable()
