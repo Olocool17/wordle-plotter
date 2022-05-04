@@ -89,8 +89,9 @@ void servos_disable()
   TCCR3B &= ~_BV(CS31);
   TCCR3B &= ~_BV(CS30);
 
-  PORTC &= _BV(PC0); //set PWM signal to low
-  PORTC &= _BV(PC1);
+  PORTC &= ~_BV(PC0); //set PWM signal to low
+  PORTC &= ~_BV(PC1);
+  PORTD &= ~_BV(PD1);
 }
 
 void servos_enable()
