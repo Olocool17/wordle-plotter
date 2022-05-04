@@ -51,10 +51,6 @@ TODO:
 #define SQUARE_CENTER_X (850)
 #define SQUARE_CENTER_Y (850)
 
-//Macro's for x² and x³
-#define SQUARE(x) ((x)*(x))
-#define CUBE(x) ((x)*(x)*(x))
-
 int radians_to_micros(float rad)
 {
     return ((rad / M_PI) * MICROS_PI);
@@ -62,14 +58,14 @@ int radians_to_micros(float rad)
 
 void move(int theta_1, int theta_2) 
 {
-    servo1_dutymicros = PWM_BEGIN + theta_1 + (int)((17/(float)256000) *SQUARE((long)theta_1) + (long)theta_1/(float)320 + 25); //Converts naive PWM duty cycles to calibrated ones
-    servo2_dutymicros = PWM_BEGIN + theta_2 + (int)((51/(double)1280000)*SQUARE((long)theta_2) + (93/(float)1600)*(long)theta_2 - 133);
+    servo1_dutymicros = PWM_BEGIN + theta_1 + (int)((17/(float)256000)*pow((long)theta_1, 2) + (long)theta_1/(float)320 + 25); //Converts naive PWM duty cycles to calibrated ones
+    servo2_dutymicros = PWM_BEGIN + theta_2 + (int)((51/(double)1280000)*pow((long)theta_2, 2) + (93/(float)1600)*(long)theta_2 - 133);
 }
 
 void move_xy(int x_coor, int y_coor) 
 { 
-    float r = sqrt(SQUARE((long)x_coor) + SQUARE((long) y_coor));
-    float help_theta = acos((float)(SQUARE((long)ARM_LENGTH_1) + SQUARE((long)ARM_LENGTH_2) - SQUARE(r)) / (2 * (long)ARM_LENGTH_1 * (long)ARM_LENGTH_2));
+    float r = sqrt(pow((long)x_coor, 2) + pow((long) y_coor, 2));
+    float help_theta = acos((float)(pow((long)ARM_LENGTH_1, 2) + pow((long)ARM_LENGTH_2, 2) - pow(r, 2)) / (2 * (long)ARM_LENGTH_1 * (long)ARM_LENGTH_2));
     int theta_1 = MICROS_PI - radians_to_micros(atan2(y_coor, x_coor)) - radians_to_micros(asin(ARM_LENGTH_2 * sin(help_theta) / r));
     int theta_2 = MICROS_PI - radians_to_micros(help_theta); 
     move(theta_1, theta_2);
@@ -78,11 +74,11 @@ void move_xy(int x_coor, int y_coor)
 void move_xy_with_lift(int x_coor, int y_coor) 
 { 
     _delay_ms(150);
-    //"lift pen"
+    //servo3_dutymicros -= 200;
     _delay_ms(150);
     move_xy(x_coor, y_coor);
     _delay_ms(150);
-    //"lower pen"
+    //servo3_dutymicros = 1500;
     _delay_ms(150);
 }
 
@@ -99,7 +95,7 @@ void lin_bez(int start_x, int start_y, int end_x, int end_y)
 {
     if (!(within_bounds(start_x,start_y) && within_bounds(end_x,end_y))) return; //given values out-of-bounds
     
-    int pathlength = sqrt(SQUARE((long)end_x - (long)start_x) + SQUARE((long)end_y - (long)start_y));
+    int pathlength = sqrt(pow((long)end_x - (long)start_x, 2) + pow((long)end_y - (long)start_y, 2));
     int segments = (int) (ITERS * pathlength);
     if (segments == 0) return; //too small to draw at current precision
     
@@ -119,14 +115,14 @@ void lin_bez(int start_x, int start_y, int end_x, int end_y)
 
 void cub_bez(int start_x, int start_y, int cp1_x, int cp1_y, int cp2_x, int cp2_y, int end_x, int end_y) {
     if (!((within_bounds(start_x,start_y) && within_bounds(cp1_x, cp1_y) && within_bounds(cp2_x, cp2_y) && within_bounds(end_x, end_y)))) return;
-    int pathlength = sqrt(SQUARE(end_x - start_x) + SQUARE(end_y - start_y));
+    int pathlength = sqrt(pow((long)end_x - (long)start_x, 2) + pow((long)end_y - (long)start_y, 2));
     int segments = (int) (ITERS * pathlength);
     if (segments == 0) return; //too small to draw at current precision
-    for (size_t t = 0; t <= segments; t++)
+    for (size_t u = 0; u <= 1.0; u += 1.0/(float)segments)
     {
         //formula for the Cubic Bezier curve
-        int x_next = (CUBE(segments - t)*start_x + 3*SQUARE(segments - t)*t*cp1_x + 3*(segments - t)*SQUARE(t)*cp2_x + CUBE(t)*end_x) / (float)(CUBE(segments));
-        int y_next = (CUBE(segments - t)*start_y + 3*SQUARE(segments - t)*t*cp1_y + 3*(segments - t)*SQUARE(t)*cp2_y + CUBE(t)*end_y) / (float)(CUBE(segments));
+        int x_next = pow(1-u, 3)*start_x + 3*u*pow(1-u, 2)*cp1_x + 3*pow(u, 2)*(1-u)*cp2_x + pow(u, 3)*end_x;
+        int y_next = pow(1-u, 3)*start_y + 3*u*pow(1-u, 2)*cp1_y + 3*pow(u, 2)*(1-u)*cp2_y + pow(u, 3)*end_y;
         _delay_ms(ITER_DELAY);
         move_xy(x_next, y_next); //transfer next coordinates to the angle finding function
     } 
