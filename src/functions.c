@@ -380,7 +380,7 @@ void draw_letter(char letter, int x, int y)
 
 void draw_letter_on_grid(char letter, int tile_x, int tile_y)
 {
-    int x = 100 + LETTER_WIDTH * tile_x; //letters are bound between 100 < x < 1200
-    int y = 2100 - LETTER_HEIGHT * tile_y; //letters are bound between 600 < y < 2000
+    int x = 100 + LETTER_WIDTH * tile_x; //letters are bound between 100 < x < 1040
+    int y = 1900 - LETTER_HEIGHT * tile_y; //letters are bound between 400 < y < 2200
     draw_letter(letter, x, y);
 }
