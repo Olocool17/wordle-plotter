@@ -74,11 +74,11 @@ void move_xy(int x_coor, int y_coor)
 void move_xy_with_lift(int x_coor, int y_coor) 
 { 
     _delay_ms(150);
-    //servo3_dutymicros -= 200;
+    servo3_dutymicros = 2000;
     _delay_ms(150);
     move_xy(x_coor, y_coor);
     _delay_ms(150);
-    //servo3_dutymicros = 1500;
+    servo3_dutymicros = 1000;
     _delay_ms(150);
 }
 

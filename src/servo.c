@@ -6,7 +6,7 @@
 
 volatile int servo1_dutymicros = 1500;
 volatile int servo2_dutymicros = 1500;
-volatile int servo3_dutymicros = 1500;
+volatile int servo3_dutymicros = 1000;
 
 ISR(TIMER1_COMPA_vect) 
 {
@@ -38,7 +38,16 @@ ISR(TIMER3_COMPA_vect)
 
 ISR(TIMER0_COMPA_vect)
 {
-
+  if (PORTD & _BV(PD1))
+  {
+    PORTD &= ~_BV(PD1); // set PWM signal to low
+    OCR0A = (16320 - servo3_dutymicros) / 64; // duration of PWM low cycle
+  }
+  else
+  {
+    PORTC |= _BV(PD1); //set PWM signal to high
+    OCR0A = servo3_dutymicros / 64; //set PWM signal to low
+  }
 }
 
 void clock_setup()
@@ -57,13 +66,14 @@ void clock_setup()
   TCCR3B |= _BV(WGM32);
   TCCR3B &= ~_BV(WGM33);
 
-  TIMSK0 |= _BV(OCIE0A);
+  TIMSK0 |= _BV(OCIE0A); //Enable clock interrupts with CTC for timer 0
   TCCR0B &= ~_BV(WGM02);
   TCCR0A |= _BV(WGM01);
   TCCR0A &= ~_BV(WGM00);
 
   OCR1A = 2*10000; // Clock interrupts every 10 ms
-  OCR3A = 2*10000; 
+  OCR3A = 2*10000;
+  OCR0A = 16320/64;
 
   PORTC &= ~_BV(PC0);
   PORTC &= ~_BV(PC1);
