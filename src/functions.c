@@ -116,7 +116,9 @@ void lin_bez(int start_x, int start_y, int end_x, int end_y)
 
 void cub_bez(int start_x, int start_y, int cp1_x, int cp1_y, int cp2_x, int cp2_y, int end_x, int end_y) {
     if (!((within_bounds(start_x,start_y) && within_bounds(end_x, end_y)))) return;
-    int pathlength = sqrt(pow((long)end_x - (long)start_x, 2) + pow((long)end_y - (long)start_y, 2));
+    int pathlength = sqrt(pow((long)cp1_x - (long)start_x, 2) + pow((long)cp1_y - (long)start_y, 2));
+    pathlength += sqrt(pow((long)cp2_x - (long)cp1_x, 2) + pow((long)cp2_y - (long)cp1_y, 2));
+    pathlength += sqrt(pow((long)end_x - (long)cp2_x, 2) + pow((long)end_y - (long)cp2_y, 2));
     int segments = (int) (ITERS * pathlength);
     if (segments == 0) return; //too small to draw at current precision
     for (float u = 0; u <= 1.0; u += 1.0/(float)segments)
@@ -305,7 +307,7 @@ void draw_letter(char letter, int x, int y)
             move_xy_with_lift(x, y + 200);
             lin_bez(x, y + 200, x + 160, y + 200);
             move_xy_with_lift(x + 80, y + 200);
-            lin_bez(x + 80, y + 200, x + 80, 0);
+            lin_bez(x + 80, y + 200, x + 80, y);
             break;
         case 'U':
             move_xy_with_lift(x, y + 200);
