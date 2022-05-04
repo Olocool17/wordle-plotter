@@ -31,14 +31,16 @@ TODO:
 #define LETTER_HEIGHT (300)
 
 #define ARM_LENGTH_1 (1250) //Length of each servo arm
-#define ARM_LENGTH_2 (1450)
+#define ARM_LENGTH_2 (1440)
 
 #define MICROS_PI (1600) //The servo duty cycle difference in microseconds that corresponds to 180 degrees or pi radians
 #define PWM_BEGIN (700)
 #define PWM_END (2300)
 
-#define ITERS (0.06) //Amount of subdivisions for each 0.1mm of a curve
-#define ITER_DELAY (10) //Time in miliseconds for the pen to trace each such subdivision
+#define LIFT_DELAY (400) //Amount of wait time when lifting / dropping the pen before proceeding with movement
+
+#define ITERS (0.1) //Amount of subdivisions for each 0.1mm of a curve
+#define ITER_DELAY (20) //Time in miliseconds for the pen to trace each such subdivision
 
 //Primitive constants
 
@@ -73,13 +75,12 @@ void move_xy(int x_coor, int y_coor)
 
 void move_xy_with_lift(int x_coor, int y_coor) 
 { 
-    _delay_ms(150);
     servo3_dutymicros = 2000;
-    _delay_ms(150);
+    _delay_ms(LIFT_DELAY);
     move_xy(x_coor, y_coor);
-    _delay_ms(150);
+    _delay_ms(LIFT_DELAY);
     servo3_dutymicros = 1000;
-    _delay_ms(150);
+    _delay_ms(LIFT_DELAY);
 }
 
 bool within_bounds(int x_coor, int y_coor) 
@@ -114,11 +115,11 @@ void lin_bez(int start_x, int start_y, int end_x, int end_y)
 }
 
 void cub_bez(int start_x, int start_y, int cp1_x, int cp1_y, int cp2_x, int cp2_y, int end_x, int end_y) {
-    if (!((within_bounds(start_x,start_y) && within_bounds(cp1_x, cp1_y) && within_bounds(cp2_x, cp2_y) && within_bounds(end_x, end_y)))) return;
+    if (!((within_bounds(start_x,start_y) && within_bounds(end_x, end_y)))) return;
     int pathlength = sqrt(pow((long)end_x - (long)start_x, 2) + pow((long)end_y - (long)start_y, 2));
     int segments = (int) (ITERS * pathlength);
     if (segments == 0) return; //too small to draw at current precision
-    for (size_t u = 0; u <= 1.0; u += 1.0/(float)segments)
+    for (float u = 0; u <= 1.0; u += 1.0/(float)segments)
     {
         //formula for the Cubic Bezier curve
         int x_next = pow(1-u, 3)*start_x + 3*u*pow(1-u, 2)*cp1_x + 3*pow(u, 2)*(1-u)*cp2_x + pow(u, 3)*end_x;
@@ -160,7 +161,7 @@ void draw_circle()
 
 void draw_circleBETER() {
     drawing();
-    move_xy_with_lift(CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y);
+    move_xy_with_lift(CIRCLE_CENTER_X - CIRCLE_RADIUS, CIRCLE_CENTER_Y);
     cub_bez(CIRCLE_CENTER_X - CIRCLE_RADIUS, CIRCLE_CENTER_Y, CIRCLE_CENTER_X - CIRCLE_RADIUS, CIRCLE_CENTER_Y + (13/8)*CIRCLE_RADIUS, CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y + (13/8)*CIRCLE_RADIUS, CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y);
     cub_bez(CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y, CIRCLE_CENTER_X + CIRCLE_RADIUS, CIRCLE_CENTER_Y - (13/8)*CIRCLE_RADIUS, CIRCLE_CENTER_X - CIRCLE_RADIUS, CIRCLE_CENTER_Y- (13/8)*CIRCLE_RADIUS, CIRCLE_CENTER_X - CIRCLE_RADIUS, CIRCLE_CENTER_Y);
 }
