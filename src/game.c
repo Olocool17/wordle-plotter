@@ -85,29 +85,25 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
 {
     char* attempt_copy = malloc(sizeof(char)*6);
     strcpy(attempt_copy, attempt);
-    char* secret_word_copy = malloc(sizeof(char)*6);
-    strcpy(secret_word_copy, secret_word);
     
     for (size_t i = 0; i < 5; i++) 
     {
         draw_letter_on_grid(attempt_copy[i], i, attempt_number);
         //check for every letter in the secret word if the letter is the same in the attempt
-        if (attempt_copy[i] == secret_word_copy[i]) 
+        if (attempt_copy[i] == secret_word[i]) 
         {
             draw_letter_on_grid('g', i, attempt_number);
             attempt_copy[i] = '0';
-            secret_word_copy[i] = '0';
         }
         //if it was not, check if the letter appears anywhere else, from left to right
         else 
         {
             for (size_t p = 0; p < 5; p++)
             {
-                if (secret_word_copy[p] == attempt_copy[i])
+                if (secret_word[i] == attempt_copy[p])
                 {
-                    draw_letter_on_grid('y', i, attempt_number);
-                    secret_word_copy[p] = '0';
-                    attempt_copy[i] = '0';
+                    draw_letter_on_grid('y', p, attempt_number);
+                    attempt_copy[p] = '0';
                     break; 
                 }
             }
@@ -115,6 +111,5 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
     }
     //any letter in the attempt that hasn't been assigned a value after all 5 letters in the attempt have been checked get assigned a black value now.
     for (size_t i=0; i < 5 && attempt_copy[i] != '0'; i++) draw_letter_on_grid('b', i, attempt_number);
-    free(secret_word_copy);
     free(attempt_copy);
 }
