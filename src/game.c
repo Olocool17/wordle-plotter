@@ -88,7 +88,7 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
     for (size_t i = 0; i < 5; i++) 
     {
         draw_letter_on_grid(attempt[i], i, attempt_number);
-        //heck for every letter in the secret word if that letter is the same in the attempt
+        //Check for every letter in the secret word if that letter is the same in the attempt
         if (attempt[i] == secret_word[i]) 
         {
             draw_letter_on_grid('g', i, attempt_number);
