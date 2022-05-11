@@ -81,54 +81,40 @@ int rand_range(int limit)
     return (int)((rand() / (float)RAND_MAX )* limit);
 }
 
-//applying the wordle word comparison logic between the guessed word and secret word
 void attempt(int attempt_number, char* attempt, char* secret_word) 
 {
     char* attempt_copy = malloc(sizeof(char)*6);
     strcpy(attempt_copy, attempt);
     char* secret_word_copy = malloc(sizeof(char)*6);
-    strcpy(secret_word_copy, secret_word);    
-//first iteration: draws the letters on the grid and directly checks for matching letters and draws "green tiles" if the characters match.
+    strcpy(secret_word_copy, secret_word);
+    
     for (size_t i = 0; i < 5; i++) 
     {
         draw_letter_on_grid(attempt_copy[i], i, attempt_number);
+        //check for every letter in the secret word if the letter is the same in the attempt
         if (attempt_copy[i] == secret_word_copy[i]) 
         {
             draw_letter_on_grid('g', i, attempt_number);
             attempt_copy[i] = '0';
             secret_word_copy[i] = '0';
         }
-    }
-/* second iteration: check for the remaining letters in if they appear anywhere in the remainder of the secret word
-   if a match is found it will set the first instances of the letter in both strings to 0 and draw a "yellow tile" on the place of the first instance of
-   this letter in the attempt */  
-    for (size_t i = 0; i < 5; i++) 
-    { 
-        if ((strchr(secret_word_copy, attempt_copy[i]) != NULL) && (attempt_copy[i] != '0'))
+        //if it was not, check if the letter appears anywhere else, from left to right
+        else 
         {
-            draw_letter_on_grid('y', i, attempt_number);
-            //Finding the first instance of the letter appearing in the secret word that is not already marked as a "green tile".
-            for (size_t p = 0;p < 5 ; p++)
+            for (size_t p = 0; p < 5; p++)
             {
                 if (secret_word_copy[p] == attempt_copy[i])
                 {
+                    draw_letter_on_grid('y', i, attempt_number);
                     secret_word_copy[p] = '0';
                     attempt_copy[i] = '0';
                     break; 
                 }
-
             }
         }
-
     }
-//third iteration: drawing "black tiles" for every tile in the guessed word that hasn't been assigned a color yet.
-    for (size_t i = 0; i < 5; i++) 
-    {
-        if (attempt_copy[i] != '0')
-        {
-            draw_letter_on_grid('b', i, attempt_number);
-        }
-    }
+    //any letter in the attempt that hasn't been assigned a value after all 5 letters in the attempt have been checked get assigned a black value now.
+    for (size_t i=0; i < 5 && attempt_copy[i] != '0'; i++) draw_letter_on_grid('b', i, attempt_number);
     free(secret_word_copy);
     free(attempt_copy);
 }
