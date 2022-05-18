@@ -394,6 +394,7 @@ void letter_select()
 
 char* word_select(int attempt_count)
 {
+    servos_disable();
     //displaying 'AAAAA' to user at the start of word selection
     char* word = malloc(sizeof(char)*6);
     for (size_t i = 0; i < 5; i++)
