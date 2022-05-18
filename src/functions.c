@@ -71,7 +71,7 @@ void move_xy(int x_coor, int y_coor)
 { 
     float r = sqrt(pow((long)x_coor, 2) + pow((long) y_coor, 2));
     float help_theta = acos((float)(pow((long)ARM_LENGTH_1, 2) + pow((long)ARM_LENGTH_2, 2) - pow(r, 2)) / (2 * (long)ARM_LENGTH_1 * (long)ARM_LENGTH_2));
-    int theta_1 = MICROS_PI - radians_to_micros(atan2(y_coor, x_coor)) - radians_to_micros(acos((float)(pow((long)ARM_LENGTH_1, 2) + pow(r, 2) - pow((long)ARM_LENGTH_2, 2)) / (2 * (long)ARM_LENGTH_1 * r)));
+    int theta_1 = MICROS_PI + (MICROS_PI / 2) - radians_to_micros(atan2(y_coor, x_coor)) - radians_to_micros(acos((float)(pow((long)ARM_LENGTH_1, 2) + pow(r, 2) - pow((long)ARM_LENGTH_2, 2)) / (2 * (long)ARM_LENGTH_1 * r)));
     int theta_2 = MICROS_PI - radians_to_micros(help_theta); 
     move(theta_1, theta_2);
     current_x = x_coor;
@@ -374,6 +374,6 @@ void draw_letter(char letter, int x, int y)
 void draw_letter_on_grid(char letter, int tile_x, int tile_y)
 {
     int x = XMIN + LETTER_WIDTH * tile_x; //letters are bound between XMIN < x < XMIN + 940
-    int y = YMAX - LETTER_HEIGHT * tile_y; //letters are bound between YMAX - 1800 < y < YMAX
+    int y = YMAX - LETTER_HEIGHT * tile_y; //letters are bound between YMAX - 1950 < y < YMAX - 150
     draw_letter(letter, x, y);
 }
