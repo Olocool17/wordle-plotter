@@ -33,7 +33,7 @@ const char adore_string[] PROGMEM = "ADORE";
 const char adorn_string[] PROGMEM = "ADORN";
 const char adult_string[] PROGMEM = "ADULT";
 const char affix_string[] PROGMEM = "AFFIX";
-/*const char afire_string[] PROGMEM = "AFIRE";
+const char afire_string[] PROGMEM = "AFIRE";
 const char afoot_string[] PROGMEM = "AFOOT";
 const char afoul_string[] PROGMEM = "AFOUL";
 const char after_string[] PROGMEM = "AFTER";
@@ -2318,7 +2318,7 @@ const char young_string[] PROGMEM = "YOUNG";
 const char youth_string[] PROGMEM = "YOUTH";
 const char zebra_string[] PROGMEM = "ZEBRA";
 const char zesty_string[] PROGMEM = "ZESTY";
-const char zonal_string[] PROGMEM = "ZONAL"; */
+const char zonal_string[] PROGMEM = "ZONAL";
 
 const char* const wordle_list[] PROGMEM =
 {
@@ -2350,7 +2350,7 @@ adopt_string,
 adore_string,
 adorn_string,
 adult_string,
-affix_string/*,
+affix_string,
 afire_string,
 afoot_string,
 afoul_string,
@@ -4636,6 +4636,6 @@ young_string,
 youth_string,
 zebra_string,
 zesty_string,
-zonal_string,*/
+zonal_string,
 };
 #endif
