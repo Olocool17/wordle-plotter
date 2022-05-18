@@ -388,7 +388,7 @@ void letter_select()
         clearLCD();
         printCharToLCD(letter,0,8);
     }
-    if (!back) draw_letter(letter, 500, 500);
+    if (!back) draw_letter(letter, 1600, 100);
     return;
 }
 

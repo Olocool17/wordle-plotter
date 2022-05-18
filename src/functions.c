@@ -20,10 +20,10 @@ TODO:
 
 //Bounds of the board
 
-#define XMIN (0)
-#define YMIN (300)
-#define XMAX (1400)
-#define YMAX (2400)
+#define XMIN (600)
+#define YMIN (0)
+#define XMAX (2600)
+#define YMAX (2000)
 
 //Gridspace measurements
 
@@ -31,7 +31,7 @@ TODO:
 #define LETTER_HEIGHT (300)
 
 #define ARM_LENGTH_1 (1250) //Length of each servo arm
-#define ARM_LENGTH_2 (1440)
+#define ARM_LENGTH_2 (1800)
 
 #define MICROS_PI (1600) //The servo duty cycle difference in microseconds that corresponds to 180 degrees or pi radians
 #define PWM_BEGIN (700)
@@ -40,18 +40,18 @@ TODO:
 #define LIFT_DELAY (400) //Amount of wait time when lifting / dropping the pen before proceeding with movement
 
 #define ITERS (0.1) //Amount of subdivisions for each 0.1mm of a curve
-#define ITER_DELAY (20) //Time in miliseconds for the pen to trace each such subdivision
+#define ITER_DELAY (10) //Time in miliseconds for the pen to trace each such subdivision
 
 //Primitive constants
 
 #define CIRCLE_ITERS (10)
 #define CIRCLE_RADIUS (300)
-#define CIRCLE_CENTER_X (850)
-#define CIRCLE_CENTER_Y (850)
+#define CIRCLE_CENTER_X (XMAX + (XMAX - XMIN) / 2)
+#define CIRCLE_CENTER_Y (YMIN + (YMAX - YMIN) / 2)
 
 #define SQUARE_SIDE (500)
-#define SQUARE_CENTER_X (850)
-#define SQUARE_CENTER_Y (850)
+#define SQUARE_CENTER_X (XMAX + (XMAX - XMIN) / 2)
+#define SQUARE_CENTER_Y (YMIN + (YMAX - YMIN) / 2)
 
 int current_x = 500;
 int current_y = 500;
@@ -63,7 +63,7 @@ int radians_to_micros(float rad)
 
 void move(int theta_1, int theta_2) 
 {
-    servo1_dutymicros = PWM_BEGIN + theta_1 + (int)((17/(float)256000)*pow((long)theta_1, 2) + (long)theta_1/(float)320 + 25); //Converts naive PWM duty cycles to calibrated ones
+    servo1_dutymicros = PWM_BEGIN + theta_1 + (int)((17/(double)256000)*pow((long)theta_1, 2) + (long)theta_1/(float)320 + 25); //Converts naive PWM duty cycles to calibrated ones
     servo2_dutymicros = PWM_BEGIN + theta_2 + (int)((51/(double)1280000)*pow((long)theta_2, 2) + (93/(float)1600)*(long)theta_2 - 133);
 }
 
@@ -71,7 +71,7 @@ void move_xy(int x_coor, int y_coor)
 { 
     float r = sqrt(pow((long)x_coor, 2) + pow((long) y_coor, 2));
     float help_theta = acos((float)(pow((long)ARM_LENGTH_1, 2) + pow((long)ARM_LENGTH_2, 2) - pow(r, 2)) / (2 * (long)ARM_LENGTH_1 * (long)ARM_LENGTH_2));
-    int theta_1 = MICROS_PI - radians_to_micros(atan2(y_coor, x_coor)) - radians_to_micros(asin(ARM_LENGTH_2 * sin(help_theta) / r));
+    int theta_1 = MICROS_PI - radians_to_micros(atan2(y_coor, x_coor)) - radians_to_micros(acos((float)(pow((long)ARM_LENGTH_1, 2) + pow(r, 2) - pow((long)ARM_LENGTH_2, 2)) / (2 * (long)ARM_LENGTH_1 * r)));
     int theta_2 = MICROS_PI - radians_to_micros(help_theta); 
     move(theta_1, theta_2);
     current_x = x_coor;
@@ -151,12 +151,12 @@ void draw_grid()
     drawing();
     for (size_t i = XMIN; i < XMAX; i += 100) 
     {
-        lin_bez_with_lift(i, YMIN);
+        move_xy_with_lift(i, YMIN);
         lin_bez(i, YMIN, i, YMAX);
     }
     for (size_t i = YMIN; i < YMAX; i += 100)
     {
-        lin_bez_with_lift(XMIN, i);
+        move_xy_with_lift(XMIN, i);
         lin_bez(XMIN, i, XMAX, i);
     }
     
@@ -373,7 +373,7 @@ void draw_letter(char letter, int x, int y)
 
 void draw_letter_on_grid(char letter, int tile_x, int tile_y)
 {
-    int x = 100 + LETTER_WIDTH * tile_x; //letters are bound between 100 < x < 1040
-    int y = 1900 - LETTER_HEIGHT * tile_y; //letters are bound between 400 < y < 2200
+    int x = XMIN + LETTER_WIDTH * tile_x; //letters are bound between XMIN < x < XMIN + 940
+    int y = YMAX - LETTER_HEIGHT * tile_y; //letters are bound between YMAX - 1800 < y < YMAX
     draw_letter(letter, x, y);
 }
