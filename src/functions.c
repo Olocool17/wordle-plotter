@@ -7,17 +7,6 @@
 #include <servo.h>
 #include <ui.h>
 
-/* -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-functions.c:
-Calculations done assuming L1 (= length of the first servo) = L2 (= length of second servo) = 13.8cm, with the coordinate system in increments of 0.1mm.
-No out of bounds check is needed for move_xy since boundaries were already checked during the bezier call, requiring only 2 or 4 checks instead of 100.
-The boundaries are 14x21cm, roughly the size of an A5 paper
-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-TODO:
-1) Test every letter in a position that checks all variables.
-2) Add pen-lifting function with corresponding dutycycle.
------------------------------------------------------------------------------------------------------------------------------------------------------------------ */
-
 //Bounds of the board
 
 #define XMIN (600)
@@ -37,7 +26,7 @@ TODO:
 #define PWM_BEGIN (700)
 #define PWM_END (2300)
 
-#define LIFT_DELAY (400) //Amount of wait time when lifting / dropping the pen before proceeding with movement
+#define LIFT_DELAY (80) //Amount of wait time when lifting / dropping the pen before proceeding with movement
 
 #define ITERS (0.1) //Amount of subdivisions for each 0.1mm of a curve
 #define ITER_DELAY (10) //Time in miliseconds for the pen to trace each such subdivision
@@ -78,16 +67,6 @@ void move_xy(int x_coor, int y_coor)
     current_y = y_coor;
 }
 
-void move_xy_with_lift(int x_coor, int y_coor) 
-{ 
-    servo3_dutymicros = 2000;
-    _delay_ms(LIFT_DELAY);
-    move_xy(x_coor, y_coor);
-    _delay_ms(LIFT_DELAY);
-    servo3_dutymicros = 1000;
-    _delay_ms(LIFT_DELAY);
-}
-
 bool within_bounds(int x_coor, int y_coor) 
 {
     if ((x_coor <  XMIN) || (x_coor > XMAX) || (y_coor < YMIN) || (y_coor > YMAX)) 
@@ -99,12 +78,15 @@ bool within_bounds(int x_coor, int y_coor)
 
 void lin_bez_with_lift(int end_x, int end_y)
 {
-    servo3_dutymicros = 2000;
-    _delay_ms(LIFT_DELAY);
+    for (servo3_dutymicros = 1000; servo3_dutymicros < 2000; servo3_dutymicros += 50) 
+    {
+        _delay_ms(LIFT_DELAY);
+    }
     lin_bez(current_x, current_y, end_x, end_y);
-    _delay_ms(LIFT_DELAY);
-    servo3_dutymicros = 1000;
-    _delay_ms(LIFT_DELAY);
+    for (servo3_dutymicros = 2000; servo3_dutymicros > 1000; servo3_dutymicros -= 50) 
+    {
+        _delay_ms(LIFT_DELAY);
+    }
 }
 
 void lin_bez(int start_x, int start_y, int end_x, int end_y)  
@@ -151,12 +133,12 @@ void draw_grid()
     drawing();
     for (size_t i = XMIN; i < XMAX; i += 100) 
     {
-        move_xy_with_lift(i, YMIN);
+        lin_bez_with_lift(i, YMIN);
         lin_bez(i, YMIN, i, YMAX);
     }
     for (size_t i = YMIN; i < YMAX; i += 100)
     {
-        move_xy_with_lift(XMIN, i);
+        lin_bez_with_lift(XMIN, i);
         lin_bez(XMIN, i, XMAX, i);
     }
     

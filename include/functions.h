@@ -30,7 +30,7 @@ void move_xy(int x_coor, int y_coor);
     @param x_coor The target x coordinate
     @param y_coor The target y coordinate
 */
-void move_xy_with_lift(int x_coor, int y_coor);
+void lin_bez_with_lift(int x_coor, int y_coor);
 
 /*
     @brief Checks if the given coordinates are within the bounds of the board.
