@@ -99,10 +99,14 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
         }
     }    
     //if not, check if the letter appears anywhere else in the attempt, from left to right
-    for (size_t i = 0; i < 5; i++) {
-        if (secret_word_copy[i] != '0') {
-            for (size_t p = 0; p < 5; p++) {
-                if (secret_word[i] == attempt[p]) {
+    for (size_t i = 0; i < 5; i++) 
+    {
+        if (secret_word_copy[i] != '0') 
+        {
+            for (size_t p = 0; p < 5; p++) 
+            {
+                if (secret_word[i] == attempt[p]) 
+                {
                     draw_letter_on_grid('y', p, attempt_number);
                     attempt[p] = '0';
                     secret_word_copy[i] = '0';
@@ -110,8 +114,10 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
                 }
             }
         }
+    }
     //any letter in the attempt that hasn't been assigned a color after all 5 letters in the secret word have been checked gets assigned a black value now
-    for (size_t i=0; i < 5; i++) {
+    for (size_t i=0; i < 5; i++) 
+    {
         if (attempt[i] != '0') draw_letter_on_grid('b', i, attempt_number);
     }
 }
