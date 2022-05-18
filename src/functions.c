@@ -9,9 +9,9 @@
 
 //Bounds of the board
 
-#define XMIN (600)
-#define YMIN (0)
-#define XMAX (2600)
+#define XMIN (0)
+#define YMIN (200)
+#define XMAX (2000)
 #define YMAX (1700)
 
 //Gridspace measurements
@@ -26,7 +26,7 @@
 #define PWM_BEGIN (700)
 #define PWM_END (2300)
 
-#define LIFT_DELAY (80) //Amount of wait time when lifting / dropping the pen before proceeding with movement
+#define LIFT_DELAY (40) //Amount of wait time when lifting / dropping the pen before proceeding with movement
 
 #define ITERS (0.1) //Amount of subdivisions for each 0.1mm of a curve
 #define ITER_DELAY (10) //Time in miliseconds for the pen to trace each such subdivision
