@@ -10,7 +10,7 @@
 //Bounds of the board
 
 #define XMIN (0)
-#define YMIN (200)
+#define YMIN (300)
 #define XMAX (2000)
 #define YMAX (1700)
 
