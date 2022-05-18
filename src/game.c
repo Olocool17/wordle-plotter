@@ -84,6 +84,8 @@ int rand_range(int limit)
 
 void attempt(int attempt_number, char* attempt, char* secret_word) 
 {
+    char* secret_word_copy = malloc(sizeof(char)*6);
+    strcpy(secret_word_copy, secret_word);
     //Iteration for every letter in the secret word
     for (size_t i = 0; i < 5; i++) 
     {
@@ -93,21 +95,23 @@ void attempt(int attempt_number, char* attempt, char* secret_word)
         {
             draw_letter_on_grid('g', i, attempt_number);
             attempt[i] = '0';
+            secret_word_copy[i] = '0';
         }
-        //if not, check if the letter appears anywhere else in the attempt, from left to right
-        else 
-        {
-            for (size_t p = 0; p < 5; p++)
-            {
-                if (secret_word[i] == attempt[p])
-                {
+    }    
+    //if not, check if the letter appears anywhere else in the attempt, from left to right
+    for (size_t i = 0; i < 5; i++) {
+        if (secret_word_copy[i] != '0') {
+            for (size_t p = 0; p < 5; p++) {
+                if (secret_word[i] == attempt[p]) {
                     draw_letter_on_grid('y', p, attempt_number);
                     attempt[p] = '0';
+                    secret_word_copy[i] = '0';
                     break; 
                 }
             }
         }
-    }
     //any letter in the attempt that hasn't been assigned a color after all 5 letters in the secret word have been checked gets assigned a black value now
-    for (size_t i=0; i < 5 && attempt[i] != '0'; i++) draw_letter_on_grid('b', i, attempt_number);
+    for (size_t i=0; i < 5; i++) {
+        if (attempt[i] != '0') draw_letter_on_grid('b', i, attempt_number);
+    }
 }
