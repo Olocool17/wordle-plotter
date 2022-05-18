@@ -355,17 +355,17 @@ void draw_letter(char letter, int x, int y)
             lin_bez(x, y, x + 160, y);
             break;
         case 'g': //draws a small "v", corresponds to a green tile from the original game
-            lin_bez_with_lift(x + 110, y + 250);
-            lin_bez(x + 110, y + 250, x + 130, y + 210);
-            lin_bez(x + 130, y + 210, x + 150, y + 250);
+            lin_bez_with_lift(x + 90, y + 270);
+            lin_bez(x + 90, y + 270, x + 150, y + 190);
+            lin_bez(x + 150, y + 190, x + 210, y + 270);
         case 'y': //draws a small "~", corresponds to a yellow tile from the original game
-            lin_bez_with_lift(x + 88, y + 225);
-            cub_bez(x + 88, y + 225, x + 122, y + 270, x + 122, y + 180, x + 161, y + 237);
+            lin_bez_with_lift(x + 50, y + 225);
+            cub_bez(x + 50, y + 225, x + 122, y + 300, x + 122, y + 150, x + 200, y + 237);
         case 'b': //draws a small "x", corresponds to a black (empty) tile from the original game
-            lin_bez_with_lift(x + 110, y + 250);
-            lin_bez(x + 110, y + 250, x + 150, y + 210);
-            lin_bez_with_lift(x + 110, y + 210);
-            lin_bez(x + 110, y + 210, x + 150, y + 250);
+            lin_bez_with_lift(x + 90, y + 270);
+            lin_bez(x + 90, y + 270, x + 170, y + 190);
+            lin_bez_with_lift(x + 90, y + 190);
+            lin_bez(x + 110, y + 190, x + 170, y + 270);
         default:
             return;
     }
