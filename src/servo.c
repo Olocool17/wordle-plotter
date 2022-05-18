@@ -4,7 +4,7 @@
 
 #include <servo.h>
 
-volatile int servo1_dutymicros = 1500;
+volatile int servo1_dutymicros = 2300;
 volatile int servo2_dutymicros = 1500;
 volatile int servo3_dutymicros = 1000;
 
@@ -46,7 +46,7 @@ ISR(TIMER0_COMPA_vect)
   else
   {
     PORTF |= _BV(PF1); //set PWM signal to high
-    OCR0A = servo3_dutymicros / 64; //set PWM signal to low
+    OCR0A = servo3_dutymicros / 64; //duration of PWM high cycle
   }
 }
 
