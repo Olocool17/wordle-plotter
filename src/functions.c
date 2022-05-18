@@ -12,7 +12,7 @@
 #define XMIN (600)
 #define YMIN (0)
 #define XMAX (2600)
-#define YMAX (2000)
+#define YMAX (1700)
 
 //Gridspace measurements
 
@@ -35,15 +35,15 @@
 
 #define CIRCLE_ITERS (10)
 #define CIRCLE_RADIUS (300)
-#define CIRCLE_CENTER_X (XMAX + (XMAX - XMIN) / 2)
+#define CIRCLE_CENTER_X (XMIN + (XMAX - XMIN) / 2)
 #define CIRCLE_CENTER_Y (YMIN + (YMAX - YMIN) / 2)
 
 #define SQUARE_SIDE (500)
-#define SQUARE_CENTER_X (XMAX + (XMAX - XMIN) / 2)
+#define SQUARE_CENTER_X (XMIN + (XMAX - XMIN) / 2)
 #define SQUARE_CENTER_Y (YMIN + (YMAX - YMIN) / 2)
 
-int current_x = 500;
-int current_y = 500;
+int current_x = CIRCLE_CENTER_X;
+int current_y = CIRCLE_CENTER_Y;
 
 int radians_to_micros(float rad)
 {
@@ -340,14 +340,17 @@ void draw_letter(char letter, int x, int y)
             lin_bez_with_lift(x + 90, y + 270);
             lin_bez(x + 90, y + 270, x + 150, y + 190);
             lin_bez(x + 150, y + 190, x + 210, y + 270);
+            break;
         case 'y': //draws a small "~", corresponds to a yellow tile from the original game
             lin_bez_with_lift(x + 50, y + 225);
             cub_bez(x + 50, y + 225, x + 122, y + 300, x + 122, y + 150, x + 200, y + 237);
+            break;
         case 'b': //draws a small "x", corresponds to a black (empty) tile from the original game
             lin_bez_with_lift(x + 90, y + 270);
             lin_bez(x + 90, y + 270, x + 170, y + 190);
             lin_bez_with_lift(x + 90, y + 190);
             lin_bez(x + 110, y + 190, x + 170, y + 270);
+            break;
         default:
             return;
     }
@@ -356,6 +359,6 @@ void draw_letter(char letter, int x, int y)
 void draw_letter_on_grid(char letter, int tile_x, int tile_y)
 {
     int x = XMIN + LETTER_WIDTH * tile_x; //letters are bound between XMIN < x < XMIN + 940
-    int y = YMAX - LETTER_HEIGHT * tile_y; //letters are bound between YMAX - 1950 < y < YMAX - 150
+    int y = YMAX - LETTER_HEIGHT * (tile_y + 1); //letters are bound between YMAX - 1500 < y < YMAX
     draw_letter(letter, x, y);
 }
