@@ -73,8 +73,6 @@ void draw_grid();
 */
 void draw_circle();
 
-void draw_circleBETER();
-
 /*
     @brief Draws a square on the board.
 */
